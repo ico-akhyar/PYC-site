@@ -58,7 +58,7 @@ const Home = () => {
               <div className="relative animate-fade-in" style={{animationDelay: '2s'}}>
                 <div className="w-80 h-80 bg-white rounded-full shadow-2xl overflow-hidden border-8 border-white transform hover:scale-105 transition-all duration-300">
                   <img
-                    src="https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=800"
+                    src="/assets/ik.jpeg"
                     alt="Party Chairman"
                     className="w-full h-full object-cover"
                   />
