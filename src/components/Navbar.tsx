@@ -24,8 +24,8 @@ const Navbar = () => {
               <span className="text-white font-bold text-lg">PTC</span>
             </div>
             <div>
-              <h1 className="text-xl font-bold text-gray-800">PYC</h1>
-              <p className="text-sm text-green-600">Pakistan Youth Council</p>
+              <h1 className="text-xl font-bold text-gray-800">ABS</h1>
+              <p className="text-sm text-green-600">Pakadmskml</p>
             </div>
           </Link>
 
