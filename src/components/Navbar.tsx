@@ -29,7 +29,7 @@ const Navbar = () => {
     />
   </div>
   <div>
-    <h1 className="text-xl font-bold text-gray-800">PY Social Media Team</h1>
+    <h1 className="text-xl font-bold text-gray-800">PYC Social Media Team</h1>
     <p className="text-sm text-green-600">Pakistan Youth Council</p>
   </div>
 </Link>
