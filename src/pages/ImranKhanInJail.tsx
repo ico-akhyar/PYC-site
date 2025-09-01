@@ -2,34 +2,29 @@ import React, { useState, useEffect } from 'react';
 import { Calendar, Clock, Heart } from 'lucide-react';
 
 const ImranKhanInJail = () => {
-  const [days, setDays] = useState(846);
+  const [days, setDays] = useState(757);
 
   useEffect(() => {
     const startDate = new Date('2023-08-05');
-    const currentDate = new Date();
-    const timeDifference = currentDate.getTime() - startDate.getTime();
-    const daysDifference = Math.floor(timeDifference / (1000 * 3600 * 24));
-    const actualDays = Math.max(daysDifference, 837);
-    setDays(actualDays);
-
     const now = new Date();
+    const diffDays = Math.floor((now - startDate) / (1000 * 3600 * 24));
+    setDays(diffDays);
+  
     const tomorrow = new Date(now);
     tomorrow.setDate(now.getDate() + 1);
     tomorrow.setHours(0, 0, 0, 0);
-
-    const msUntilMidnight = tomorrow.getTime() - now.getTime();
-
+  
+    const msUntilMidnight = tomorrow - now;
+  
     const timeout = setTimeout(() => {
       setDays(prev => prev + 1);
-      const interval = setInterval(() => {
-        setDays(prev => prev + 1);
-      }, 24 * 60 * 60 * 1000);
-
+      const interval = setInterval(() => setDays(prev => prev + 1), 24 * 60 * 60 * 1000);
       return () => clearInterval(interval);
     }, msUntilMidnight);
-
+  
     return () => clearTimeout(timeout);
   }, []);
+  
 
   return (
     <div
