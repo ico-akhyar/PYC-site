@@ -36,6 +36,7 @@ const Home = () => {
               {/* WhatsApp Group Link */}
               <div className="flex flex-col sm:flex-row gap-4 animate-fade-in" style={{animationDelay: '0.6s'}}>
                 <a
+                target="_blank"
                   href="https://whatsapp.com/channel/0029VaDDfNd1iUxdIoaKUp2b"
                   className="inline-flex items-center px-8 py-4 bg-green-500 text-white rounded-xl font-semibold hover:bg-green-600 transition-all duration-300 shadow-2xl transform hover:scale-105 hover:shadow-green-500/25"
                 >

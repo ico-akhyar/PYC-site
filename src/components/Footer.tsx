@@ -58,6 +58,7 @@ const Footer = () => {
                   <a
                     key={social.name}
                     href={social.url}
+                    target="_blank"
                     className={`${social.color} hover:scale-110 transition-transform duration-200 flex flex-col items-center p-3 bg-gray-800 rounded-lg hover:bg-gray-700`}
                     title={social.name}
                   >
