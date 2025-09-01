@@ -34,7 +34,7 @@ const ImranKhanInJail = () => {
   return (
     <div
       className="min-h-screen bg-cover bg-center relative"
-      style={{ backgroundImage: "url('/assets/un-speech.webp')" }} // 👈 apni UN speech wali image ka path
+      style={{ backgroundImage: "url('/assets/banner.webp')" }}
     >
       {/* Dark overlay for readability */}
       <div className="absolute inset-0 bg-black/50"></div>
