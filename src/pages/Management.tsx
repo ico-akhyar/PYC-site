@@ -41,7 +41,7 @@ const Leaders = () => {
     {
       name: "Brig.(R) Javed Akram",
       position: "800+ Days",
-      image: "brig javed akram.webp"
+      image: "/assets/brig javed akram.webp"
     },
   ];
 
