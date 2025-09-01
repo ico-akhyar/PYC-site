@@ -22,7 +22,7 @@ const Navbar = () => {
           <Link to="/" className="flex items-center space-x-3">
   <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center">
     <img
-      src="/assets/pyc_logo.webp"
+      src="/assets/pyc_logo_webp.webp"
       alt="PYC Logo"
       className="w-full h-full object-cover"
       loading='lazy'

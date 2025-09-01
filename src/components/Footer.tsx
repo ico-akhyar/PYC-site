@@ -20,7 +20,7 @@ const Footer = () => {
           <div className="flex items-center space-x-3 mb-4">
   <div className="w-16 h-16 rounded-full overflow-hidden flex items-center justify-center">
     <img
-      src="/assets/pyc_logo.webp"
+      src="/assets/pyc_logo_webp.webp"
       alt="PYC Logo"
       className="w-full h-full object-contain"
       loading="lazy"
