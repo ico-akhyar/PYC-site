@@ -58,9 +58,10 @@ const Home = () => {
               <div className="relative animate-fade-in" style={{animationDelay: '2s'}}>
                 <div className="w-80 h-80 bg-white rounded-full shadow-2xl overflow-hidden border-8 border-white transform hover:scale-105 transition-all duration-300">
                   <img
-                    src="/assets/ik2.jpg"
+                    src="/assets/pm-iMRAN.webp"
                     alt="Party Chairman"
                     className="w-full h-full object-cover"
+                    loading="lazy"
                   />
                 </div>
                 <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-red-500 to-green-500 text-white px-6 py-3 rounded-full shadow-xl font-semibold">
