@@ -26,16 +26,23 @@ export const newsService = {
   // Add a new news item
   async addNews(newsData: Omit<NewsItem, 'id' | 'createdAt'>): Promise<string> {
     try {
+      // filter out undefined fields
+      const cleanData = Object.fromEntries(
+        Object.entries(newsData).filter(([_, v]) => v !== undefined)
+      );
+  
       const docRef = await addDoc(collection(db, NEWS_COLLECTION), {
-        ...newsData,
+        ...cleanData,
         createdAt: Timestamp.now()
       });
+  
       return docRef.id;
-    } catch (error) {
-      console.error('Error adding news:', error);
+    } catch (error: any) {
+      console.error('Error adding news:', error.code, error.message);
       throw new Error('Failed to add news item');
     }
-  },
+  }
+  
 
   // Get all news items
   async getAllNews(): Promise<NewsItem[]> {
