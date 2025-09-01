@@ -3,9 +3,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
-import Leaders from './pages/Leaders';
+import Management from './pages/Management';
 import ImranKhanInJail from './pages/ImranKhanInJail';
-import News from './pages/News';
+import Notifications from './pages/Notifications';
 import Dashboard from './pages/Dashboard';
 
 function App() {
@@ -28,9 +28,9 @@ function App() {
           <main className="min-h-screen">
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/leaders" element={<Leaders />} />
+              <Route path="/leaders" element={<Management />} />
               <Route path="/imran-khan-in-jail" element={<ImranKhanInJail />} />
-              <Route path="/news" element={<News />} />
+              <Route path="/news" element={<Notifications />} />
               <Route path="/dashboard" element={<Dashboard />} />
             </Routes>
           </main>
