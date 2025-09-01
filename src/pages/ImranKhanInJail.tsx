@@ -49,7 +49,7 @@ const ImranKhanInJail = () => {
           <div className="relative inline-block mb-12">
             <div className="w-80 h-80 bg-white rounded-full shadow-2xl overflow-hidden border-8 border-gradient-to-r from-red-500 to-green-500 mx-auto relative">
               <img
-                src="/assets/Imran-Khan-2011"
+                src="/assets/Imran-Khan-2011.webp"
                 alt="Imran Khan"
                 className="w-full h-full object-cover"
               />
