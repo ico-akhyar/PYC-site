@@ -89,7 +89,7 @@ const Dashboard = () => {
   const deleteNews = async (id: string) => {
     if (!id) return;
     
-    if (!confirm('Are you sure you want to delete this news item?')) {
+    if (!confirm('Are you sure you want to delete this notification item?')) {
       return;
     }
 
@@ -97,10 +97,10 @@ const Dashboard = () => {
       setIsLoading(true);
       await newsService.deleteNews(id);
       await loadNews();
-      alert('News deleted successfully!');
+      alert('Notification deleted successfully!');
     } catch (error) {
-      console.error('Error deleting news:', error);
-      alert('Failed to delete news item');
+      console.error('Error deleting notification:', error);
+      alert('Failed to delete notification item');
     } finally {
       setIsLoading(false);
     }
@@ -211,7 +211,7 @@ const Dashboard = () => {
         <div className="flex items-center justify-between mb-8 bg-white rounded-xl shadow-lg p-6 border-l-4 border-red-500">
           <div>
             <h1 className="text-4xl font-bold bg-gradient-to-r from-red-600 to-green-600 bg-clip-text text-transparent">News Dashboard</h1>
-            <p className="text-gray-600 mt-2">Manage PTI news and updates</p>
+            <p className="text-gray-600 mt-2">Manage PTI notification and updates</p>
           </div>
           <div className="flex gap-4">
             <button
@@ -234,7 +234,7 @@ const Dashboard = () => {
         {/* Add News Form */}
         {isAdding && (
           <div className="bg-white rounded-xl shadow-xl p-8 mb-8 border-2 border-gradient-to-r from-red-200 to-green-200">
-            <h2 className="text-2xl font-semibold bg-gradient-to-r from-red-600 to-green-600 bg-clip-text text-transparent mb-6">Add New News Item</h2>
+            <h2 className="text-2xl font-semibold bg-gradient-to-r from-red-600 to-green-600 bg-clip-text text-transparent mb-6">Add New Item</h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
@@ -342,8 +342,8 @@ const Dashboard = () => {
           {newsItems.length === 0 ? (
             <div className="text-center py-16 bg-white rounded-xl shadow-lg border-2 border-gray-100">
               <ImageIcon className="mx-auto text-gray-400 mb-4" size={64} />
-              <h3 className="text-2xl font-semibold text-gray-600 mb-2">No News Items</h3>
-              <p className="text-gray-500">Add your first news item to get started.</p>
+              <h3 className="text-2xl font-semibold text-gray-600 mb-2">No Items</h3>
+              <p className="text-gray-500">Add your first notification item to get started.</p>
             </div>
           ) : (
             newsItems.map((item) => (
