@@ -8,9 +8,9 @@ const Navbar = () => {
 
   const navItems = [
     { path: '/', label: 'Home', icon: Home },
-    { path: '/leaders', label: 'Leaders', icon: Users },
+    { path: '/leaders', label: 'Management', icon: Users },
     { path: '/imran-khan-in-jail', label: 'Imran Khan', icon: Calendar },
-    { path: '/news', label: 'News', icon: Newspaper },
+    { path: '/news', label: 'Notifications', icon: Newspaper },
     { path: '/dashboard', label: 'Dashboard', icon: Settings }
   ];
 

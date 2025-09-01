@@ -4,11 +4,11 @@ import { Facebook, Twitter, Instagram, Youtube, MessageCircle, Send } from 'luci
 const Footer = () => {
   const socialLinks = [
     { name: 'WhatsApp', icon: MessageCircle, url: 'https://youtube.com/@pycahmed804?si=I3YC1i4vLhpQLJux', color: 'text-green-500' },
-    { name: 'Facebook', icon: Facebook, url: '#', color: 'text-blue-600' },
-    { name: 'Twitter/X', icon: Twitter, url: '#', color: 'text-gray-800' },
+    { name: 'Facebook', icon: Facebook, url: 'https://www.facebook.com/people/%D9%BE%DB%8C-%D9%88%D8%A7%D8%A6%DB%8C-%D8%B3%DB%8C-%D8%B3%D9%88%D8%B4%D9%84-%D9%85%DB%8C%DA%88%DB%8C%D8%A7-%D9%B9%DB%8C%D9%85/61562260793214/?rdid=A4sg7PvEQrBojiO3&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1At72R1YHy%2F', color: 'text-blue-600' },
+    { name: 'Twitter/X', icon: Twitter, url: '#', color: 'text-blue-500' },
     { name: 'Instagram', icon: Instagram, url: '#', color: 'text-pink-500' },
     { name: 'YouTube', icon: Youtube, url: 'https://youtube.com/@pycahmed804?si=I3YC1i4vLhpQLJux', color: 'text-red-600' },
-    { name: 'TikTok', icon: Send, url: '#', color: 'text-blue-500' }
+    { name: 'TikTok', icon: Send, url: '#', color: 'text-black-900' }
   ];
 
   return (
@@ -41,9 +41,9 @@ const Footer = () => {
             <h4 className="text-lg font-semibold mb-4 text-green-400">Quick Links</h4>
             <ul className="space-y-2">
               <li><a href="/" className="text-gray-300 hover:text-red-400 transition-colors">Home</a></li>
-              <li><a href="/leaders" className="text-gray-300 hover:text-red-400 transition-colors">Party Leaders</a></li>
+              <li><a href="/leaders" className="text-gray-300 hover:text-red-400 transition-colors">Management</a></li>
               <li><a href="/imran-khan-in-jail" className="text-gray-300 hover:text-red-400 transition-colors">Imran Khan</a></li>
-              <li><a href="/news" className="text-gray-300 hover:text-red-400 transition-colors">News Updates</a></li>
+              <li><a href="/news" className="text-gray-300 hover:text-red-400 transition-colors">Notifications</a></li>
             </ul>
           </div>
 
