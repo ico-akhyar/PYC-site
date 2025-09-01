@@ -17,20 +17,21 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* PTI Info */}
           <div>
-            <div className="flex items-center space-x-3 mb-4">
-              <div className="w-12 h-12 bg-gradient-to-r from-red-500 to-green-500 rounded-full flex items-center justify-center">
-              <img
+          <div className="flex items-center space-x-3 mb-4">
+  <div className="w-16 h-16 rounded-full overflow-hidden flex items-center justify-center">
+    <img
       src="/assets/pyc_logo.webp"
       alt="PYC Logo"
-      className="w-full h-full object-cover"
-      loading='lazy'
+      className="w-full h-full object-contain"
+      loading="lazy"
     />
-              </div>
-              <div>
-                <h3 className="text-xl font-bold">PYC Social Media Team</h3>
-                <p className="text-gray-300">Pakistan Youth Council</p>
-              </div>
-            </div>
+  </div>
+  <div>
+    <h3 className="text-xl font-bold">PYC Social Media Team</h3>
+    <p className="text-gray-300">Pakistan Youth Council</p>
+  </div>
+</div>
+
             <p className="text-gray-300 mb-4">
               Building a better Pakistan through youth Empowerment and social media Campaigns.
             </p>
