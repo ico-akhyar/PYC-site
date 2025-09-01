@@ -11,7 +11,7 @@ const Leaders = () => {
     {
       name: "Dr. Yasmeen Rashid", 
       position: "800+ Days",
-      image: "/assets/dr.yasmeen rashid.webp"
+      image: "/assets/dr. yasmeen rashid.webp"
     },
     {
       name: "Barrister Hassaan Niazi",
