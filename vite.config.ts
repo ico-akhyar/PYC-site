@@ -5,12 +5,12 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   optimizeDeps: {
-    include: ["firebase/app", "firebase/firestore"],
-    exclude: ["lucide-react"], // agar tu exclude rakhna chahta hai
+    include: ["firebase/app", "firebase/firestore"]
   },
   build: {
-    commonjsOptions: {
-      include: [/firebase/, /node_modules/],
-    },
-  },
+    rollupOptions: {
+      external: ["firebase/firestore"]
+    }
+  }
 })
+
