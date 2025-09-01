@@ -34,7 +34,7 @@ const ImranKhanInJail = () => {
   return (
     <div
       className="min-h-screen bg-cover bg-center relative"
-      style={{ backgroundImage: "url('/assets/banner.webp')" }}
+      style={{ backgroundImage: "url('/assets/banner2.webp')" }}
     >
       {/* Dark overlay for readability */}
       <div className="absolute inset-0 bg-black/50"></div>
