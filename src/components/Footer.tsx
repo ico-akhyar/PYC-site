@@ -49,7 +49,7 @@ const Footer = () => {
 
           {/* Social Media */}
           <div>
-            <h4 className="text-lg font-semibold mb-4 text-green-400">Follow Us</h4>
+            <h4 className="text-lg font-semibold mb-4 text-green-400">Get in touch via these sites</h4>
             <div className="grid grid-cols-3 gap-4">
               {socialLinks.map((social) => {
                 const Icon = social.icon;
