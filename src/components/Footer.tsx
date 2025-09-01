@@ -3,12 +3,12 @@ import { Facebook, Twitter, Instagram, Youtube, MessageCircle, Send } from 'luci
 
 const Footer = () => {
   const socialLinks = [
-    { name: 'WhatsApp', icon: MessageCircle, url: '#', color: 'text-green-500' },
+    { name: 'WhatsApp', icon: MessageCircle, url: 'https://youtube.com/@pycahmed804?si=I3YC1i4vLhpQLJux', color: 'text-green-500' },
     { name: 'Facebook', icon: Facebook, url: '#', color: 'text-blue-600' },
     { name: 'Twitter/X', icon: Twitter, url: '#', color: 'text-gray-800' },
     { name: 'Instagram', icon: Instagram, url: '#', color: 'text-pink-500' },
-    { name: 'YouTube', icon: Youtube, url: '#', color: 'text-red-600' },
-    { name: 'TikTok', icon: Send, url: '#', color: 'text-gray-900' }
+    { name: 'YouTube', icon: Youtube, url: 'https://youtube.com/@pycahmed804?si=I3YC1i4vLhpQLJux', color: 'text-red-600' },
+    { name: 'TikTok', icon: Send, url: '#', color: 'text-black-900' }
   ];
 
   return (
@@ -19,7 +19,12 @@ const Footer = () => {
           <div>
             <div className="flex items-center space-x-3 mb-4">
               <div className="w-12 h-12 bg-gradient-to-r from-red-500 to-green-500 rounded-full flex items-center justify-center">
-                <span className="text-white font-bold text-xl">PTI</span>
+              <img
+      src="/assets/pyc_logo.webp"
+      alt="PYC Logo"
+      className="w-full h-full object-cover"
+      loading='lazy'
+    />
               </div>
               <div>
                 <h3 className="text-xl font-bold">Pakistan Tehreek-e-Insaaf</h3>
@@ -66,7 +71,7 @@ const Footer = () => {
 
         <div className="border-t border-gray-700 mt-8 pt-8 text-center">
           <p className="text-gray-400">
-            © 2024 Pakistan Tehreek-e-Insaaf (PTI) - Pakistan Youth Council. All rights reserved.
+            © 2025 Pakistan Tehreek-e-Insaaf (PTI) - Pakistan Youth Council. All rights reserved.
           </p>
         </div>
       </div>
