@@ -28,7 +28,10 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchNews = async () => {
       const snapshot = await getDocs(collection(db, 'pti_news'));
-      const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as NewsItem[];
+      const data: NewsItem[] = snapshot.docs.map(doc => ({
+  id: doc.id,
+  ...(doc.data() as Omit<NewsItem, "id">),
+}));
       setNewsItems(data);
     };
     fetchNews();
