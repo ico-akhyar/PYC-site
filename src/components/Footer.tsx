@@ -8,7 +8,7 @@ const Footer = () => {
     { name: 'Twitter/X', icon: Twitter, url: '#', color: 'text-blue-500' },
     { name: 'Instagram', icon: Instagram, url: '#', color: 'text-pink-500' },
     { name: 'YouTube', icon: Youtube, url: 'https://youtube.com/@pycahmed804?si=I3YC1i4vLhpQLJux', color: 'text-red-600' },
-    { name: 'TikTok', icon: Send, url: '#', color: 'text-black-900' }
+    { name: 'TikTok', icon: Send, url: 'https://www.tiktok.com/@redline_imrankhan?_t=ZS-8zMcJFffPpX&_r=1', color: 'text-black-900' }
   ];
 
   return (
