@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Calendar, Clock, Heart } from 'lucide-react';
 
 const ImranKhanInJail = () => {
-  const [days, setDays] = useState(837);
+  const [days, setDays] = useState(846);
 
   useEffect(() => {
     // Calculate days since August 5, 2023 (Imran Khan's arrest date)
