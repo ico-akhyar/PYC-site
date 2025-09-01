@@ -5,43 +5,43 @@ const Leaders = () => {
   const TopPersonalities = [
     {
       name: "Bushra Bibi",
-      position: "National President",
-      image: "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=400"
+      position: "450+ Days",
+      image: "/assets/bushra_bibi.webp"
     },
     {
       name: "Dr. Yasmeen Rashid", 
-      position: "Vice President",
-      image: "https://images.pexels.com/photos/1300402/pexels-photo-1300402.jpeg?auto=compress&cs=tinysrgb&w=400"
+      position: "800+ Days",
+      image: "/assets/dr.yasmeen rashid.webp"
     },
     {
       name: "Barrister Hassaan Niazi",
-      position: "General Secretary",
-      image: "https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=400"
+      position: "700+ Days",
+      image: "/assets/hasaan-niazi.webp"
     },
     {
       name: "Ejaz Choudhary",
-      position: "Information Secretary",
-      image: "https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=400"
+      position: "800+ Days",
+      image: "/assets/ejaz_choudhary.webp"
     },
     {
       name: "Shah Mehmood Quraishi",
-      position: "Information Secretary",
-      image: "https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=400"
+      position: "700+ Days",
+      image: "/assets/SMQ.webp"
     },
     {
       name: "Mian Mehmood Rasheed",
-      position: "Information Secretary",
-      image: "https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=400"
+      position: "800+ Days",
+      image: "/assets/Mian Mehmood Rasheed.webp"
     },
     {
       name: "Omar Sarfraz Cheema",
-      position: "Information Secretary",
-      image: "https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=400"
+      position: "800+ Days",
+      image: "/assets/Omar Sarfraz Cheema.webp"
     },
     {
-      name: "Ejaz Choudhary",
-      position: "Information Secretary",
-      image: "https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=400"
+      name: "Brig.(R) Javed Akram",
+      position: "800+ Days",
+      image: "brig.javed akram.webp"
     },
   ];
 
