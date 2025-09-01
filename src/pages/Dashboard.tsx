@@ -8,7 +8,8 @@ import {
   getDocs,
   deleteDoc,
   doc
-} from "firebase/firestore"; 
+} from "firebase/firestore/lite"; // 👈 change here
+ 
 
 
 interface NewsItem {
