@@ -10,6 +10,11 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
+// Inside src/config/firebase.ts
+console.log('Vite Environment Variables:', import.meta.env);
+console.log('Firebase Config:', firebaseConfig);
+
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
