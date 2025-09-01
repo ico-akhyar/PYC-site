@@ -72,15 +72,16 @@ const Leaders = () => {
           <div className="relative inline-block">
             <div className="w-56 h-56 bg-white rounded-full shadow-2xl overflow-hidden border-8 border-gradient-to-r from-red-500 to-green-500 mx-auto mb-6 transform hover:scale-105 transition-all duration-300">
               <img
-                src="https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=600"
-                alt="Party Chairman"
+                src="/assets/IK3.webp"
+                alt="Founder PTI"
                 className="w-full h-full object-cover"
+                loading="lazy"
               />
             </div>
             <Crown className="absolute -top-4 left-1/2 transform -translate-x-1/2 text-yellow-500 animate-bounce" size={40} />
           </div>
-          <h1 className="text-5xl font-bold bg-gradient-to-r from-red-600 to-green-600 bg-clip-text text-transparent mb-3">Party Chairman</h1>
-          <p className="text-2xl text-gray-700 font-semibold">Leader of Pakistan Tehreek-e-Insaaf</p>
+          <h1 className="text-5xl font-bold bg-gradient-to-r from-red-600 to-green-600 bg-clip-text text-transparent mb-3">Imran Ahmed Khan Niazi</h1>
+          <p className="text-2xl text-gray-700 font-semibold">Founder of Pakistan Tehreek-e-Insaaf</p>
         </div>
 
         {/* Senior Leaders Section */}
