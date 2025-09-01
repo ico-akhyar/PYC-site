@@ -67,9 +67,10 @@ const News = () => {
         <div className="text-center mb-12 relative">
           <div className="w-40 h-40 bg-white rounded-full shadow-2xl overflow-hidden border-6 border-gradient-to-r from-red-500 to-green-500 mx-auto mb-4 transform hover:scale-105 transition-all duration-300">
             <img
-              src="https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=300"
+              src="/assets/pm-iMRAN.webp"
               alt="Party Chairman"
               className="w-full h-full object-cover"
+              loading='lazy'
             />
           </div>
           <p className="text-gray-700 text-lg font-semibold">Led by our Chairman's vision</p>
