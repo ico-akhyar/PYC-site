@@ -32,7 +32,7 @@ const Footer = () => {
               </div>
             </div>
             <p className="text-gray-300 mb-4">
-              Building a better Pakistan through youth empowerment and social media compaigns.
+              Building a better Pakistan through youth Empowerment and social media Campaigns.
             </p>
           </div>
 
