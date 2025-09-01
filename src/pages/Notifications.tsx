@@ -58,7 +58,7 @@ const News = () => {
         <div className="text-center mb-12 bg-white rounded-2xl shadow-xl p-8 border-t-4 border-red-500">
           <h1 className="text-5xl font-bold bg-gradient-to-r from-red-600 to-green-600 bg-clip-text text-transparent mb-4 flex items-center justify-center">
             <ImageIcon className="mr-3 text-red-500" size={40} />
-            News Updates
+            Notification Updates
           </h1>
           <p className="text-2xl text-gray-700">Latest updates from PTI and Pakistan Youth Council</p>
         </div>
@@ -80,14 +80,14 @@ const News = () => {
         {isLoading ? (
           <div className="text-center py-16">
             <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-red-500 mb-4"></div>
-            <p className="text-gray-600 text-lg">Loading latest news...</p>
+            <p className="text-gray-600 text-lg">Loading latest notifications...</p>
           </div>
         ) : (
         newsItems.length === 0 ? (
           <div className="text-center py-16 bg-white rounded-2xl shadow-xl border-2 border-gray-100">
             <ImageIcon className="mx-auto text-gray-400 mb-4" size={64} />
-            <h3 className="text-2xl font-semibold text-gray-600 mb-2">No News Yet</h3>
-            <p className="text-gray-500">News updates will appear here once added from the dashboard.</p>
+            <h3 className="text-2xl font-semibold text-gray-600 mb-2">No Notification Yet</h3>
+            <p className="text-gray-500">Notification updates will appear here once added from the dashboard.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -149,7 +149,7 @@ const News = () => {
         {newsItems.length > 0 && (
           <div className="text-center mt-12">
             <button className="bg-gradient-to-r from-red-500 to-green-500 text-white px-10 py-4 rounded-xl font-bold hover:from-red-600 hover:to-green-600 transition-all duration-300 transform hover:scale-105 shadow-2xl text-lg">
-              Load More News
+              Load More
             </button>
           </div>
         )}
