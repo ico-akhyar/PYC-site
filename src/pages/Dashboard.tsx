@@ -210,7 +210,7 @@ const Dashboard = () => {
         {/* Header */}
         <div className="flex items-center justify-between mb-8 bg-white rounded-xl shadow-lg p-6 border-l-4 border-red-500">
           <div>
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-red-600 to-green-600 bg-clip-text text-transparent">News Dashboard</h1>
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-red-600 to-green-600 bg-clip-text text-transparent">Notifications Dashboard</h1>
             <p className="text-gray-600 mt-2">Manage PTI notification and updates</p>
           </div>
           <div className="flex gap-4">
@@ -219,7 +219,7 @@ const Dashboard = () => {
               className="bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-3 rounded-lg flex items-center font-semibold hover:from-green-600 hover:to-green-700 transition-all duration-200 transform hover:scale-105 shadow-lg"
             >
               <Plus size={20} className="mr-2" />
-              Add News
+              Add Notification
             </button>
             <button
               onClick={handleLogout}
