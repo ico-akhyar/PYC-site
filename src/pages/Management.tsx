@@ -145,6 +145,7 @@ const Leaders = () => {
                     src={leader.image}
                     alt={leader.name}
                     className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
+                    loading="lazy"
                   />
                 </div>
                 <div className="p-6 bg-gradient-to-br from-white to-red-50">
@@ -174,6 +175,7 @@ const Leaders = () => {
                     src={leader.image}
                     alt={leader.name}
                     className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
+                    loading="lazy"
                   />
                 </div>
                 <div className="p-6 bg-gradient-to-br from-white to-red-50">
@@ -203,6 +205,7 @@ const Leaders = () => {
                     src={member.image}
                     alt={member.name}
                     className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
+                    loading="lazy"
                   />
                 </div>
                 <div className="p-6">
