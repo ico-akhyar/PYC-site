@@ -21,10 +21,10 @@ const Navbar = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-gradient-to-r from-red-500 to-green-500 rounded-full flex items-center justify-center">
-              <span className="text-white font-bold text-lg">PTI</span>
+              <span className="text-white font-bold text-lg">PTC</span>
             </div>
             <div>
-              <h1 className="text-xl font-bold text-gray-800">PTI</h1>
+              <h1 className="text-xl font-bold text-gray-800">PYC</h1>
               <p className="text-sm text-green-600">Pakistan Youth Council</p>
             </div>
           </Link>

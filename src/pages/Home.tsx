@@ -3,9 +3,9 @@ import { MessageCircle, Users, Calendar, Newspaper, ExternalLink } from 'lucide-
 
 const Home = () => {
   const stats = [
-    { label: 'Active Members', value: '50,000+', icon: Users, color: 'text-green-500' },
-    { label: 'Days of Struggle', value: '837+', icon: Calendar, color: 'text-red-500' },
-    { label: 'News Updates', value: '1,200+', icon: Newspaper, color: 'text-blue-500' }
+    { label: '#8 World Largest Party', value: '20M+ members', icon: Users, color: 'text-green-500' },
+    { label: 'Days of Struggle', value: '846+', icon: Calendar, color: 'text-red-500' },
+    { label: 'News Updates', value: '20+', icon: Newspaper, color: 'text-blue-500' }
   ];
 
   return (
