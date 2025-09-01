@@ -7,4 +7,11 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['lucide-react'],
   },
+export default defineConfig({
+  optimizeDeps: {
+    include: ["firebase/app", "firebase/firestore"]
+  }
+});
+
+
 });
