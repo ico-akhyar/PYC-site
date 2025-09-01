@@ -27,7 +27,7 @@ const Footer = () => {
     />
               </div>
               <div>
-                <h3 className="text-xl font-bold">Pakistan Tehreek-e-Insaaf</h3>
+                <h3 className="text-xl font-bold">PYC Social Media Team</h3>
                 <p className="text-gray-300">Pakistan Youth Council</p>
               </div>
             </div>
