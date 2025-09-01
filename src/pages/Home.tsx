@@ -45,7 +45,7 @@ const Home = () => {
                   <ExternalLink className="ml-2" size={18} />
                 </a>
                 <a
-                  href="/leaders"
+                  href="/management"
                   className="inline-flex items-center px-8 py-4 bg-white text-red-600 rounded-xl font-semibold hover:bg-gray-100 transition-all duration-300 shadow-2xl transform hover:scale-105"
                 >
                   <Users className="mr-3" size={24} />
