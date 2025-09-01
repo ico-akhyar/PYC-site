@@ -41,7 +41,7 @@ export const newsService = {
       console.error('Error adding news:', error.code, error.message);
       throw new Error('Failed to add news item');
     }
-  }
+  },
   
 
   // Get all news items
