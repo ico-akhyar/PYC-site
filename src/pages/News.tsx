@@ -1,80 +1,46 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar, Eye, ExternalLink, Image as ImageIcon } from 'lucide-react';
-
-interface NewsItem {
-  id: string;
-  title: string;
-  description: string;
-  imageUrl: string;
-  date: string;
-  link?: string;
-}
+import { newsService, NewsItem } from '../services/newsService';
 
 const News = () => {
   const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Sample news data (replace with actual data from localStorage or API)
   useEffect(() => {
-    const sampleNews: NewsItem[] = [
-      {
-        id: '1',
-        title: 'PTI Youth Rally Success',
-        description: 'Thousands of young Pakistanis joined the peaceful demonstration for democracy and justice in Lahore.',
-        imageUrl: 'https://images.pexels.com/photos/1367269/pexels-photo-1367269.jpeg?auto=compress&cs=tinysrgb&w=800',
-        date: '2024-01-15',
-        link: '#'
-      },
-      {
-        id: '2',
-        title: 'Digital Campaign Launch',
-        description: 'PYC launches comprehensive social media campaign to raise awareness about democratic values.',
-        imageUrl: 'https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=800',
-        date: '2024-01-12',
-        link: '#'
-      },
-      {
-        id: '3',
-        title: 'Community Outreach Program',
-        description: 'PTI volunteers distribute relief goods in flood-affected areas of Sindh province.',
-        imageUrl: 'https://images.pexels.com/photos/6994927/pexels-photo-6994927.jpeg?auto=compress&cs=tinysrgb&w=800',
-        date: '2024-01-10',
-        link: '#'
-      },
-      {
-        id: '4',
-        title: 'Youth Leadership Summit',
-        description: 'Annual PYC leadership summit brings together coordinators from across Pakistan.',
-        imageUrl: 'https://images.pexels.com/photos/1181406/pexels-photo-1181406.jpeg?auto=compress&cs=tinysrgb&w=800',
-        date: '2024-01-08',
-        link: '#'
-      },
-      {
-        id: '5',
-        title: 'Educational Initiative Launch',
-        description: 'New scholarship program announced for underprivileged students in rural areas.',
-        imageUrl: 'https://images.pexels.com/photos/159740/library-la-trobe-study-students-159740.jpeg?auto=compress&cs=tinysrgb&w=800',
-        date: '2024-01-05',
-        link: '#'
-      },
-      {
-        id: '6',
-        title: 'Technology for Pakistan',
-        description: 'PTI announces digital literacy program to bridge the technology gap in rural communities.',
-        imageUrl: 'https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg?auto=compress&cs=tinysrgb&w=800',
-        date: '2024-01-03',
-        link: '#'
-      }
-    ];
-
-    // Load from localStorage if exists, otherwise use sample data
-    const storedNews = localStorage.getItem('pti_news');
-    if (storedNews) {
-      setNewsItems(JSON.parse(storedNews));
-    } else {
-      setNewsItems(sampleNews);
-      localStorage.setItem('pti_news', JSON.stringify(sampleNews));
-    }
+    loadNews();
   }, []);
+
+  const loadNews = async () => {
+    try {
+      setIsLoading(true);
+      const news = await newsService.getAllNews();
+      setNewsItems(news);
+    } catch (error) {
+      console.error('Error loading news:', error);
+      // Fallback to sample data if Firebase fails
+      const sampleNews: NewsItem[] = [
+        {
+          id: '1',
+          title: 'PTI Youth Rally Success',
+          description: 'Thousands of young Pakistanis joined the peaceful demonstration for democracy and justice in Lahore.',
+          imageUrl: 'https://images.pexels.com/photos/1367269/pexels-photo-1367269.jpeg?auto=compress&cs=tinysrgb&w=800',
+          date: '2024-01-15',
+          link: '#'
+        },
+        {
+          id: '2',
+          title: 'Digital Campaign Launch',
+          description: 'PYC launches comprehensive social media campaign to raise awareness about democratic values.',
+          imageUrl: 'https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=800',
+          date: '2024-01-12',
+          link: '#'
+        }
+      ];
+      setNewsItems(sampleNews);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -99,8 +65,7 @@ const News = () => {
 
         {/* Chairman Photo Section */}
         <div className="text-center mb-12 relative">
-        <div className="w-40 h-40 bg-white rounded-full shadow-2xl overflow-hidden border-4 border-red-500 mx-auto mb-4 transform hover:scale-105 transition-all duration-300">
-
+          <div className="w-40 h-40 bg-white rounded-full shadow-2xl overflow-hidden border-6 border-gradient-to-r from-red-500 to-green-500 mx-auto mb-4 transform hover:scale-105 transition-all duration-300">
             <img
               src="https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=300"
               alt="Party Chairman"
@@ -111,7 +76,13 @@ const News = () => {
         </div>
 
         {/* News Grid */}
-        {newsItems.length === 0 ? (
+        {isLoading ? (
+          <div className="text-center py-16">
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-red-500 mb-4"></div>
+            <p className="text-gray-600 text-lg">Loading latest news...</p>
+          </div>
+        ) : (
+        newsItems.length === 0 ? (
           <div className="text-center py-16 bg-white rounded-2xl shadow-xl border-2 border-gray-100">
             <ImageIcon className="mx-auto text-gray-400 mb-4" size={64} />
             <h3 className="text-2xl font-semibold text-gray-600 mb-2">No News Yet</h3>
@@ -171,7 +142,7 @@ const News = () => {
               </article>
             ))}
           </div>
-        )}
+        ))}
 
         {/* Load More Button */}
         {newsItems.length > 0 && (
