@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Upload, Save, Trash2, Image as ImageIcon, Link as LinkIcon, Lock, User } from 'lucide-react';
 import { db } from '../firebase';
- 
+import { collection, getDocs, addDoc, deleteDoc, doc } from "firebase/firestore";
+
 
 
 interface NewsItem {
