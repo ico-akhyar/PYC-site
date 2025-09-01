@@ -20,14 +20,19 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-r from-red-500 to-green-500 rounded-full flex items-center justify-center">
-              <span className="text-white font-bold text-lg">PTC</span>
-            </div>
-            <div>
-              <h1 className="text-xl font-bold text-gray-800">ABS</h1>
-              <p className="text-sm text-green-600">Pakadmskml</p>
-            </div>
-          </Link>
+  <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center">
+    <img
+      src="/assets/pyc_logo.webp"
+      alt="PYC Logo"
+      className="w-full h-full object-cover"
+    />
+  </div>
+  <div>
+    <h1 className="text-xl font-bold text-gray-800">PYC</h1>
+    <p className="text-sm text-green-600">Pakistan Youth Council</p>
+  </div>
+</Link>
+
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-1">
