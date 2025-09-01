@@ -1,17 +1,16 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
   optimizeDeps: {
-    exclude: ['lucide-react'],
+    include: ["firebase/app", "firebase/firestore"],
+    exclude: ["lucide-react"], // agar tu exclude rakhna chahta hai
   },
-export default defineConfig({
-  optimizeDeps: {
-    include: ["firebase/app", "firebase/firestore"]
-  }
-});
-
-
-});
+  build: {
+    commonjsOptions: {
+      include: [/firebase/, /node_modules/],
+    },
+  },
+})
