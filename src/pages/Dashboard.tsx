@@ -1,14 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Upload, Save, Trash2, Image as ImageIcon, Link as LinkIcon, Lock, User } from 'lucide-react';
 import { db } from '../firebase';
-import {
-  getFirestore,
-  collection,
-  addDoc,
-  getDocs,
-  deleteDoc,
-  doc
-} from "firebase/firestore/lite"; // 👈 change here
  
 
 
