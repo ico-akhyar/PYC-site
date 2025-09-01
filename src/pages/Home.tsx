@@ -25,16 +25,16 @@ const Home = () => {
               <h1 className="text-6xl font-bold mb-6 animate-fade-in">
                 Pakistan Tehreek-e-Insaaf
               </h1>
-              <h2 className="text-4xl font-semibold text-green-200 mb-6 animate-fade-in" style={{animationDelay: '0.5s'}}>
+              <h2 className="text-4xl font-semibold text-green-200 mb-6 animate-fade-in" style={{animationDelay: '0.3s'}}>
                 Pakistan Youth Council
               </h2>
-              <p className="text-xl mb-8 opacity-90 animate-fade-in" style={{animationDelay: '1s'}}>
+              <p className="text-xl mb-8 opacity-90 animate-fade-in" style={{animationDelay: '0.3s'}}>
                 Empowering Pakistan's youth through digital activism and social media engagement. 
                 Standing with our leader Imran Khan in the fight for justice and democracy.
               </p>
               
               {/* WhatsApp Group Link */}
-              <div className="flex flex-col sm:flex-row gap-4 animate-fade-in" style={{animationDelay: '1.5s'}}>
+              <div className="flex flex-col sm:flex-row gap-4 animate-fade-in" style={{animationDelay: '0.8s'}}>
                 <a
                   href="https://chat.whatsapp.com/your-group-link"
                   className="inline-flex items-center px-8 py-4 bg-green-500 text-white rounded-xl font-semibold hover:bg-green-600 transition-all duration-300 shadow-2xl transform hover:scale-105 hover:shadow-green-500/25"
@@ -55,7 +55,7 @@ const Home = () => {
             
             {/* Chairman Photo */}
             <div className="flex justify-center">
-              <div className="relative animate-fade-in" style={{animationDelay: '2s'}}>
+              <div className="relative animate-fade-in" style={{animationDelay: '1s'}}>
                 <div className="w-80 h-80 bg-white rounded-full shadow-2xl overflow-hidden border-8 border-white transform hover:scale-105 transition-all duration-300">
                   <img
                     src="/assets/pm-iMRAN.webp"
