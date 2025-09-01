@@ -132,6 +132,35 @@ const Leaders = () => {
           <div className="text-center mb-12 bg-white rounded-2xl shadow-xl p-8 border-t-4 border-red-500">
             <h2 className="text-4xl font-bold bg-gradient-to-r from-red-600 to-green-600 bg-clip-text text-transparent mb-4 flex items-center justify-center">
               <Users className="mr-3 text-red-500" size={32} />
+              Top Personalities
+            </h2>
+            <p className="text-xl text-gray-700">Standing against injustice</p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {seniorLeaders.map((leader, index) => (
+              <div key={index} className="bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden transform hover:scale-105 border-b-4 border-red-500">
+                <div className="w-full h-64 bg-gray-200 overflow-hidden">
+                  <img
+                    src={leader.image}
+                    alt={leader.name}
+                    className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
+                  />
+                </div>
+                <div className="p-6 bg-gradient-to-br from-white to-red-50">
+                  <h3 className="text-xl font-bold text-gray-800 mb-2">{leader.name}</h3>
+                  <p className="text-red-600 font-semibold text-lg">{leader.position}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Senior Leaders Section */}
+        <section className="mb-16">
+          <div className="text-center mb-12 bg-white rounded-2xl shadow-xl p-8 border-t-4 border-red-500">
+            <h2 className="text-4xl font-bold bg-gradient-to-r from-red-600 to-green-600 bg-clip-text text-transparent mb-4 flex items-center justify-center">
+              <Users className="mr-3 text-red-500" size={32} />
               Senior Party Leaders
             </h2>
             <p className="text-xl text-gray-700">Stakeholders leading PTI's vision for Pakistan</p>
