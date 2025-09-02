@@ -13,20 +13,38 @@ const accounts: SocialAccount[] = [
   {
     id: "1",
     platform: "TikTok",
-    name: "@pyc_01",
-    url: "https://www.tiktok.com/@pyc_team01",
+    name: "PYC PUNJAB OFFICIAL",
+    url: "https://vm.tiktok.com/ZSHtUvpkNUN1f-iL4Gp/",
   },
   {
     id: "2",
     platform: "TikTok",
-    name: "@pyc_02",
-    url: "https://www.tiktok.com/@pyc_team02",
+    name: "User",
+    url: "#",
   },
   {
     id: "3",
+    platform: "TikTok",
+    name: "User",
+    url: "#",
+  },
+  {
+    id: "4",
+    platform: "TikTok",
+    name: "User",
+    url: "#",
+  },
+  {
+    id: "5",
+    platform: "TikTok",
+    name: "PYC CAPITAL OFFICIAL",
+    url: "https://www.tiktok.com/@pyccapitalofficial?_t=ZS-8zOBMpFHYA5&_r=1",
+  },
+  {
+    id: "6",
     platform: "Twitter",
-    name: "@pyc_official",
-    url: "https://twitter.com/pyc_official",
+    name: "PTI ORAKZAI OFFICIAL",
+    url: "https://vm.tiktok.com/ZSHty8KBawqhM-t6fYf/",
   },
 ];
 
