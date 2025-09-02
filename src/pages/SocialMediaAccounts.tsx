@@ -98,7 +98,7 @@ export default function SocialMediaAccounts() {
                   href={account.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center bg-white text-red-600 hover:bg-red-600 hover:text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 shadow-md"
+                  className="inline-flex items-center bg-white text-red-600 hover:bg-red-600 hover:text-green px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 shadow-md"
                 >
                   Visit Profile
                   <ExternalLink className="w-4 h-4 ml-1" />
