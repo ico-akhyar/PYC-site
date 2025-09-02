@@ -61,7 +61,7 @@ export default function SocialMediaAccounts() {
             Back to Home
           </Link>
           <h1 className="text-4xl font-bold text-gray-800 mb-4">
-            Our Social Media Accounts
+          🌐 Our Social Media Accounts
           </h1>
           <p className="text-lg text-gray-600 max-w-3xl">
             Follow our official team-managed accounts across different platforms.
