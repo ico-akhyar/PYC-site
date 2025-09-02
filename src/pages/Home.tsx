@@ -5,7 +5,7 @@ const Home = () => {
   const [days, setDays] = useState(0);
 
   useEffect(() => {
-    const startDate = new Date('2023-08-05'); // Imran Khan jail date
+    const startDate = new Date('2023-08-05');
     const now = new Date();
     const diffDays = Math.floor((now.getTime() - startDate.getTime()) / (1000 * 3600 * 24));
     setDays(diffDays);
@@ -122,6 +122,17 @@ const Home = () => {
         </div>
       </section>
 
+      <p 
+  className="mt-6 text-3xl font-extrabold 
+             bg-gradient-to-r from-red-600 via-green-500 to-red-600 
+             bg-clip-text text-transparent 
+             animate-pulse drop-shadow-lg"
+>
+  🚀 PYC is working for Imran Khan for{" "}
+  <span className="animate-bounce inline-block">{days}+</span> days 💚
+</p>
+
+
       {/* Mission Section */}
       <section className="py-20 bg-gradient-to-br from-red-50 via-white to-green-50 relative overflow-hidden">
         <div className="absolute inset-0 opacity-5">
@@ -135,7 +146,7 @@ const Home = () => {
           <p className="text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
             Pakistan Tehreek-e-Insaf (PTI) is a political party on paper, but it is way bigger than that. It's a dream
             for a prosperous Pakistan where every man and woman has high self esteem and takes care of fellow citizens
-            per the priniciples of humanity...
+            per the priniciples of humanity.The goal of its founder Imran Khan is to ensure Justice for all as he believes that a just society has the best chance to succeed. At the core, PTI just wants to make sure that we as a nation are the best version of ourselves and make a name for us in this world.
           </p>
         </div>
 
@@ -149,10 +160,6 @@ const Home = () => {
               future through technology, social media, and grassroots activism.
             </p>
 
-            {/* 👇 Ye line add karni hai */}
-            <p className="mt-6 text-2xl font-semibold text-red-600">
-              PYC is working for Imran Khan for {days}+ days
-            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
