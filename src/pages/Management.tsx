@@ -138,7 +138,7 @@ const Leaders = () => {
               <div className="relative inline-block">
                 <div className="w-56 h-56 bg-white rounded-full shadow-2xl overflow-hidden border-8 border-gradient-to-r from-green-500 to-red-500 mx-auto mb-6 transform hover:scale-105 transition-all duration-300">
                   <img
-                    src="/assets/deputy.webp"
+                    src="/assets/seemabia_tahir.webp"
                     alt="Deputy Organizer"
                     className="w-full h-full object-cover"
                     loading="lazy"
