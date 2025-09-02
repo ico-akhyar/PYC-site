@@ -42,7 +42,7 @@ const accounts: SocialAccount[] = [
   },
   {
     id: "6",
-    platform: "Twitter",
+    platform: "TikTok",
     name: "PTI ORAKZAI OFFICIAL",
     url: "https://vm.tiktok.com/ZSHty8KBawqhM-t6fYf/",
   },
