@@ -49,22 +49,22 @@ const Leaders = () => {
     {
       name: "Senior Leader 1",
       position: "National President",
-      image: "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=400"
+      image: "#"
     },
     {
       name: "Senior Leader 2", 
       position: "Vice President",
-      image: "https://images.pexels.com/photos/1300402/pexels-photo-1300402.jpeg?auto=compress&cs=tinysrgb&w=400"
+      image: "#"
     },
     {
       name: "Senior Leader 3",
       position: "General Secretary",
-      image: "https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=400"
+      image: "#"
     },
     {
       name: "Senior Leader 4",
       position: "Information Secretary",
-      image: "https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=400"
+      image: "#"
     }
   ];
 
@@ -72,22 +72,22 @@ const Leaders = () => {
     {
       name: "PYC Leader 1",
       position: "Social Media Director",
-      image: "https://images.pexels.com/photos/1024311/pexels-photo-1024311.jpeg?auto=compress&cs=tinysrgb&w=400"
+      image: "#"
     },
     {
       name: "PYC Leader 2",
       position: "Content Manager",
-      image: "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=400"
+      image: "#"
     },
     {
       name: "PYC Leader 3",
       position: "Digital Strategist",
-      image: "https://images.pexels.com/photos/1181424/pexels-photo-1181424.jpeg?auto=compress&cs=tinysrgb&w=400"
+      image: "#"
     },
     {
       name: "PYC Leader 4",
       position: "Community Manager",
-      image: "https://images.pexels.com/photos/1542085/pexels-photo-1542085.jpeg?auto=compress&cs=tinysrgb&w=400"
+      image: "#"
     }
   ];
 
