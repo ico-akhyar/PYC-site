@@ -69,34 +69,41 @@ export default function SocialMediaAccounts() {
         </div>
 
         {/* Accounts Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {accounts.map((account) => (
-            <div
-              key={account.id}
-              className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 p-6 flex flex-col items-center justify-center text-center"
-            >
-              <span
-                className={`px-3 py-1 rounded-full text-xs font-semibold mb-3 ${getPlatformColor(
-                  account.platform
-                )}`}
-              >
-                {account.platform}
-              </span>
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">
-                {account.name}
-              </h3>
-              <a
-                href={account.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center text-indigo-600 hover:text-indigo-700 transition-colors text-sm font-medium"
-              >
-                Visit Profile
-                <ExternalLink className="w-4 h-4 ml-1" />
-              </a>
-            </div>
-          ))}
-        </div>
+        <div
+  key={account.id}
+  className="relative rounded-xl shadow-md hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 overflow-hidden group"
+>
+  {/* Gradient Background */}
+  <div className="absolute inset-0 bg-gradient-to-br from-red-500 via-green-500 to-red-600 opacity-90 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+  {/* Glass Effect Overlay */}
+  <div className="relative bg-white/90 backdrop-blur-sm p-6 flex flex-col items-center justify-center text-center h-full">
+    <span
+      className={`px-3 py-1 rounded-full text-xs font-semibold mb-3 ${getPlatformColor(
+        account.platform
+      )}`}
+    >
+      {account.platform}
+    </span>
+
+    {/* Account Name with glow */}
+    <h3 className="text-lg font-extrabold text-gray-900 mb-2 group-hover:text-white group-hover:drop-shadow-lg transition-colors duration-500">
+      {account.name}
+    </h3>
+
+    {/* Button */}
+    <a
+      href={account.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="inline-flex items-center bg-white text-red-600 hover:bg-red-600 hover:text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 shadow-md"
+    >
+      Visit Profile
+      <ExternalLink className="w-4 h-4 ml-1" />
+    </a>
+  </div>
+</div>
+
 
         {/* Footer Note */}
         <div className="mt-12 text-center">
