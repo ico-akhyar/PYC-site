@@ -2,49 +2,54 @@ import { ArrowLeft, ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
 import React from "react";
 
-interface SocialMedia {
+interface SocialAccount {
   id: string;
+  platform: "TikTok" | "Twitter" | "Instagram" | "Facebook" | "YouTube" | "Other";
   name: string;
-  link: string;
-  icon: string;
+  url: string;
 }
 
-const socialAccounts: SocialMedia[] = [
+const accounts: SocialAccount[] = [
   {
     id: "1",
-    name: "Twitter (X)",
-    link: "https://twitter.com/YourHandle",
-    icon: "/assets/twitter.png",
+    platform: "TikTok",
+    name: "@pyc_01",
+    url: "https://www.tiktok.com/@pyc_team01",
   },
   {
     id: "2",
-    name: "Facebook",
-    link: "https://facebook.com/YourPage",
-    icon: "/assets/facebook.png",
+    platform: "TikTok",
+    name: "@pyc_02",
+    url: "https://www.tiktok.com/@pyc_team02",
   },
   {
     id: "3",
-    name: "Instagram",
-    link: "https://instagram.com/YourHandle",
-    icon: "/assets/instagram.png",
-  },
-  {
-    id: "4",
-    name: "YouTube",
-    link: "https://youtube.com/@YourChannel",
-    icon: "/assets/youtube.png",
-  },
-  {
-    id: "5",
-    name: "LinkedIn",
-    link: "https://linkedin.com/company/YourPage",
-    icon: "/assets/linkedin.png",
+    platform: "Twitter",
+    name: "@pyc_official",
+    url: "https://twitter.com/pyc_official",
   },
 ];
 
+const getPlatformColor = (platform: string) => {
+  switch (platform) {
+    case "TikTok":
+      return "bg-pink-100 text-pink-700";
+    case "Twitter":
+      return "bg-blue-100 text-blue-700";
+    case "Instagram":
+      return "bg-gradient-to-r from-purple-500 to-pink-500 text-white";
+    case "Facebook":
+      return "bg-blue-200 text-blue-800";
+    case "YouTube":
+      return "bg-red-100 text-red-700";
+    default:
+      return "bg-gray-100 text-gray-700";
+  }
+};
+
 export default function SocialMediaAccounts() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-100">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
@@ -56,45 +61,47 @@ export default function SocialMediaAccounts() {
             Back to Home
           </Link>
           <h1 className="text-4xl font-bold text-gray-800 mb-4">
-            Connect With Us 🌐
+            Our Social Media Accounts
           </h1>
-          <p className="text-lg text-gray-600 max-w-2xl">
-            Follow us on social media to stay updated with the latest news,
-            events, and initiatives. 💙
+          <p className="text-lg text-gray-600 max-w-3xl">
+            Follow our official team-managed accounts across different platforms.
           </p>
         </div>
 
-        {/* Social Media Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {socialAccounts.map((account) => (
-            <a
+        {/* Accounts Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {accounts.map((account) => (
+            <div
               key={account.id}
-              href={account.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-white rounded-xl shadow-md hover:shadow-lg transition transform hover:-translate-y-1 p-6 flex items-center gap-4"
+              className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 p-6 flex flex-col items-center justify-center text-center"
             >
-              <img
-                src={account.icon}
-                alt={account.name}
-                className="w-10 h-10 object-contain"
-              />
-              <div>
-                <h3 className="text-lg font-semibold text-gray-800">
-                  {account.name}
-                </h3>
-                <p className="text-sm text-indigo-600 flex items-center">
-                  Visit <ExternalLink className="w-3 h-3 ml-1" />
-                </p>
-              </div>
-            </a>
+              <span
+                className={`px-3 py-1 rounded-full text-xs font-semibold mb-3 ${getPlatformColor(
+                  account.platform
+                )}`}
+              >
+                {account.platform}
+              </span>
+              <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                {account.name}
+              </h3>
+              <a
+                href={account.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center text-indigo-600 hover:text-indigo-700 transition-colors text-sm font-medium"
+              >
+                Visit Profile
+                <ExternalLink className="w-4 h-4 ml-1" />
+              </a>
+            </div>
           ))}
         </div>
 
-        {/* Footer */}
+        {/* Footer Note */}
         <div className="mt-12 text-center">
           <p className="text-gray-500 text-sm">
-            Stay connected with us for updates, events, and more 🚀
+            This is a list of some of our team’s verified accounts.
           </p>
         </div>
       </div>
