@@ -5,7 +5,7 @@ const Home = () => {
   const [days, setDays] = useState(0);
 
   useEffect(() => {
-    const startDate = new Date('2023-08-05');
+    const startDate = new Date('2024-06-10');
     const now = new Date();
     const diffDays = Math.floor((now.getTime() - startDate.getTime()) / (1000 * 3600 * 24));
     setDays(diffDays);
@@ -141,11 +141,12 @@ const Home = () => {
         </div>
 
         <div className="text-center mb-12">
-          <p className="mt-6 text-3xl font-extrabold bg-gradient-to-r from-red-600 via-green-500 to-red-600 bg-clip-text text-transparent animate-pulse drop-shadow-lg">
-            PYC is working for Imran Khan for{" "}
-          <span className="animate-bounce inline-block">{days}+</span> days 💚
-          </p>
-        </div>
+  <p className="mt-6 text-3xl font-extrabold bg-gradient-to-r from-red-600 via-green-500 to-red-600 bg-clip-text text-transparent animate-pulse drop-shadow-lg">
+    ❤️ PYC is working for Imran Khan for{" "}
+    <span className="text-red-600 animate-bounce inline-block">{days}+</span> days ❤️
+  </p>
+</div>
+
 
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
