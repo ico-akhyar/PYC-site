@@ -108,7 +108,7 @@ const Home = () => {
         <div className="text-center mb-12">
             <h2 className="text-5xl font-bold bg-gradient-to-r from-red-600 to-green-600 bg-clip-text text-transparent mb-6">What is PTI ?</h2>
             <p className="text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
-            Pakistan Tehreek-e-Insaf (PTI) is a political party on paper, but it is way bigger than that. It's a dream for a prosperous Pakistan where every man and woman has high self esteem and takes care of fellow citizens per the priniciples of humanity. The goal of its founder Imran Khan is to ensure Justice for all as he believes that a just society has the best chance to succeed. At the core, PTI just wants to make sure that we as a nation are the best version of ourselves and make a name for us in this world. We believe that Pakistan is a very special country, full of natural resources and full of earnest & intelligent people
+            Pakistan Tehreek-e-Insaf (PTI) is a political party on paper, but it is way bigger than that. It's a dream for a prosperous Pakistan where every man and woman has high self esteem and takes care of fellow citizens per the priniciples of humanity. The goal of its founder Imran Khan is to ensure Justice for all as he believes that a just society has the best chance to succeed. At the core, PTI just wants to make sure that we as a nation are the best version of ourselves and make a name for us in this world.
             </p>
           </div>
         
