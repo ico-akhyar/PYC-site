@@ -151,8 +151,6 @@ const Leaders = () => {
             </div>
     
           </div>
-        </div>
-      </div>
     
 
         {/* Top Leaders Section */}

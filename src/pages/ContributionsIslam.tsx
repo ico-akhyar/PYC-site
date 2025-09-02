@@ -17,19 +17,19 @@ const contributions: Contribution[] = [
     id: '1',
     title: 'Global Advocacy Against Islamophobia',
     description: 'International Day to Combat Islamophobia: Imran Khan spearheaded a resolution at the United Nations (UN) to designate March 15 as the International Day to Combat Islamophobia. This initiative was adopted unanimously by the UN General Assembly in 2022, marking a significant global recognition of the need to address anti-Muslim prejudice.\n\nUN Speeches on Islamophobia: Khan consistently raised the issue of Islamophobia at the UN General Assembly, emphasizing the misrepresentation of Islam in Western media and advocating for respect toward Islamic symbols and practices.\n\nEngagement with Tech Platforms: Khan wrote to Facebook CEO Mark Zuckerberg, urging the platform to treat Islamophobic content with the same severity as Holocaust denial.',
-    image: 'https://images.pexels.com/photos/207692/pexels-photo-207692.jpeg?auto=compress&cs=tinysrgb&w=400',
-    reference: 'https://example.com/islamic-university',
+    image: '/assets/imran-khan-un.webp',
+    reference: 'https://www.aljazeera.com/news/2022/3/16/pakistan-pm-lauds-un-for-international-day-to-combat-islamophobia',
     date: '2022',
     type: 'speech'
   },
   {
     id: '2',
     title: 'Rehmatul-lil-Aalameen Authority',
-    description: 'Advocated for and implemented Islamic banking principles in Pakistan\'s financial system, establishing Sharia-compliant banking institutions.',
-    image: 'https://images.pexels.com/photos/259027/pexels-photo-259027.jpeg?auto=compress&cs=tinysrgb&w=400',
-    reference: 'https://example.com/islamic-banking',
+    description: 'Establishment: Launched in 2021, this authority was tasked with researching and disseminating the teachings of Prophet Muhammad (PBUH) globally. It aimed to counter misconceptions about Islam and promote its humanitarian values.\n\nInitiatives:\n1. Curriculum reform in schools to include the Prophet’s biography and Quranic teachings.\n2. Research on Islamic history and comparative religion studies.\n3. Development of educational content, including cartoons for children, to promote Islamic culture',
+    image: '/assets/Rehmat-ul-Alimin.webp',
+    reference: 'https://www.dawn.com/news/1651217',
     date: '2018',
-    type: 'policy'
+    type: 'initiative'
   },
   {
     id: '3',
