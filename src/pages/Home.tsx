@@ -104,6 +104,14 @@ const Home = () => {
         <div className="absolute inset-0 opacity-5">
           <div className="absolute inset-0 bg-gradient-to-r from-red-500 to-green-500 transform rotate-12 scale-150"></div>
         </div>
+
+        <div className="text-center mb-12">
+            <h2 className="text-5xl font-bold bg-gradient-to-r from-red-600 to-green-600 bg-clip-text text-transparent mb-6">What is PTI ?</h2>
+            <p className="text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
+              PYC (Pakistan Youth Council) is the digital voice of PTI, mobilizing youth across Pakistan 
+              to build a better future through technology, social media, and grassroots activism.
+            </p>
+          </div>
         
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
