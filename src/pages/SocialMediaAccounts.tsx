@@ -37,14 +37,14 @@ const accounts: SocialAccount[] = [
   {
     id: "5",
     platform: "TikTok",
-    name: "PYC CAPITAL OFFICIAL",
-    url: "https://www.tiktok.com/@pyccapitalofficial?_t=ZS-8zOBMpFHYA5&_r=1",
+    name: "PTI ORAKZAI OFFICIAL",
+    url: "https://vm.tiktok.com/ZSHty8KBawqhM-t6fYf/",
   },
   {
     id: "6",
     platform: "TikTok",
-    name: "PTI ORAKZAI OFFICIAL",
-    url: "https://vm.tiktok.com/ZSHty8KBawqhM-t6fYf/",
+    name: "PYC CAPITAL OFFICIAL",
+    url: "https://www.tiktok.com/@pyccapitalofficial?_t=ZS-8zOBMpFHYA5&_r=1",
   },
 ];
 
