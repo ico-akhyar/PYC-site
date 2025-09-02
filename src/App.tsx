@@ -34,7 +34,7 @@ function App() {
               <Route path="/imran-khan-in-jail" element={<ImranKhanInJail />} />
               <Route path="/news" element={<Notifications />} />
               <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/contributions-islam" element={<ContributionsIslam />} />
+              <Route path="/contributions-Islam" element={<ContributionsIslam />} />
               <Route path="/contributions-pakistan" element={<ContributionsPakistan />} />
             </Routes>
           </main>

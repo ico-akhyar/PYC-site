@@ -11,7 +11,7 @@ const Navbar = () => {
     { path: '/management', label: 'Management', icon: Users },
     { path: '/imran-khan-in-jail', label: 'Imran Khan', icon: Calendar },
     { path: '/notifications', label: 'Notifications', icon: Newspaper },
-    { path: '/dashboard', label: 'Dashboard', icon: Settings }
+    { path: '/dashboard', label: 'Dashboard', icon: Settings },
     { path: '/contributions-for-Islam', label: 'Contributions For Islam', icon: Star },
     { path: '/contributions-for-pakistan', label: 'Contributions For Pakistan', icon: Flag }
   ];
