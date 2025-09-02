@@ -25,8 +25,8 @@ const accounts: SocialAccount[] = [
   {
     id: "3",
     platform: "TikTok",
-    name: "User",
-    url: "#",
+    name: "PYC CENTRAL PUNJAB OFFICIAL",
+    url: "https://www.tiktok.com/@pyc.team.official?_t=ZS-8zObKGWwXG0&_r=1",
   },
   {
     id: "4",
