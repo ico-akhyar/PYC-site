@@ -75,6 +75,12 @@ const accounts: SocialAccount[] = [
     platform: "TikTok",
     name: "User",
     url: "#",
+  },
+  {
+    id: "11",
+    platform: "TikTok",
+    name: "User",
+    url: "#",
   }
 ];
 
