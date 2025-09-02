@@ -123,7 +123,7 @@ const Leaders = () => {
           <Crown className="absolute -top-4 left-1/2 transform -translate-x-1/2 text-yellow-500 animate-bounce" size={40} />
         </div>
         <h1 className="text-6xl font-bold bg-gradient-to-r from-red-600 to-green-600 bg-clip-text text-transparent mb-3">Imran Ahmed Khan Niazi</h1>
-        <p className="text-3xl text-gray-700 font-semibold">Cheif Organizer PYC</p>
+        <p className="text-3xl text-gray-700 font-semibold">Cheif Organizer PYC Social Media Team</p>
       </div>
 
 
