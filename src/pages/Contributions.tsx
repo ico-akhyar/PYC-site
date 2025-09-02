@@ -235,7 +235,7 @@ const getTypeColor = (type: string) => {
   }
 };
 
-export default function ContributionsIslam() {
+export default function Contributions() {
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
   const toggleExpand = (id: string) => {
@@ -258,7 +258,7 @@ export default function ContributionsIslam() {
             Contributions for Islam
           </h1>
           <p className="text-lg text-gray-600 max-w-3xl">
-            Explore Imran Khan's significant contributions to promoting Islamic values, 
+            Explore Imran Khan's significant contributions for Pakistan and to promoting Islamic values, 
             education, and principles throughout his career in politics and public service.
           </p>
         </div>
@@ -324,7 +324,7 @@ export default function ContributionsIslam() {
         {/* Footer Note */}
         <div className="mt-12 text-center">
           <p className="text-gray-500 text-sm">
-            This collection represents some of the notable contributions to Islamic causes and values.
+            This collection represents some of the notable contributions of Imran Khan towards Islamic causes and values and wellness of Pakistan.
           </p>
         </div>
       </div>

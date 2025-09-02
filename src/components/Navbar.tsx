@@ -10,10 +10,10 @@ const Navbar = () => {
     { path: '/', label: 'Home', icon: Home },
     { path: '/management', label: 'Management', icon: Users },
     { path: '/imran-khan-in-jail', label: 'Imran Khan', icon: Calendar },
+    { path: '/social-media-accounts', label: 'Accounts', icon: Flag },
     { path: '/notifications', label: 'Notifications', icon: Newspaper },
+    { path: '/contributions', label: 'Contributions', icon: Star },
     { path: '/dashboard', label: 'Dashboard', icon: Settings },
-    { path: '/contributions-for-Islam', label: 'Islam', icon: Star },
-    { path: '/contributions-for-pakistan', label: 'Pakistan', icon: Flag }
   ];
 
   return (

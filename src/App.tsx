@@ -7,8 +7,8 @@ import Management from './pages/Management';
 import ImranKhanInJail from './pages/ImranKhanInJail';
 import Notifications from './pages/Notifications';
 import Dashboard from './pages/Dashboard';
-import ContributionsIslam from './pages/ContributionsIslam';
-import ContributionsPakistan from './pages/ContributionsPakistan';
+import Contributions from './pages/Contributions';
+import SocialMediaAccounts from './pages/SocialMediaAccounts';
 
 function App() {
   return (
@@ -34,8 +34,8 @@ function App() {
               <Route path="/imran-khan-in-jail" element={<ImranKhanInJail />} />
               <Route path="/notifications" element={<Notifications />} />
               <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/contributions-for-Islam" element={<ContributionsIslam />} />
-              <Route path="/contributions-for-Pakistan" element={<ContributionsPakistan />} />
+              <Route path="/contributions" element={<Contributions />} />
+              <Route path="/social-media-accounts" element={<SocialMediaAccounts />} />
             </Routes>
           </main>
           <Footer />
