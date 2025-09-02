@@ -43,17 +43,35 @@ const accounts: SocialAccount[] = [
   {
     id: "6",
     platform: "TikTok",
-    name: "PYC CAPITAL OFFICIAL",
-    url: "https://www.tiktok.com/@pyccapitalofficial?_t=ZS-8zOBMpFHYA5&_r=1",
+    name: "PYC MALAKAND OFFICIAL",
+    url: "https://vm.tiktok.com/ZSHtymfDaLg65-N1puV/",
   },
   {
     id: "7",
+    platform: "TikTok",
+    name: "PYC MUZAFARGARH OFFICIAL",
+    url: "https://www.tiktok.com/@pyc.muzaffargarh.offical?_t=ZN-8zOJh3ohKPG&_r=1",
+  },
+  {
+    id: "8",
+    platform: "TikTok",
+    name: "PYC SAHIWAL OFFICIAL",
+    url: "https://vm.tiktok.com/ZSHtyUwtTEqX8-a5O0i/",
+  },
+  {
+    id: "9",
     platform: "TikTok",
     name: "PYC ATTOCK OFFICIAL",
     url: "https://www.tiktok.com/@pti.attock.offici?_t=ZS-8zOEIVbq2eC&_r=1",
   },
   {
-    id: "8",
+    id: "10",
+    platform: "TikTok",
+    name: "PYC CAPITAL OFFICIAL",
+    url: "https://www.tiktok.com/@pyccapitalofficial?_t=ZS-8zOBMpFHYA5&_r=1",
+  },
+  {
+    id: "11",
     platform: "TikTok",
     name: "User",
     url: "#",
