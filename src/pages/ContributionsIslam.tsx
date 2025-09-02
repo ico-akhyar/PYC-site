@@ -15,16 +15,16 @@ interface Contribution {
 const contributions: Contribution[] = [
   {
     id: '1',
-    title: 'Establishment of Islamic University',
-    description: 'Founded the first Islamic university in Pakistan to promote Islamic education and research, combining modern academic standards with Islamic principles.',
+    title: 'Global Advocacy Against Islamophobia',
+    description: 'International Day to Combat Islamophobia: Imran Khan spearheaded a resolution at the United Nations (UN) to designate March 15 as the International Day to Combat Islamophobia. This initiative was adopted unanimously by the UN General Assembly in 2022, marking a significant global recognition of the need to address anti-Muslim prejudice.\n\nUN Speeches on Islamophobia: Khan consistently raised the issue of Islamophobia at the UN General Assembly, emphasizing the misrepresentation of Islam in Western media and advocating for respect toward Islamic symbols and practices.\n\nEngagement with Tech Platforms: Khan wrote to Facebook CEO Mark Zuckerberg, urging the platform to treat Islamophobic content with the same severity as Holocaust denial.',
     image: 'https://images.pexels.com/photos/207692/pexels-photo-207692.jpeg?auto=compress&cs=tinysrgb&w=400',
     reference: 'https://example.com/islamic-university',
-    date: '1985',
-    type: 'project'
+    date: '2022',
+    type: 'speech'
   },
   {
     id: '2',
-    title: 'Promotion of Islamic Banking',
+    title: 'Rehmatul-lil-Aalameen Authority',
     description: 'Advocated for and implemented Islamic banking principles in Pakistan\'s financial system, establishing Sharia-compliant banking institutions.',
     image: 'https://images.pexels.com/photos/259027/pexels-photo-259027.jpeg?auto=compress&cs=tinysrgb&w=400',
     reference: 'https://example.com/islamic-banking',
@@ -42,7 +42,7 @@ const contributions: Contribution[] = [
   },
   {
     id: '4',
-    title: 'Interfaith Harmony Initiatives',
+    title: 'Educational Reforms',
     description: 'Launched programs to promote interfaith dialogue and protect religious minorities, emphasizing Islam\'s message of peace and tolerance.',
     image: 'https://images.pexels.com/photos/8728380/pexels-photo-8728380.jpeg?auto=compress&cs=tinysrgb&w=400',
     reference: 'https://example.com/interfaith-harmony',

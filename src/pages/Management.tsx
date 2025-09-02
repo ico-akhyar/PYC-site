@@ -1,5 +1,5 @@
 import React from 'react';
-import { Crown, Users, MapPin } from 'lucide-react';
+import { Crown, Users, MapPin, Star } from 'lucide-react';
 
 const Leaders = () => {
   const TopPersonalities = [
@@ -103,31 +103,59 @@ const Leaders = () => {
   ];
 
   return (
-    <div className="min-h-screen py-12 bg-gradient-to-br from-red-50 via-white to-green-50">
-      <div className="max-w-7xl mx-auto px-4">
-        {/* Chairman Section */}
-        <div className="text-center mb-16 relative">
-          {/* Background decoration */}
-          <div className="absolute inset-0 flex items-center justify-center opacity-5">
-            <div className="w-96 h-96 bg-gradient-to-r from-red-500 to-green-500 rounded-full"></div>
-          </div>
-          
-          <div className="relative inline-block">
-            <div className="w-56 h-56 bg-white rounded-full shadow-2xl overflow-hidden border-8 border-gradient-to-r from-red-500 to-green-500 mx-auto mb-6 transform hover:scale-105 transition-all duration-300">
-              <img
-                src="/assets/IK3.webp"
-                alt="Founder PTI"
-                className="w-full h-full object-cover"
-                loading="lazy"
-              />
+      <div className="min-h-screen py-12 bg-gradient-to-br from-red-50 via-white to-green-50">
+        <div className="max-w-7xl mx-auto px-4">
+          {/* Organizers Section */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 text-center">
+            
+            {/* Founder / Chief Organizer */}
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center justify-center opacity-5">
+                <div className="w-96 h-96 bg-gradient-to-r from-red-500 to-green-500 rounded-full"></div>
+              </div>
+              
+              <div className="relative inline-block">
+                <div className="w-56 h-56 bg-white rounded-full shadow-2xl overflow-hidden border-8 border-gradient-to-r from-red-500 to-green-500 mx-auto mb-6 transform hover:scale-105 transition-all duration-300">
+                  <img
+                    src="/assets/IK3.webp"
+                    alt="Founder PTI"
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
+                <Crown className="absolute -top-4 left-1/2 transform -translate-x-1/2 text-yellow-500 animate-bounce" size={40} />
+              </div>
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-red-600 to-green-600 bg-clip-text text-transparent mb-3">Imran Ahmed Khan Niazi</h1>
+              <p className="text-xl text-gray-700 font-semibold">Chief Organizer PYC</p>
             </div>
-            <Crown className="absolute -top-4 left-1/2 transform -translate-x-1/2 text-yellow-500 animate-bounce" size={40} />
+    
+            {/* Deputy Organizer */}
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center justify-center opacity-5">
+                <div className="w-96 h-96 bg-gradient-to-r from-green-500 to-red-500 rounded-full"></div>
+              </div>
+              
+              <div className="relative inline-block">
+                <div className="w-56 h-56 bg-white rounded-full shadow-2xl overflow-hidden border-8 border-gradient-to-r from-green-500 to-red-500 mx-auto mb-6 transform hover:scale-105 transition-all duration-300">
+                  <img
+                    src="/assets/deputy.webp"
+                    alt="Deputy Organizer"
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
+                <Star className="absolute -top-4 left-1/2 transform -translate-x-1/2 text-yellow-500 animate-pulse" size={36} />
+              </div>
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-green-600 to-red-600 bg-clip-text text-transparent mb-3">[Deputy Name]</h1>
+              <p className="text-xl text-gray-700 font-semibold">Deputy Organizer PYC</p>
+            </div>
+    
           </div>
-          <h1 className="text-5xl font-bold bg-gradient-to-r from-red-600 to-green-600 bg-clip-text text-transparent mb-3">Imran Ahmed Khan Niazi</h1>
-          <p className="text-2xl text-gray-700 font-semibold">Founder of Pakistan Tehreek-e-Insaaf</p>
         </div>
+      </div>
+    
 
-        {/* Senior Leaders Section */}
+        {/* Top Leaders Section */}
         <section className="mb-16">
           <div className="text-center mb-12 bg-white rounded-2xl shadow-xl p-8 border-t-4 border-red-500">
             <h2 className="text-4xl font-bold bg-gradient-to-r from-red-600 to-green-600 bg-clip-text text-transparent mb-4 flex items-center justify-center">
