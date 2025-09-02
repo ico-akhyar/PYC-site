@@ -67,7 +67,7 @@ const contributions: Contribution[] = [
     reference: 'https://www.dawn.com/news/1515830',
     date: '2022',
     type: 'initiative'
-  }
+  },
   {
     id: '7',
     title: 'Women’s Rights within Islamic Framework',
@@ -76,7 +76,7 @@ const contributions: Contribution[] = [
     reference: 'https://insaf.pk/tabdeeli-ka-safar/101-biggest-achievements-imran-khans-government',
     date: '2020',
     type: 'project'
-  }
+  },
   {
     id: '8',
     title: 'Interest-Free Loans',
@@ -85,7 +85,7 @@ const contributions: Contribution[] = [
     reference: 'https://www.dawn.com/news/1677887/pm-imran-launches-interest-free-loan-programme-worth-rs407bn',
     date: '2020',
     type: 'project'
-  }
+  },
   {
     id: '9',
     title: 'Blasphemy Laws',
