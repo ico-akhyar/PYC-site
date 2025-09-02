@@ -20,7 +20,7 @@ const contributions: Contribution[] = [
     description: 'International Day to Combat Islamophobia: Imran Khan spearheaded a resolution at the United Nations (UN) to designate March 15 as the International Day to Combat Islamophobia. This initiative was adopted unanimously by the UN General Assembly in 2022, marking a significant global recognition of the need to address anti-Muslim prejudice.\n\nUN Speeches on Islamophobia: Khan consistently raised the issue of Islamophobia at the UN General Assembly, emphasizing the misrepresentation of Islam in Western media and advocating for respect toward Islamic symbols and practices.\n\nEngagement with Tech Platforms: Khan wrote to Facebook CEO Mark Zuckerberg, urging the platform to treat Islamophobic content with the same severity as Holocaust denial.',
     image: '/assets/imran-khan-un.webp',
     reference: 'https://www.aljazeera.com/news/2022/3/16/pakistan-pm-lauds-un-for-international-day-to-combat-islamophobia',
-    date: '2022',
+    date: '2020-22',
     type: 'speech'
   },
   {
@@ -29,44 +29,71 @@ const contributions: Contribution[] = [
     description: 'Establishment: Launched in 2021, this authority was tasked with researching and disseminating the teachings of Prophet Muhammad (PBUH) globally. It aimed to counter misconceptions about Islam and promote its humanitarian values.\n\nInitiatives:\n1. Curriculum reform in schools to include the Prophet’s biography and Quranic teachings.\n2. Research on Islamic history and comparative religion studies.\n3. Development of educational content, including cartoons for children, to promote Islamic culture',
     image: '/assets/Rehmat-ul-Alimin.webp',
     reference: 'https://www.dawn.com/news/1651217',
-    date: '2018',
-    type: 'initiative'
-  },
-  {
-    id: '3',
-    title: 'Madina State Vision',
-    description: 'Presented the vision of creating a welfare state based on the principles of the State of Madina, emphasizing justice, equality, and moral governance.',
-    image: 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=400',
-    reference: 'https://example.com/madina-state',
-    date: '2019',
-    type: 'speech'
-  },
-  {
-    id: '4',
-    title: 'Educational Reforms',
-    description: 'Launched programs to promote interfaith dialogue and protect religious minorities, emphasizing Islam\'s message of peace and tolerance.',
-    image: 'https://images.pexels.com/photos/8728380/pexels-photo-8728380.jpeg?auto=compress&cs=tinysrgb&w=400',
-    reference: 'https://example.com/interfaith-harmony',
-    date: '2020',
-    type: 'initiative'
-  },
-  {
-    id: '5',
-    title: 'Seerat-un-Nabi Conference',
-    description: 'Organized international conferences on the life and teachings of Prophet Muhammad (PBUH), promoting Islamic values and unity among Muslim nations.',
-    image: 'https://images.pexels.com/photos/8728390/pexels-photo-8728390.jpeg?auto=compress&cs=tinysrgb&w=400',
-    reference: 'https://example.com/seerat-conference',
     date: '2021',
     type: 'initiative'
   },
   {
+    id: '3',
+    title: 'Educational Reforms',
+    description: 'Quran and Islamic Studies Integration: Khan’s government made Quranic education compulsory in public schools and universities, with degrees contingent on passing these courses\n\n Uniform Education System: Introduced a nationwide curriculum to eliminate disparities in education and incorporate Islamic principles into core subjects.\n\n Seerat Chairs: Established academic chairs in universities to research the life of Prophet Muhammad (PBUH),',
+    image: '/assets/study.webp',
+    reference: 'https://insaf.pk/tabdeeli-ka-safar/101-biggest-achievements-imran-khans-government',
+    date: '2019',
+    type: 'initiative'
+  },
+  {
+    id: '4',
+    title: 'Promotion of Islamic Governance Model',
+    description: ' Riyasat-e-Madina Vision: Khan frequently referenced the State of Madina as a model for Pakistan, emphasizing justice, equality, and compassion in governance.\n\nAnti-Corruption Drive: Framed corruption as anti-Islamic and pursued accountability measures to align governance with Islamic ethics.',
+    image: '/assets/ik4.webp',
+    reference: 'https://www.linkedin.com/pulse/imran-khans-vision-establishing-quran-real-pakistan-khurshid-/',
+    date: '2020',
+    type: 'policy'
+  },
+  {
+    id: '5',
+    title: 'Advocacy for Muslim Communities Globally',
+    description: 'Kashmir and Palestine: Khan raised issues of Kashmir and Palestine at international forums, highlighting the oppression of Muslim communities and advocating for their rights.\n\nSri Lankan Muslim Burial Rights: Intervened to ensure Muslims in Sri Lanka could bury their dead during the COVID-19 pandemic, reversing a cremation policy.',
+    image: '/assets/ik4.webp',
+    reference: 'https://moderndiplomacy.eu/2020/04/10/imran-khan-speech-in-un-general-assembly-and-kashmir-conundrum/',
+    date: '2020',
+    type: 'initiative'
+  },
+  {
     id: '6',
-    title: 'Islamophobia Awareness Campaign',
-    description: 'Led global efforts to combat Islamophobia through diplomatic channels and international forums, defending the image of Islam worldwide.',
-    image: 'https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=400',
-    reference: 'https://example.com/islamophobia-campaign',
+    title: 'Interfaith Harmony',
+    description: 'Kartarpur Corridor: Facilitated visa-free access for Sikh pilgrims to their holy site in Pakistan, promoting religious tolerance as emphasized in Islam',
+    image: '/assets/Kartarpur.webp',
+    reference: 'https://www.dawn.com/news/1515830',
     date: '2022',
     type: 'initiative'
+  }
+  {
+    id: '7',
+    title: 'Women’s Rights within Islamic Framework',
+    description: 'Women’s Protection Laws: Introduced legislation to protect women’s rights in accordance with Islamic principles, such as the Punjab Women Protection Authority Act.\n\nEhsaas Kafalat Program: Targeted financial assistance for women, empowering them economically while adhering to Islamic values.',
+    image: '/assets/ik5.webp',
+    reference: 'https://insaf.pk/tabdeeli-ka-safar/101-biggest-achievements-imran-khans-government',
+    date: '2020',
+    type: 'project'
+  }
+  {
+    id: '8',
+    title: 'Interest-Free Loans',
+    description: 'Introduced the Kamyab Pakistan Program, providing interest-free loans for businesses and education, reflecting Islamic finance principles',
+    image: '/assets/ik7.webp',
+    reference: 'https://www.dawn.com/news/1677887/pm-imran-launches-interest-free-loan-programme-worth-rs407bn',
+    date: '2020',
+    type: 'project'
+  }
+  {
+    id: '9',
+    title: 'Blasphemy Laws',
+    description: 'Strengthened enforcement against blasphemy, aligning with Islamic principles of protecting religious sanctity',
+    image: '/assets/ik6.webp',
+    reference: 'https://www.aljazeera.com/news/2021/4/19/pakistan-pm-calls-for-west-to-criminalise-blasphemy-against-islam',
+    date: '2020',
+    type: 'policy'
   }
 ];
 
