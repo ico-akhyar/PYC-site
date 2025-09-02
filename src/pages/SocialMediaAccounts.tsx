@@ -76,7 +76,7 @@ export default function SocialMediaAccounts() {
               className="relative rounded-xl shadow-md hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 overflow-hidden group"
             >
               {/* Gradient Background */}
-              <div className="absolute inset-0 bg-gradient-to-br from-red-500 via-red-600 to-green-500 opacity-90 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-red-600 to-green-500 opacity-90 group-hover:opacity-100 transition-opacity duration-500"></div>
 
               {/* Glass Effect Overlay */}
               <div className="relative bg-white/90 backdrop-blur-sm p-6 flex flex-col items-center justify-center text-center h-full">
