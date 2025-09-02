@@ -143,7 +143,7 @@ const Home = () => {
         <div className="text-center mb-12">
   <p className="mt-6 text-3xl font-extrabold bg-gradient-to-r from-red-600 via-green-500 to-red-600 bg-clip-text text-transparent animate-pulse drop-shadow-lg">
   <span className="text-red-600 animate-none inline-block">❤️ </span>
-  Our Team is working for Imran Khan for{" "}
+   Our Team is working for Imran Khan for{" "}
     <span className="text-red-600 animate-none inline-block">{days}+</span> days <span className="text-red-600 animate-none inline-block"> ❤️</span>
   </p>
 </div>
