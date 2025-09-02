@@ -100,6 +100,12 @@ const getTypeColor = (type: string) => {
 };
 
 export default function ContributionsIslam() {
+  const [expandedId, setExpandedId] = useState<string | null>(null);
+
+  const toggleExpand = (id: string) => {
+    setExpandedId(expandedId === id ? null : id);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100">
       <div className="container mx-auto px-4 py-8">
@@ -123,57 +129,60 @@ export default function ContributionsIslam() {
 
         {/* Contributions Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {contributions.map((contribution) => (
-            <div 
-              key={contribution.id}
-              className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden"
-            >
-              {/* Image */}
-              <div className="relative h-48 overflow-hidden">
-                <img 
-                  src={contribution.image} 
-                  alt={contribution.title}
-                  className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                />
-                <div className="absolute top-4 right-4">
-                  <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getTypeColor(contribution.type)}`}>
-                    {getTypeIcon(contribution.type)}
-                    <span className="ml-1 capitalize">{contribution.type}</span>
-                  </span>
+          {contributions.map((contribution) => {
+            const isExpanded = expandedId === contribution.id;
+            return (
+              <div 
+                key={contribution.id}
+                className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden"
+              >
+                {/* Image */}
+                <div className="relative h-48 overflow-hidden">
+                  <img 
+                    src={contribution.image} 
+                    alt={contribution.title}
+                    className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                    loading='lazy'
+                  />
                 </div>
-              </div>
 
-              {/* Content */}
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-xl font-semibold text-gray-800 line-clamp-2">
+                {/* Content */}
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold text-gray-800 mb-2 line-clamp-2">
                     {contribution.title}
                   </h3>
-                </div>
-                
-                <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                  {contribution.description}
-                </p>
-
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center text-sm text-gray-500">
-                    <Calendar className="w-4 h-4 mr-1" />
-                    {contribution.date}
-                  </div>
                   
-                  <a 
-                    href={contribution.reference}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center text-green-600 hover:text-green-700 transition-colors text-sm font-medium"
+                  <p className={`text-gray-600 text-sm mb-2 ${isExpanded ? "" : "line-clamp-3"}`}>
+                    {contribution.description}
+                  </p>
+
+                  <button 
+                    onClick={() => toggleExpand(contribution.id)}
+                    className="text-green-600 text-sm font-medium hover:underline"
                   >
-                    Reference
-                    <ExternalLink className="w-3 h-3 ml-1" />
-                  </a>
+                    {isExpanded ? "Read Less" : "Read More"}
+                  </button>
+
+                  <div className="flex items-center justify-between mt-4">
+                    <div className="flex items-center text-sm text-gray-500">
+                      <Calendar className="w-4 h-4 mr-1" />
+                      {contribution.date}
+                    </div>
+                    
+                    <a 
+                      href={contribution.reference}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center text-green-600 hover:text-green-700 transition-colors text-sm font-medium"
+                    >
+                      Reference
+                      <ExternalLink className="w-3 h-3 ml-1" />
+                    </a>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
 
         {/* Footer Note */}
