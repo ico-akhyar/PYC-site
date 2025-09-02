@@ -3,7 +3,7 @@ import { Facebook, Twitter, Instagram, Youtube, MessageCircle, Send } from 'luci
 
 const Footer = () => {
   const socialLinks = [
-    { name: 'WhatsApp', icon: MessageCircle, url: 'https://www.whatsapp.com/channel/0029VaDDfNd1iUxdIoaKUp2b', color: 'text-green-500' },
+    { name: 'WhatsApp', icon: MessageCircle, url: 'https://wa.me/+923319235660', color: 'text-green-500' },
     { name: 'Facebook', icon: Facebook, url: 'https://www.facebook.com/people/%D9%BE%DB%8C-%D9%88%D8%A7%D8%A6%DB%8C-%D8%B3%DB%8C-%D8%B3%D9%88%D8%B4%D9%84-%D9%85%DB%8C%DA%88%DB%8C%D8%A7-%D9%B9%DB%8C%D9%85/61562260793214/?rdid=A4sg7PvEQrBojiO3&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1At72R1YHy%2F', color: 'text-blue-600' },
     { name: 'Twitter/X', icon: Twitter, url: '#', color: 'text-blue-500' },
     { name: 'Instagram', icon: Instagram, url: '#', color: 'text-pink-500' },
