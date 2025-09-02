@@ -115,7 +115,7 @@ const Leaders = () => {
         <div className="relative inline-block">
           <div className="w-56 h-56 bg-white rounded-full shadow-2xl overflow-hidden border-8 border-gradient-to-r from-red-500 to-green-500 mx-auto mb-6 transform hover:scale-105 transition-all duration-300">
             <img
-              src="IK3.webp"
+              src="/assets/IK3.webp"
               alt="Party Chairman"
               className="w-full h-full object-cover"
             />
