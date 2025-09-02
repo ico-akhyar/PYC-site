@@ -12,8 +12,8 @@ const Navbar = () => {
     { path: '/imran-khan-in-jail', label: 'Imran Khan', icon: Calendar },
     { path: '/notifications', label: 'Notifications', icon: Newspaper },
     { path: '/dashboard', label: 'Dashboard', icon: Settings },
-    { path: '/contributions-for-Islam', label: 'Contributions For Islam', icon: Star },
-    { path: '/contributions-for-pakistan', label: 'Contributions For Pakistan', icon: Flag }
+    { path: '/contributions-for-Islam', label: 'Islam', icon: Star },
+    { path: '/contributions-for-pakistan', label: 'Pakistan', icon: Flag }
   ];
 
   return (
