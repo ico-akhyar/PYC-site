@@ -255,7 +255,7 @@ export default function Contributions() {
             Back to Home
           </Link>
           <h1 className="text-4xl font-bold text-gray-800 mb-4">
-            Contributions for Islam
+            Contributions for Islam & Pakistan
           </h1>
           <p className="text-lg text-gray-600 max-w-3xl">
             Explore Imran Khan's significant contributions for Pakistan and to promoting Islamic values, 
