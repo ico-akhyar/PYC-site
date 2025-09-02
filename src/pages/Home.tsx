@@ -1,12 +1,36 @@
-import React from 'react';
 import { MessageCircle, Users, Calendar, Newspaper, ExternalLink } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
 
 const Home = () => {
+  const [days, setDays] = useState(0);
+
+  useEffect(() => {
+    const startDate = new Date('2023-08-05'); // Imran Khan jail date
+    const now = new Date();
+    const diffDays = Math.floor((now.getTime() - startDate.getTime()) / (1000 * 3600 * 24));
+    setDays(diffDays);
+
+    const tomorrow = new Date(now);
+    tomorrow.setDate(now.getDate() + 1);
+    tomorrow.setHours(0, 0, 0, 0);
+
+    const msUntilMidnight = tomorrow.getTime() - now.getTime();
+
+    const timeout = setTimeout(() => {
+      setDays((prev) => prev + 1);
+      const interval = setInterval(() => setDays((prev) => prev + 1), 24 * 60 * 60 * 1000);
+      return () => clearInterval(interval);
+    }, msUntilMidnight);
+
+    return () => clearTimeout(timeout);
+  }, []);
+
   const stats = [
-    { label: '#8 World\'s Largest Political Party', value: '20M+ members', icon: Users, color: 'text-green-500' },
-    { label: 'Days of Struggle', value: '750+', icon: Calendar, color: 'text-red-500' },
-    { label: 'News Updates', value: '20+', icon: Newspaper, color: 'text-blue-500' }
+    { label: "#8 World's Largest Political Party", value: '20M+ members', icon: Users, color: 'text-green-500' },
+    { label: 'Days of Struggle', value: `${days}+`, icon: Calendar, color: 'text-red-500' },
+    { label: 'News Updates', value: '20+', icon: Newspaper, color: 'text-blue-500' },
   ];
+
 
   return (
     <div className="min-h-screen">
@@ -100,27 +124,37 @@ const Home = () => {
 
       {/* Mission Section */}
       <section className="py-20 bg-gradient-to-br from-red-50 via-white to-green-50 relative overflow-hidden">
-        {/* Background Pattern */}
         <div className="absolute inset-0 opacity-5">
           <div className="absolute inset-0 bg-gradient-to-r from-red-500 to-green-500 transform rotate-12 scale-150"></div>
         </div>
 
         <div className="text-center mb-12">
-            <h2 className="text-5xl font-bold bg-gradient-to-r from-red-600 to-green-600 bg-clip-text text-transparent mb-6">What is PTI ?</h2>
-            <p className="text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
-            Pakistan Tehreek-e-Insaf (PTI) is a political party on paper, but it is way bigger than that. It's a dream for a prosperous Pakistan where every man and woman has high self esteem and takes care of fellow citizens per the priniciples of humanity. The goal of its founder Imran Khan is to ensure Justice for all as he believes that a just society has the best chance to succeed. At the core, PTI just wants to make sure that we as a nation are the best version of ourselves and make a name for us in this world.
-            </p>
-          </div>
-        
+          <h2 className="text-5xl font-bold bg-gradient-to-r from-red-600 to-green-600 bg-clip-text text-transparent mb-6">
+            What is PTI ?
+          </h2>
+          <p className="text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
+            Pakistan Tehreek-e-Insaf (PTI) is a political party on paper, but it is way bigger than that. It's a dream
+            for a prosperous Pakistan where every man and woman has high self esteem and takes care of fellow citizens
+            per the priniciples of humanity...
+          </p>
+        </div>
+
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-5xl font-bold bg-gradient-to-r from-red-600 to-green-600 bg-clip-text text-transparent mb-6">Our Mission</h2>
+            <h2 className="text-5xl font-bold bg-gradient-to-r from-red-600 to-green-600 bg-clip-text text-transparent mb-6">
+              Our Mission
+            </h2>
             <p className="text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
-              PYC (Pakistan Youth Council) is the digital voice of PTI, mobilizing youth across Pakistan 
-              to build a better future through technology, social media, and grassroots activism.
+              PYC (Pakistan Youth Council) is the digital voice of PTI, mobilizing youth across Pakistan to build a better
+              future through technology, social media, and grassroots activism.
+            </p>
+
+            {/* 👇 Ye line add karni hai */}
+            <p className="mt-6 text-2xl font-semibold text-red-600">
+              PYC is working for Imran Khan for {days}+ days
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div>
               <h3 className="text-3xl font-bold bg-gradient-to-r from-red-600 to-green-600 bg-clip-text text-transparent mb-8">Digital Revolution</h3>
