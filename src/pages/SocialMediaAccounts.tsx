@@ -46,6 +46,18 @@ const accounts: SocialAccount[] = [
     name: "PYC CAPITAL OFFICIAL",
     url: "https://www.tiktok.com/@pyccapitalofficial?_t=ZS-8zOBMpFHYA5&_r=1",
   },
+  {
+    id: "7",
+    platform: "TikTok",
+    name: "PYC ATTOCK OFFICIAL",
+    url: "https://www.tiktok.com/@pti.attock.offici?_t=ZS-8zOEIVbq2eC&_r=1",
+  },
+  {
+    id: "8",
+    platform: "TikTok",
+    name: "User",
+    url: "#",
+  }
 ];
 
 const getPlatformColor = (platform: string) => {
