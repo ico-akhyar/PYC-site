@@ -54,7 +54,7 @@ const contributions: Contribution[] = [
     id: '5',
     title: 'Advocacy for Muslim Communities Globally',
     description: 'Kashmir and Palestine: Khan raised issues of Kashmir and Palestine at international forums, highlighting the oppression of Muslim communities and advocating for their rights.\n\nSri Lankan Muslim Burial Rights: Intervened to ensure Muslims in Sri Lanka could bury their dead during the COVID-19 pandemic, reversing a cremation policy.',
-    image: '/assets/ik.-un2.webp',
+    image: '/assets/ik-un2.webp',
     reference: 'https://moderndiplomacy.eu/2020/04/10/imran-khan-speech-in-un-general-assembly-and-kashmir-conundrum/',
     date: '2020',
     type: 'initiative'
