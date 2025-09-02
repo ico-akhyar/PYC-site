@@ -120,17 +120,7 @@ const Home = () => {
             })}
           </div>
         </div>
-      </section>
-
-      <p 
-  className="mt-6 text-3xl font-extrabold 
-             bg-gradient-to-r from-red-600 via-green-500 to-red-600 
-             bg-clip-text text-transparent 
-             animate-pulse drop-shadow-lg"
->
-  🚀 PYC is working for Imran Khan for{" "}
-  <span className="animate-bounce inline-block">{days}+</span> days 💚
-</p>
+      </section> 
 
 
       {/* Mission Section */}
@@ -150,6 +140,13 @@ const Home = () => {
           </p>
         </div>
 
+        <div className="text-center mb-12">
+          <p className="mt-6 text-3xl font-extrabold bg-gradient-to-r from-red-600 via-green-500 to-red-600 bg-clip-text text-transparent animate-pulse drop-shadow-lg">
+            PYC is working for Imran Khan for{" "}
+          <span className="animate-bounce inline-block">{days}+</span> days 💚
+          </p>
+        </div>
+
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-5xl font-bold bg-gradient-to-r from-red-600 to-green-600 bg-clip-text text-transparent mb-6">
@@ -159,7 +156,6 @@ const Home = () => {
               PYC (Pakistan Youth Council) is the digital voice of PTI, mobilizing youth across Pakistan to build a better
               future through technology, social media, and grassroots activism.
             </p>
-
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
