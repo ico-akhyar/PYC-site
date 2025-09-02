@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Home, Users, Calendar, Newspaper, Settings } from 'lucide-react';
+import { Menu, X, Home, Users, Calendar, Newspaper, Settings, Star, Flag } from 'lucide-react';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,6 +12,8 @@ const Navbar = () => {
     { path: '/imran-khan-in-jail', label: 'Imran Khan', icon: Calendar },
     { path: '/notifications', label: 'Notifications', icon: Newspaper },
     { path: '/dashboard', label: 'Dashboard', icon: Settings }
+    { path: '/contributions-for-Islam', label: 'Contributions For Islam', icon: Star },
+    { path: '/contributions-for-pakistan', label: 'Contributions For Pakistan', icon: Flag }
   ];
 
   return (

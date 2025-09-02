@@ -7,6 +7,8 @@ import Management from './pages/Management';
 import ImranKhanInJail from './pages/ImranKhanInJail';
 import Notifications from './pages/Notifications';
 import Dashboard from './pages/Dashboard';
+import ContributionsIslam from './pages/ContributionsIslam';
+import ContributionsPakistan from './pages/ContributionsPakistan';
 
 function App() {
   return (
@@ -28,10 +30,12 @@ function App() {
           <main className="min-h-screen">
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/management" element={<Management />} />
+              <Route path="/leaders" element={<Management />} />
               <Route path="/imran-khan-in-jail" element={<ImranKhanInJail />} />
-              <Route path="/notifications" element={<Notifications />} />
+              <Route path="/news" element={<Notifications />} />
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/contributions-islam" element={<ContributionsIslam />} />
+              <Route path="/contributions-pakistan" element={<ContributionsPakistan />} />
             </Routes>
           </main>
           <Footer />

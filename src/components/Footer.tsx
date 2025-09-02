@@ -45,6 +45,8 @@ const Footer = () => {
               <li><a href="/management" className="text-gray-300 hover:text-red-400 transition-colors">Management</a></li>
               <li><a href="/imran-khan-in-jail" className="text-gray-300 hover:text-red-400 transition-colors">Imran Khan</a></li>
               <li><a href="/notifications" className="text-gray-300 hover:text-red-400 transition-colors">Notifications</a></li>
+              <li><a href="/contributions-for-Islam" className="text-gray-300 hover:text-red-400 transition-colors">Contributions For Islam</a></li>
+              <li><a href="/contributions-for-pakistan" className="text-gray-300 hover:text-red-400 transition-colors">Contributions For Pakistan</a></li>
             </ul>
           </div>
 
