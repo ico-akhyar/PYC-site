@@ -336,8 +336,8 @@ const TeamRegistration = () => {
         <div className="mt-8 text-center">
           <p className="text-gray-600">
             Have questions? Contact us at{' '}
-            <a href="mailto:info@pyc.com" className="text-red-600 hover:text-red-700">
-              info@pyc.com
+            <a href="https://api.whatsapp.com/send/?phone=%2B923319235660&text&type=phone_number&app_absent=0" className="text-red-600 hover:text-red-700">
+              whatsapp
             </a>
           </p>
         </div>
