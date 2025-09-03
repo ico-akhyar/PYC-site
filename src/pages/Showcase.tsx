@@ -121,6 +121,32 @@ const Showcase = () => {
           <p className="text-2xl text-gray-700">Meetings, discussions, and events from PTI and Pakistan Youth Council</p>
         </div>
 
+        {/* Intro Section */}
+<div className="flex flex-col lg:flex-row items-center bg-white rounded-2xl shadow-xl p-8 mb-12">
+  {/* Left Side Image */}
+  <div className="w-full lg:w-1/2 mb-6 lg:mb-0">
+    <img 
+      src="/assets/main.webp" 
+      alt="Introduction" 
+      className="rounded-xl w-full h-80 object-cover shadow-lg"
+    />
+  </div>
+
+  {/* Right Side Text */}
+  <div className="w-full lg:w-1/2 lg:pl-10 text-center lg:text-left">
+    <h2 className="text-3xl font-bold text-gray-800 mb-4">
+      Welcome to the Showcase
+    </h2>
+    <p className="text-gray-600 text-lg leading-relaxed">
+      Ye section PTI aur Pakistan Youth Council ki important meetings, 
+      discussions aur events ko highlight karta hai. Yahan pe aapko 
+      hamari journey ka ek glimpse milega jo sirf politics nahi 
+      balkay youth empowerment aur community building ke bare mein bhi hai.
+    </p>
+  </div>
+</div>
+
+
         {/* Content Grid */}
         {isLoading ? (
           <div className="text-center py-16">
