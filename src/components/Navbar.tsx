@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Menu, X, Home, Users, Calendar, Newspaper, Settings, Star, Flag, ChevronDown, LogIn, UserPlus, LogOut, User } from 'lucide-react';
+import { Menu, X, Home, Users, Calendar, Newspaper, FileText, Settings, Star, Flag, ChevronDown, LogIn, UserPlus, LogOut, User } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 const Navbar = () => {
@@ -21,6 +21,7 @@ const Navbar = () => {
   const moreNavItems = [
     { path: '/contributions', label: 'Contributions', icon: Star },
     { path: '/dashboard', label: 'Dashboard', icon: Settings },
+    { path: '/team-registration', label: 'Register in PYC', icon: FileText }
   ];
 
   const authNavItems = [
