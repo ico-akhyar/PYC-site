@@ -11,6 +11,9 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_FIREBASE_APP_ID
 };
 
+// Debug: print the config to check if env vars are loaded correctly
+console.log("Firebase Config:", firebaseConfig);
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
