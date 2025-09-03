@@ -192,7 +192,7 @@ const Dashboard = () => {
               onClick={handleLogin}
               className="w-full bg-gradient-to-r from-red-500 to-green-500 text-white py-3 rounded-lg font-semibold hover:from-red-600 hover:to-green-600 transition-all duration-200 transform hover:scale-105"
             >
-              Login to Dashboard
+              Login to Admin Dashboard
             </button>
           </div>
           
