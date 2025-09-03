@@ -1,4 +1,3 @@
-// Navbar.tsx
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X, Home, Users, Calendar, Newspaper, Settings, Star, Flag, ChevronDown, LogIn, UserPlus, LogOut, User } from 'lucide-react';
@@ -33,6 +32,8 @@ const Navbar = () => {
     try {
       await logout();
       navigate('/');
+      setIsOpen(false);
+      setMoreOpen(false);
     } catch (error) {
       console.error('Failed to log out', error);
     }
@@ -49,6 +50,10 @@ const Navbar = () => {
             ? 'bg-red-500 text-white'
             : 'text-gray-700 hover:bg-gray-100'
         }`}
+        onClick={() => {
+          setIsOpen(false);
+          setMoreOpen(false);
+        }}
       >
         <Icon size={18} />
         <span>{item.label}</span>
@@ -92,29 +97,28 @@ const Navbar = () => {
               {moreOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg z-50">
                   {moreNavItems.map(item => renderLink(item, 'px-4 py-2 block w-full'))}
-                  {!userLoggedIn && authNavItems.map(item => renderLink(item, 'px-4 py-2 block w-full'))}
+                  
+                  {/* Authentication options in dropdown */}
+                  {userLoggedIn ? (
+                    <button
+                      onClick={handleLogout}
+                      className="flex items-center space-x-2 w-full px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+                    >
+                      <LogOut size={18} />
+                      <span>Logout</span>
+                    </button>
+                  ) : (
+                    authNavItems.map(item => renderLink(item, 'px-4 py-2 block w-full'))
+                  )}
                 </div>
               )}
             </div>
 
-            {/* User Menu */}
-            {userLoggedIn ? (
-              <div className="flex items-center space-x-4">
-                <div className="flex items-center space-x-2 text-gray-700">
-                  <User size={18} />
-                  <span>{currentUser?.displayName || currentUser?.email}</span>
-                </div>
-                <button
-                  onClick={handleLogout}
-                  className="flex items-center space-x-2 px-4 py-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors duration-200"
-                >
-                  <LogOut size={18} />
-                  <span>Logout</span>
-                </button>
-              </div>
-            ) : (
-              <div className="flex items-center space-x-2">
-                {authNavItems.map(item => renderLink(item))}
+            {/* User info (only when logged in) */}
+            {userLoggedIn && (
+              <div className="flex items-center space-x-2 text-gray-700 ml-4">
+                <User size={18} />
+                <span className="text-sm">{currentUser?.displayName || currentUser?.email}</span>
               </div>
             )}
           </div>
@@ -172,38 +176,44 @@ const Navbar = () => {
                         <span>{item.label}</span>
                       </Link>
                     ))}
-                    {!userLoggedIn && authNavItems.map(item => (
-                      <Link
-                        key={item.path}
-                        to={item.path}
-                        onClick={() => { setIsOpen(false); setMoreOpen(false); }}
-                        className="flex items-center space-x-3 px-6 py-3 text-gray-700 hover:bg-gray-100"
+                    
+                    {/* Authentication options in mobile dropdown */}
+                    {userLoggedIn ? (
+                      <button
+                        onClick={() => {
+                          handleLogout();
+                          setIsOpen(false);
+                          setMoreOpen(false);
+                        }}
+                        className="flex items-center space-x-3 px-6 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors duration-200 text-left"
                       >
-                        <item.icon size={20} />
-                        <span>{item.label}</span>
-                      </Link>
-                    ))}
+                        <LogOut size={20} />
+                        <span>Logout</span>
+                      </button>
+                    ) : (
+                      authNavItems.map(item => (
+                        <Link
+                          key={item.path}
+                          to={item.path}
+                          onClick={() => { setIsOpen(false); setMoreOpen(false); }}
+                          className="flex items-center space-x-3 px-6 py-3 text-gray-700 hover:bg-gray-100"
+                        >
+                          <item.icon size={20} />
+                          <span>{item.label}</span>
+                        </Link>
+                      ))
+                    )}
                   </div>
                 )}
               </div>
 
-              {/* Mobile User Menu */}
+              {/* Mobile User Info (only when logged in) */}
               {userLoggedIn && (
                 <div className="border-t border-gray-200 pt-4 mt-4">
                   <div className="flex items-center space-x-3 px-4 py-3 text-gray-700">
                     <User size={20} />
                     <span>{currentUser?.displayName || currentUser?.email}</span>
                   </div>
-                  <button
-                    onClick={() => {
-                      handleLogout();
-                      setIsOpen(false);
-                    }}
-                    className="flex items-center space-x-3 w-full px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors duration-200"
-                  >
-                    <LogOut size={20} />
-                    <span>Logout</span>
-                  </button>
                 </div>
               )}
             </div>
