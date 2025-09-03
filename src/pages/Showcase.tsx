@@ -138,7 +138,7 @@ const Showcase = () => {
     </h2>
     <p className="text-gray-600 text-lg leading-relaxed">
   This page introduces <span className="font-semibold">Ahmad Raza</span>, 
-  the in-charge of our team. With his strong leadership and vision, 
+  the incharge of our team. With his strong leadership and vision, 
   he has played a key role in empowering the youth and guiding 
   the Pakistan Youth Council toward meaningful initiatives. 
   Under his direction, countless efforts have been launched to 
