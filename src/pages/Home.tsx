@@ -187,8 +187,7 @@ const Home = () => {
           <div className="text-center mt-10">
   <a
     href="/register"
-    className="inline-flex items-center px-10 py-5 bg-gradient-to-r from-red-500 to-green-600 text-white rounded-2xl font-bold shadow-xl transform transition-all duration-300 hover:scale-105 animate-pulse"
-  >
+    className="inline-flex items-center px-10 py-5 bg-gradient-to-r from-red-500 to-green-600 text-white rounded-2xl font-bold shadow-xl transform transition-all duration-300 hover:scale-105 animate-pulse" style={{ animationDelay: "0.5s" }}>
     <User className="mr-3" size={26} />
     Join Our Team
   </a>
@@ -227,7 +226,7 @@ const Home = () => {
             </div>
             
             <div className="text-center">
-              <div className="w-72 h-72 bg-gradient-to-br from-red-500 to-green-600 rounded-full mx-auto shadow-2xl flex items-center justify-center transform hover:scale-105 transition-all duration-300 animate-ping">
+              <div className="w-72 h-72 bg-gradient-to-br from-red-500 to-green-600 rounded-full mx-auto shadow-2xl flex items-center justify-center transform hover:scale-105 transition-all duration-300 animate-ping" style={{ animationDelay: "0.2s" }}>
                 <div className="text-white text-center">
                   <h4 className="text-4xl font-bold mb-3">PYC</h4>
                   <p className="text-xl font-semibold">Pakistan Youth Council</p>
