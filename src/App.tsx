@@ -1,3 +1,4 @@
+// App.tsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
@@ -9,6 +10,8 @@ import Notifications from './pages/Notifications';
 import Dashboard from './pages/Dashboard';
 import Contributions from './pages/Contributions';
 import SocialMediaAccounts from './pages/SocialMediaAccounts';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
 
 function App() {
   return (
@@ -36,6 +39,8 @@ function App() {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/contributions" element={<Contributions />} />
               <Route path="/social-media-accounts" element={<SocialMediaAccounts />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
             </Routes>
           </main>
           <Footer />

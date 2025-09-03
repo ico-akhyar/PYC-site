@@ -1,13 +1,18 @@
+// main.tsx
 import React from 'react';
+import ReactDOM from 'react-dom/client';
 import { AuthProvider } from './contexts/AuthContext';
 import App from './App';
+import './index.css';
 
-function App() {
-  return (
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement
+);
+
+root.render(
+  <React.StrictMode>
     <AuthProvider>
       <App />
     </AuthProvider>
-  );
-}
-
-export default App;
+  </React.StrictMode>
+);

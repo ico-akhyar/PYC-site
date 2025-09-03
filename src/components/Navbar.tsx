@@ -1,11 +1,15 @@
+// Navbar.tsx
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Home, Users, Calendar, Newspaper, Settings, Star, Flag, ChevronDown } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Menu, X, Home, Users, Calendar, Newspaper, Settings, Star, Flag, ChevronDown, LogIn, UserPlus, LogOut, User } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { currentUser, userLoggedIn, logout } = useAuth();
 
   const mainNavItems = [
     { path: '/', label: 'Home', icon: Home },
@@ -19,6 +23,20 @@ const Navbar = () => {
     { path: '/contributions', label: 'Contributions', icon: Star },
     { path: '/dashboard', label: 'Dashboard', icon: Settings },
   ];
+
+  const authNavItems = [
+    { path: '/login', label: 'Login', icon: LogIn },
+    { path: '/signup', label: 'Sign Up', icon: UserPlus },
+  ];
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate('/');
+    } catch (error) {
+      console.error('Failed to log out', error);
+    }
+  };
 
   const renderLink = (item, extraClasses = '') => {
     const Icon = item.icon;
@@ -74,9 +92,31 @@ const Navbar = () => {
               {moreOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg z-50">
                   {moreNavItems.map(item => renderLink(item, 'px-4 py-2 block w-full'))}
+                  {!userLoggedIn && authNavItems.map(item => renderLink(item, 'px-4 py-2 block w-full'))}
                 </div>
               )}
             </div>
+
+            {/* User Menu */}
+            {userLoggedIn ? (
+              <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-2 text-gray-700">
+                  <User size={18} />
+                  <span>{currentUser?.displayName || currentUser?.email}</span>
+                </div>
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center space-x-2 px-4 py-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+                >
+                  <LogOut size={18} />
+                  <span>Logout</span>
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center space-x-2">
+                {authNavItems.map(item => renderLink(item))}
+              </div>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -132,9 +172,40 @@ const Navbar = () => {
                         <span>{item.label}</span>
                       </Link>
                     ))}
+                    {!userLoggedIn && authNavItems.map(item => (
+                      <Link
+                        key={item.path}
+                        to={item.path}
+                        onClick={() => { setIsOpen(false); setMoreOpen(false); }}
+                        className="flex items-center space-x-3 px-6 py-3 text-gray-700 hover:bg-gray-100"
+                      >
+                        <item.icon size={20} />
+                        <span>{item.label}</span>
+                      </Link>
+                    ))}
                   </div>
                 )}
               </div>
+
+              {/* Mobile User Menu */}
+              {userLoggedIn && (
+                <div className="border-t border-gray-200 pt-4 mt-4">
+                  <div className="flex items-center space-x-3 px-4 py-3 text-gray-700">
+                    <User size={20} />
+                    <span>{currentUser?.displayName || currentUser?.email}</span>
+                  </div>
+                  <button
+                    onClick={() => {
+                      handleLogout();
+                      setIsOpen(false);
+                    }}
+                    className="flex items-center space-x-3 w-full px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors duration-200"
+                  >
+                    <LogOut size={20} />
+                    <span>Logout</span>
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         )}

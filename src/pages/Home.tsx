@@ -1,13 +1,12 @@
 import { MessageCircle, Users, Calendar, Newspaper, ExternalLink, LogOut, User } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import Auth from './Auth';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const [days, setDays] = useState(0);
-  const [authModalOpen, setAuthModalOpen] = useState(false);
-  const [authMode, setAuthMode] = useState<'login' | 'signup'>('login');
   const { currentUser, userLoggedIn, logout } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const startDate = new Date('2024-06-10');
@@ -30,11 +29,6 @@ const Home = () => {
     return () => clearTimeout(timeout);
   }, []);
 
-  const handleAuthClick = (mode: 'login' | 'signup') => {
-    setAuthMode(mode);
-    setAuthModalOpen(true);
-  };
-
   const handleLogout = async () => {
     try {
       await logout();
@@ -51,15 +45,6 @@ const Home = () => {
 
   return (
     <div className="min-h-screen">
-      {/* Auth Modal */}
-      {authModalOpen && (
-        <Auth 
-          onClose={() => setAuthModalOpen(false)} 
-          onSwitchMode={() => setAuthMode(authMode === 'login' ? 'signup' : 'login')}
-          mode={authMode}
-        />
-      )}
-
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-red-600 via-red-500 to-green-600 text-white py-20 overflow-hidden">
         {/* Animated Background Elements */}
@@ -107,14 +92,14 @@ const Home = () => {
                 ) : (
                   <>
                     <button
-                      onClick={() => handleAuthClick('login')}
+                      onClick={() => navigate('/login')}
                       className="inline-flex items-center px-8 py-4 bg-red-500 text-white rounded-xl font-semibold hover:bg-red-600 transition-all duration-300 shadow-2xl transform hover:scale-105"
                     >
                       <User className="mr-3" size={24} />
                       Login
                     </button>
                     <button
-                      onClick={() => handleAuthClick('signup')}
+                      onClick={() => navigate('/signup')}
                       className="inline-flex items-center px-8 py-4 bg-green-600 text-white rounded-xl font-semibold hover:bg-green-700 transition-all duration-300 shadow-2xl transform hover:scale-105"
                     >
                       <User className="mr-3" size={24} />
