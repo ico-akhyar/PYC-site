@@ -21,7 +21,7 @@ const Navbar = () => {
   const moreNavItems = [
     { path: '/contributions', label: 'Contributions', icon: Star },
     { path: '/dashboard', label: 'Dashboard', icon: Settings },
-    { path: '/team-registration', label: 'Register in PYC', icon: FileText }
+    { path: '/team-registration', label: 'Register in PYC', icon: FileText },
     { path: '/team-incharge', label: 'Team Incharge', icon: FileText }
   ];
 
