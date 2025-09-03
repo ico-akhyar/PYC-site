@@ -167,7 +167,6 @@ const TeamRegistration = () => {
                 />
               </div>
             </div>
-            </div>
           </div>
 
           {/* Previous Experience */}
