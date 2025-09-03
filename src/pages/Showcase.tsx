@@ -26,8 +26,8 @@ const Showcase = () => {
           id: '1',
           title: 'PTI Youth Meeting Highlights',
           description: 'Highlights from our latest youth meeting discussing future strategies and initiatives.',
-          imageUrl: 'https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=800',
-          videoUrl: 'https://www.youtube.com/watch?v=SZe7AXda4x0&list=RDSZe7AXda4x0&start_radio=1&ab_channel=AlsoHolic',
+          imageUrl: '/assets/Ik4.webp',
+          videoUrl: 'https://www.youtube.com/watch?v=FLR4vcV0IiQ',
           date: '2024-01-15',
           link: '#',
           type: 'showcase'
@@ -36,7 +36,7 @@ const Showcase = () => {
           id: '2',
           title: 'Discussion on Digital Campaign',
           description: 'In-depth discussion about our digital outreach strategies and social media campaigns.',
-          imageUrl: 'https://images.pexels.com/photos/3182812/pexels-photo-3182812.jpeg?auto=compress&cs=tinysrgb&w=800',
+          imageUrl: '/assets/ik3.webp',
           date: '2024-01-12',
           link: '#',
           type: 'showcase'
@@ -45,7 +45,7 @@ const Showcase = () => {
           id: '3',
           title: 'Community Outreach Program',
           description: 'Video documentation of our community outreach program in rural areas.',
-          imageUrl: 'https://images.pexels.com/photos/3184306/pexels-photo-3184306.jpeg?auto=compress&cs=tinysrgb&w=800',
+          imageUrl: '/assets/ik7.webp',
           videoUrl: 'https://player.vimeo.com/video/148751763',
           date: '2024-01-10',
           type: 'showcase'
