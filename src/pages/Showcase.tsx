@@ -23,33 +23,49 @@ const Showcase = () => {
       // Fallback to sample data if Firebase fails
       const sampleShowcase: NewsItem[] = [
         {
-          id: '1',
-          title: 'PTI Youth Meeting Highlights',
-          description: 'Highlights from our latest youth meeting discussing future strategies and initiatives.',
-          imageUrl: '/assets/Ik4.webp',
-          videoUrl: 'https://www.youtube.com/watch?v=FLR4vcV0IiQ',
-          date: '2024-01-15',
-          link: '#',
-          type: 'showcase'
-        },
+            id: '2',
+            title: 'Discussion with Barister Gohar Ali Khan',
+            description: ' ',
+            imageUrl: '/assets/1.webp',
+            date: '2025-9-4',
+            link: '#',
+            type: 'showcase'
+          },
         {
           id: '2',
-          title: 'Discussion on Digital Campaign',
-          description: 'In-depth discussion about our digital outreach strategies and social media campaigns.',
-          imageUrl: '/assets/ik3.webp',
-          date: '2024-01-12',
+          title: 'Meeting with MNA Junaid Akbar Khan',
+          description: ' ',
+          imageUrl: '/assets/2.webp',
+          date: '2025-9-4',
           link: '#',
           type: 'showcase'
         },
+        // {
+        //   id: '3',
+        //   title: 'Meeting with MNA Junaid Akbar Khan',
+        //   description: ' ',
+        //   imageUrl: '/assets/3.webp',
+        //   videoUrl: 'https://player.vimeo.com/video/148751763',
+        //   date: '2024-01-10',
+        //   type: 'showcase'
+        // }
         {
           id: '3',
-          title: 'Community Outreach Program',
-          description: 'Video documentation of our community outreach program in rural areas.',
-          imageUrl: '/assets/ik7.webp',
+          title: 'Meeting with MNA Junaid Akbar Khan',
+          description: ' ',
+          imageUrl: '/assets/3.webp',
           videoUrl: 'https://player.vimeo.com/video/148751763',
           date: '2024-01-10',
           type: 'showcase'
-        }
+        },
+        {
+            id: '4',
+            title: 'With MNA Juniad Khan Akber + MNA Arbab Sher ',
+            description: ' ',
+            imageUrl: '/assets/4.webp',
+            date: '2024-01-10',
+            type: 'showcase'
+          }
       ];
       setShowcaseItems(sampleShowcase);
     } finally {
