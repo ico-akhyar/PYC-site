@@ -115,8 +115,7 @@ const Showcase = () => {
         {/* Header */}
         <div className="text-center mb-12 bg-white rounded-2xl shadow-xl p-8 border-t-4 border-green-500">
           <h1 className="text-5xl font-bold bg-gradient-to-r from-red-600 to-green-600 bg-clip-text text-transparent mb-4 flex items-center justify-center">
-            <Video className="mr-3 text-green-500" size={40} />
-            Showcase Gallery
+            Team Incharge
           </h1>
           <p className="text-2xl text-gray-700">Meetings, discussions, and events from PTI and Pakistan Youth Council</p>
         </div>
@@ -135,7 +134,7 @@ const Showcase = () => {
   {/* Right Side Text */}
   <div className="w-full lg:w-1/2 lg:pl-10 text-center lg:text-left">
     <h2 className="text-3xl font-bold text-gray-800 mb-4">
-      Welcome to the Showcase
+      Ahmad Raza
     </h2>
     <p className="text-gray-600 text-lg leading-relaxed">
   This page introduces <span className="font-semibold">Ahmad Raza</span>, 
