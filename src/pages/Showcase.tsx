@@ -27,7 +27,7 @@ const Showcase = () => {
           title: 'PTI Youth Meeting Highlights',
           description: 'Highlights from our latest youth meeting discussing future strategies and initiatives.',
           imageUrl: 'https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=800',
-          videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+          videoUrl: 'https://www.youtube.com/watch?v=SZe7AXda4x0&list=RDSZe7AXda4x0&start_radio=1&ab_channel=AlsoHolic',
           date: '2024-01-15',
           link: '#',
           type: 'showcase'
