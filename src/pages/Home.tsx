@@ -1,8 +1,13 @@
-import { MessageCircle, Users, Calendar, Newspaper, ExternalLink } from 'lucide-react';
+import { MessageCircle, Users, Calendar, Newspaper, ExternalLink, LogOut, User } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
+import { useAuth } from '../contexts/AuthContext';
+import Auth from './Auth';
 
 const Home = () => {
   const [days, setDays] = useState(0);
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [authMode, setAuthMode] = useState<'login' | 'signup'>('login');
+  const { currentUser, userLoggedIn, logout } = useAuth();
 
   useEffect(() => {
     const startDate = new Date('2024-06-10');
@@ -25,15 +30,36 @@ const Home = () => {
     return () => clearTimeout(timeout);
   }, []);
 
+  const handleAuthClick = (mode: 'login' | 'signup') => {
+    setAuthMode(mode);
+    setAuthModalOpen(true);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (error) {
+      console.error('Failed to log out', error);
+    }
+  };
+
   const stats = [
     { label: "#8 World's Largest Political Party", value: '20M+ members', icon: Users, color: 'text-green-500' },
     { label: 'Days of Struggle', value: `${days}+`, icon: Calendar, color: 'text-red-500' },
     { label: 'News Updates', value: '20+', icon: Newspaper, color: 'text-blue-500' },
   ];
 
-
   return (
     <div className="min-h-screen">
+      {/* Auth Modal */}
+      {authModalOpen && (
+        <Auth 
+          onClose={() => setAuthModalOpen(false)} 
+          onSwitchMode={() => setAuthMode(authMode === 'login' ? 'signup' : 'login')}
+          mode={authMode}
+        />
+      )}
+
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-red-600 via-red-500 to-green-600 text-white py-20 overflow-hidden">
         {/* Animated Background Elements */}
@@ -57,10 +83,11 @@ const Home = () => {
                 Standing with our leader Imran Khan in the fight for justice and democracy.
               </p>
               
-              {/* WhatsApp Group Link */}
+              {/* Authentication and WhatsApp buttons */}
               <div className="flex flex-col sm:flex-row gap-4 animate-fade-in" style={{animationDelay: '0.6s'}}>
                 <a 
-                target="_blank"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   href="https://whatsapp.com/channel/0029VaDDfNd1iUxdIoaKUp2b"
                   className="inline-flex items-center px-8 py-4 bg-green-500 text-white rounded-xl font-semibold hover:bg-green-600 transition-all duration-300 shadow-2xl transform hover:scale-105 hover:shadow-green-500/25"
                 >
@@ -68,6 +95,34 @@ const Home = () => {
                   Join WhatsApp Channel
                   <ExternalLink className="ml-2" size={18} />
                 </a>
+                
+                {userLoggedIn ? (
+                  <button
+                    onClick={handleLogout}
+                    className="inline-flex items-center px-8 py-4 bg-gray-600 text-white rounded-xl font-semibold hover:bg-gray-700 transition-all duration-300 shadow-2xl transform hover:scale-105"
+                  >
+                    <LogOut className="mr-3" size={24} />
+                    Logout
+                  </button>
+                ) : (
+                  <>
+                    <button
+                      onClick={() => handleAuthClick('login')}
+                      className="inline-flex items-center px-8 py-4 bg-red-500 text-white rounded-xl font-semibold hover:bg-red-600 transition-all duration-300 shadow-2xl transform hover:scale-105"
+                    >
+                      <User className="mr-3" size={24} />
+                      Login
+                    </button>
+                    <button
+                      onClick={() => handleAuthClick('signup')}
+                      className="inline-flex items-center px-8 py-4 bg-green-600 text-white rounded-xl font-semibold hover:bg-green-700 transition-all duration-300 shadow-2xl transform hover:scale-105"
+                    >
+                      <User className="mr-3" size={24} />
+                      Sign Up
+                    </button>
+                  </>
+                )}
+                
                 <a
                   href="/team-head"
                   className="inline-flex items-center px-8 py-4 bg-white text-red-600 rounded-xl font-semibold hover:bg-gray-100 transition-all duration-300 shadow-2xl transform hover:scale-105"
@@ -76,6 +131,18 @@ const Home = () => {
                   Meet Our Team Head
                 </a>
               </div>
+              
+              {/* Welcome message for logged in users */}
+              {userLoggedIn && currentUser && (
+                <div className="mt-6 p-4 bg-white bg-opacity-20 rounded-xl animate-fade-in">
+                  <p className="text-lg font-semibold">
+                    Welcome back, {currentUser.displayName || currentUser.email}!
+                  </p>
+                  <p className="text-sm opacity-90">
+                    Thank you for supporting Pakistan's digital revolution.
+                  </p>
+                </div>
+              )}
             </div>
             
             {/* Chairman Photo */}
@@ -122,7 +189,6 @@ const Home = () => {
         </div>
       </section> 
 
-
       {/* Mission Section */}
       <section className="py-20 bg-gradient-to-br from-red-50 via-white to-green-50 relative overflow-hidden">
         <div className="absolute inset-0 opacity-5">
@@ -141,13 +207,12 @@ const Home = () => {
         </div>
 
         <div className="text-center mb-12">
-  <p className="mt-6 text-3xl font-extrabold bg-gradient-to-r from-red-600 via-green-500 to-red-600 bg-clip-text text-transparent animate-pulse drop-shadow-lg">
-  <span className="text-red-600 animate-none inline-block">❤️ </span>
-   Our Team is working for Imran Khan for{" "}
-    <span className="text-red-600 animate-none inline-block">{days}+</span> days <span className="text-red-600 animate-none inline-block"> ❤️</span>
-  </p>
-</div>
-
+          <p className="mt-6 text-3xl font-extrabold bg-gradient-to-r from-red-600 via-green-500 to-red-600 bg-clip-text text-transparent animate-pulse drop-shadow-lg">
+            <span className="text-red-600 animate-none inline-block">❤️ </span>
+            Our Team is working for Imran Khan for{" "}
+            <span className="text-red-600 animate-none inline-block">{days}+</span> days <span className="text-red-600 animate-none inline-block"> ❤️</span>
+          </p>
+        </div>
 
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
@@ -192,7 +257,7 @@ const Home = () => {
             </div>
             
             <div className="text-center">
-              <div className="w-72 h-72 bg-gradient-to-br  from-red-500 to-green-600 rounded-full mx-auto shadow-2xl flex items-center justify-center transform hover:scale-105 transition-all duration-300 animate-pulse">
+              <div className="w-72 h-72 bg-gradient-to-br from-red-500 to-green-600 rounded-full mx-auto shadow-2xl flex items-center justify-center transform hover:scale-105 transition-all duration-300 animate-pulse">
                 <div className="text-white text-center">
                   <h4 className="text-4xl font-bold mb-3">PYC</h4>
                   <p className="text-xl font-semibold">Pakistan Youth Council</p>
