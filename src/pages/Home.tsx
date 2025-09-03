@@ -231,15 +231,16 @@ const Home = () => {
   >
     {/* Logo Image */}
     <img
-      src="/assets/pyc_logo_webp.webp" // <-- apna logo ka path lagao yahan
+      src="/assets/pyc_logo_webp.webp" // 👈 apna logo ka path lagao
       alt="PYC Logo"
-      className="w-40 h-40 object-contain z-10"
+      className="w-64 h-64 object-cover rounded-full z-10"
     />
 
     {/* Glow Border */}
     <div className="absolute inset-0 rounded-full border-4 border-green-500 opacity-80 animate-pulse"></div>
   </div>
 </div>
+
 
           </div>
         </div>
