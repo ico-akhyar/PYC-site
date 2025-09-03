@@ -10,13 +10,17 @@ import {
 } from 'firebase/firestore';
 import { db } from '../config/firebase';
 
+export type ContentType = 'notification' | 'showcase';
+
 export interface NewsItem {
   id?: string;
   title: string;
-  description: string;
+  description?: string;
   imageUrl: string;
+  videoUrl?: string;
   date: string;
   link?: string;
+  type: ContentType;
   createdAt?: Timestamp;
 }
 
@@ -26,9 +30,9 @@ export const newsService = {
   // Add a new news item
   async addNews(newsData: Omit<NewsItem, 'id' | 'createdAt'>): Promise<string> {
     try {
-      // filter out undefined fields
+      // Filter out undefined fields
       const cleanData = Object.fromEntries(
-        Object.entries(newsData).filter(([_, v]) => v !== undefined)
+        Object.entries(newsData).filter(([_, v]) => v !== undefined && v !== '')
       );
   
       const docRef = await addDoc(collection(db, NEWS_COLLECTION), {
@@ -60,6 +64,17 @@ export const newsService = {
     } catch (error) {
       console.error('Error fetching news:', error);
       throw new Error('Failed to fetch news items');
+    }
+  },
+
+  // Get news items by type
+  async getNewsByType(type: ContentType): Promise<NewsItem[]> {
+    try {
+      const allNews = await this.getAllNews();
+      return allNews.filter(item => item.type === type);
+    } catch (error) {
+      console.error('Error fetching news by type:', error);
+      throw new Error('Failed to fetch news items by type');
     }
   },
 

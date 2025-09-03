@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Upload, Save, Trash2, Image as ImageIcon, Link as LinkIcon, Lock, User } from 'lucide-react';
-import { newsService, NewsItem } from '../services/newsService';
+import { Plus, Upload, Save, Trash2, Image as ImageIcon, Link as LinkIcon, Lock, User, Video, Type } from 'lucide-react';
+import { newsService, NewsItem, ContentType } from '../services/newsService';
 
 const Dashboard = () => {
   const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
@@ -8,11 +8,14 @@ const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [credentials, setCredentials] = useState({ username: '', password: '' });
+  const [contentType, setContentType] = useState<ContentType>('notification');
   const [newNews, setNewNews] = useState({
     title: '',
     description: '',
     imageUrl: '',
-    link: ''
+    videoUrl: '',
+    link: '',
+    type: 'notification' as ContentType
   });
 
   useEffect(() => {
@@ -57,8 +60,18 @@ const Dashboard = () => {
   };
 
   const addNews = async () => {
-    if (!newNews.title || !newNews.description || !newNews.imageUrl) {
-      alert('Please fill in all required fields');
+    if (!newNews.title) {
+      alert('Please fill in the title field');
+      return;
+    }
+
+    if (newNews.type === 'notification' && (!newNews.description || !newNews.imageUrl)) {
+      alert('Please fill in all required fields for notifications');
+      return;
+    }
+
+    if (newNews.type === 'showcase' && !newNews.imageUrl && !newNews.videoUrl) {
+      alert('Please provide either an image or video for showcase content');
       return;
     }
 
@@ -68,19 +81,29 @@ const Dashboard = () => {
         title: newNews.title,
         description: newNews.description,
         imageUrl: newNews.imageUrl,
+        videoUrl: newNews.videoUrl || undefined,
         date: new Date().toISOString().split('T')[0],
-        link: newNews.link || undefined
+        link: newNews.link || undefined,
+        type: newNews.type
       });
       
       // Reload news items
       await loadNews();
       
-      setNewNews({ title: '', description: '', imageUrl: '', link: '' });
+      setNewNews({ 
+        title: '', 
+        description: '', 
+        imageUrl: '', 
+        videoUrl: '',
+        link: '', 
+        type: 'notification' 
+      });
+      setContentType('notification');
       setIsAdding(false);
-      alert('News added successfully!');
+      alert('Content added successfully!');
     } catch (error) {
-      console.error('Error adding news:', error);
-      alert('Failed to add news item');
+      console.error('Error adding content:', error);
+      alert('Failed to add content item');
     } finally {
       setIsLoading(false);
     }
@@ -89,7 +112,7 @@ const Dashboard = () => {
   const deleteNews = async (id: string) => {
     if (!id) return;
     
-    if (!confirm('Are you sure you want to delete this notification item?')) {
+    if (!confirm('Are you sure you want to delete this item?')) {
       return;
     }
 
@@ -97,42 +120,13 @@ const Dashboard = () => {
       setIsLoading(true);
       await newsService.deleteNews(id);
       await loadNews();
-      alert('Notification deleted successfully!');
+      alert('Item deleted successfully!');
     } catch (error) {
-      console.error('Error deleting notification:', error);
-      alert('Failed to delete notification item');
+      console.error('Error deleting item:', error);
+      alert('Failed to delete item');
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const addNews_old = () => {
-    if (!newNews.title || !newNews.description || !newNews.imageUrl) {
-      alert('Please fill in all required fields');
-      return;
-    }
-
-    const newsItem_old: NewsItem = {
-      id: Date.now().toString(),
-      title: newNews.title,
-      description: newNews.description,
-      imageUrl: newNews.imageUrl,
-      date: new Date().toISOString().split('T')[0],
-      link: newNews.link || undefined
-    };
-
-    const updatedNews = [newsItem_old, ...newsItems];
-    setNewsItems(updatedNews);
-    // saveToStorage(updatedNews);
-    
-    setNewNews({ title: '', description: '', imageUrl: '', link: '' });
-    setIsAdding(false);
-  };
-
-  const deleteNews_old = (id: string) => {
-    const updatedNews = newsItems.filter(item => item.id !== id);
-    setNewsItems(updatedNews);
-    // saveToStorage(updatedNews);
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -144,6 +138,24 @@ const Dashboard = () => {
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  const isVideoUrl = (url: string) => {
+    return /(youtube|youtu\.be|vimeo|tiktok|facebook|twitter)/i.test(url);
+  };
+
+  const getVideoEmbedUrl = (url: string) => {
+    if (url.includes('youtube.com') || url.includes('youtu.be')) {
+      const videoId = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
+      return videoId ? `https://www.youtube.com/embed/${videoId[1]}` : url;
+    } else if (url.includes('vimeo.com')) {
+      const videoId = url.match(/(?:vimeo\.com\/)([0-9]+)/);
+      return videoId ? `https://player.vimeo.com/video/${videoId[1]}` : url;
+    } else if (url.includes('tiktok.com')) {
+      // TikTok requires special handling, but for now just return the original URL
+      return url;
+    }
+    return url;
   };
 
   if (!isAuthenticated) {
@@ -210,8 +222,8 @@ const Dashboard = () => {
         {/* Header */}
         <div className="flex items-center justify-between mb-8 bg-white rounded-xl shadow-lg p-6 border-l-4 border-red-500">
           <div>
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-red-600 to-green-600 bg-clip-text text-transparent">Notifications Dashboard</h1>
-            <p className="text-gray-600 mt-2">Manage PTI notification and updates</p>
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-red-600 to-green-600 bg-clip-text text-transparent">Content Dashboard</h1>
+            <p className="text-gray-600 mt-2">Manage PTI notifications and showcase content</p>
           </div>
           <div className="flex gap-4">
             <button
@@ -219,7 +231,7 @@ const Dashboard = () => {
               className="bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-3 rounded-lg flex items-center font-semibold hover:from-green-600 hover:to-green-700 transition-all duration-200 transform hover:scale-105 shadow-lg"
             >
               <Plus size={20} className="mr-2" />
-              Add Notification
+              Add Content
             </button>
             <button
               onClick={handleLogout}
@@ -234,7 +246,45 @@ const Dashboard = () => {
         {/* Add News Form */}
         {isAdding && (
           <div className="bg-white rounded-xl shadow-xl p-8 mb-8 border-2 border-gradient-to-r from-red-200 to-green-200">
-            <h2 className="text-2xl font-semibold bg-gradient-to-r from-red-600 to-green-600 bg-clip-text text-transparent mb-6">Add New Item</h2>
+            <h2 className="text-2xl font-semibold bg-gradient-to-r from-red-600 to-green-600 bg-clip-text text-transparent mb-6">Add New Content</h2>
+            
+            <div className="mb-6">
+              <label className="block text-gray-700 font-medium mb-2">
+                Content Type *
+              </label>
+              <div className="flex gap-4">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setContentType('notification');
+                    setNewNews({...newNews, type: 'notification'});
+                  }}
+                  className={`px-6 py-3 rounded-lg flex items-center font-semibold transition-all duration-200 ${
+                    contentType === 'notification' 
+                      ? 'bg-gradient-to-r from-red-500 to-red-600 text-white shadow-lg' 
+                      : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                  }`}
+                >
+                  <Type size={20} className="mr-2" />
+                  Notification
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setContentType('showcase');
+                    setNewNews({...newNews, type: 'showcase'});
+                  }}
+                  className={`px-6 py-3 rounded-lg flex items-center font-semibold transition-all duration-200 ${
+                    contentType === 'showcase' 
+                      ? 'bg-gradient-to-r from-green-500 to-green-600 text-white shadow-lg' 
+                      : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                  }`}
+                >
+                  <Video size={20} className="mr-2" />
+                  Showcase
+                </button>
+              </div>
+            </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
@@ -246,7 +296,7 @@ const Dashboard = () => {
                   value={newNews.title}
                   onChange={(e) => setNewNews({ ...newNews, title: e.target.value })}
                   className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-200"
-                  placeholder="Enter news title"
+                  placeholder="Enter content title"
                 />
               </div>
               
@@ -264,22 +314,24 @@ const Dashboard = () => {
               </div>
             </div>
             
-            <div className="mt-6">
-              <label className="block text-gray-700 font-medium mb-2">
-                Description *
-              </label>
-              <textarea
-                value={newNews.description}
-                onChange={(e) => setNewNews({ ...newNews, description: e.target.value })}
-                rows={4}
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-200"
-                placeholder="Enter news description"
-              />
-            </div>
+            {contentType === 'notification' && (
+              <div className="mt-6">
+                <label className="block text-gray-700 font-medium mb-2">
+                  Description *
+                </label>
+                <textarea
+                  value={newNews.description}
+                  onChange={(e) => setNewNews({ ...newNews, description: e.target.value })}
+                  rows={4}
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-200"
+                  placeholder="Enter news description"
+                />
+              </div>
+            )}
             
             <div className="mt-6">
               <label className="block text-gray-700 font-medium mb-2">
-                Image *
+                {contentType === 'notification' ? 'Image *' : 'Image (Optional)'}
               </label>
               <div className="flex gap-4">
                 <input
@@ -287,7 +339,7 @@ const Dashboard = () => {
                   value={newNews.imageUrl}
                   onChange={(e) => setNewNews({ ...newNews, imageUrl: e.target.value })}
                   className="flex-1 px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-200"
-                  placeholder="Enter image URL (e.g., from Pexels)"
+                  placeholder="Enter image URL"
                 />
                 <label className="bg-gradient-to-r from-gray-200 to-gray-300 hover:from-gray-300 hover:to-gray-400 px-4 py-3 rounded-lg cursor-pointer flex items-center transition-all duration-200 transform hover:scale-105">
                   <Upload size={20} className="mr-2" />
@@ -311,9 +363,48 @@ const Dashboard = () => {
               )}
             </div>
             
+            {contentType === 'showcase' && (
+              <div className="mt-6">
+                <label className="block text-gray-700 font-medium mb-2">
+                  Video URL (Optional)
+                </label>
+                <input
+                  type="url"
+                  value={newNews.videoUrl}
+                  onChange={(e) => setNewNews({ ...newNews, videoUrl: e.target.value })}
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-200"
+                  placeholder="Enter YouTube, Vimeo, TikTok, etc. URL"
+                />
+                {newNews.videoUrl && isVideoUrl(newNews.videoUrl) && (
+                  <div className="mt-4">
+                    <div className="text-sm text-green-600 mb-2">✓ Valid video URL detected</div>
+                    <div className="w-full h-48 bg-gray-200 rounded-lg flex items-center justify-center">
+                      <Video size={32} className="text-gray-400" />
+                    </div>
+                  </div>
+                )}
+                {newNews.videoUrl && !isVideoUrl(newNews.videoUrl) && (
+                  <div className="mt-4 text-sm text-red-600">
+                    ⚠️ This doesn't appear to be a supported video URL (YouTube, Vimeo, TikTok, Facebook, Twitter)
+                  </div>
+                )}
+              </div>
+            )}
+            
             <div className="flex justify-end gap-4 mt-8">
               <button
-                onClick={() => setIsAdding(false)}
+                onClick={() => {
+                  setIsAdding(false);
+                  setContentType('notification');
+                  setNewNews({ 
+                    title: '', 
+                    description: '', 
+                    imageUrl: '', 
+                    videoUrl: '',
+                    link: '', 
+                    type: 'notification' 
+                  });
+                }}
                 className="px-6 py-3 text-gray-600 hover:text-gray-800 transition-all duration-200 hover:bg-gray-100 rounded-lg"
               >
                 Cancel
@@ -324,13 +415,13 @@ const Dashboard = () => {
                 className="bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-3 rounded-lg flex items-center font-semibold hover:from-green-600 hover:to-green-700 transition-all duration-200 transform hover:scale-105 shadow-lg"
               >
                 <Save size={20} className="mr-2" />
-                {isLoading ? 'Saving...' : 'Save News'}
+                {isLoading ? 'Saving...' : 'Save Content'}
               </button>
             </div>
           </div>
         )}
 
-        {/* News List */}
+        {/* Content List */}
         {isLoading && (
           <div className="text-center py-8">
             <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-red-500"></div>
@@ -343,24 +434,40 @@ const Dashboard = () => {
             <div className="text-center py-16 bg-white rounded-xl shadow-lg border-2 border-gray-100">
               <ImageIcon className="mx-auto text-gray-400 mb-4" size={64} />
               <h3 className="text-2xl font-semibold text-gray-600 mb-2">No Items</h3>
-              <p className="text-gray-500">Add your first notification item to get started.</p>
+              <p className="text-gray-500">Add your first content item to get started.</p>
             </div>
           ) : (
             newsItems.map((item) => (
               <div key={item.id} className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 overflow-hidden border-l-4 border-red-500 transform hover:scale-[1.02]">
                 <div className="flex">
                   <div className="w-48 h-32 bg-gray-200 overflow-hidden">
-                    <img
-                      src={item.imageUrl}
-                      alt={item.title}
-                      className="w-full h-full object-cover"
-                    />
+                    {item.videoUrl && isVideoUrl(item.videoUrl) ? (
+                      <div className="w-full h-full bg-gray-800 flex items-center justify-center relative">
+                        <Video size={32} className="text-white" />
+                        <div className="absolute bottom-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded">
+                          Video
+                        </div>
+                      </div>
+                    ) : (
+                      <img
+                        src={item.imageUrl}
+                        alt={item.title}
+                        className="w-full h-full object-cover"
+                      />
+                    )}
                   </div>
                   <div className="flex-1 p-6">
                     <div className="flex justify-between items-start">
                       <div className="flex-1">
-                        <h3 className="text-xl font-semibold text-gray-800 mb-2">{item.title}</h3>
-                        <p className="text-gray-600 mb-3 line-clamp-2">{item.description}</p>
+                        <div className="flex items-center mb-2">
+                          <h3 className="text-xl font-semibold text-gray-800 mr-3">{item.title}</h3>
+                          <span className={`text-xs px-2 py-1 rounded-full ${item.type === 'notification' ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'}`}>
+                            {item.type}
+                          </span>
+                        </div>
+                        {item.description && (
+                          <p className="text-gray-600 mb-3 line-clamp-2">{item.description}</p>
+                        )}
                         <div className="flex items-center gap-4 text-sm text-gray-500">
                           <span>{new Date(item.date).toLocaleDateString()}</span>
                           {item.link && (

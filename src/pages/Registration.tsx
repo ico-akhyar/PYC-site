@@ -1,141 +1,55 @@
-import React, { useState, ChangeEvent, FormEvent } from "react";
-import { useNavigate } from "react-router-dom";
-import {
-  ArrowLeft,
-  User,
-  Mail,
-  Phone,
-  MapPin,
-  Users,
-  MessageCircle,
-  Save,
-  Calendar,
-  Briefcase,
-  Award,
-  Clock,
-  Heart,
-} from "lucide-react";
-import { db, auth } from "../config/firebase";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { useAuthState } from "react-firebase-hooks/auth";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ArrowLeft, User, Mail, Phone, MapPin, Calendar, Users, MessageCircle, Save } from 'lucide-react';
+import { db } from '../config/firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
-interface FormData {
-  name: string;
-  email: string;
-  phone: string;
-  city: string;
-  age: string;
-  occupation: string;
-  skills: string;
-  previousExperience: string;
-  availability: string;
-  motivation: string;
-  socialMedia: string;
-}
-
-const TeamRegistration: React.FC = () => {
+const TeamRegistration = () => {
   const navigate = useNavigate();
-  const [user, loadingAuth] = useAuthState(auth);
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState<FormData>({
-    name: "",
-    email: "",
-    phone: "",
-    city: "",
-    age: "",
-    occupation: "",
-    skills: "",
-    previousExperience: "",
-    availability: "",
-    motivation: "",
-    socialMedia: "",
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    city: '',
+    age: '',
+    occupation: '',
+    skills: '',
+    previousExperience: '',
+    availability: '',
+    motivation: '',
+    socialMedia: ''
   });
 
-  const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
+    setFormData(prev => ({
       ...prev,
-      [name]: value,
+      [name]: value
     }));
   };
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      // Add user's UID to the form data
-      await addDoc(collection(db, "teamRegistrations"), {
+      // Save to Firestore
+      await addDoc(collection(db, 'teamRegistrations'), {
         ...formData,
         createdAt: serverTimestamp(),
-        status: "pending",
-        userId: user?.uid,
-        userEmail: user?.email,
+        status: 'pending'
       });
 
-      alert("Registration submitted successfully! We will contact you soon.");
-      navigate("/");
+      alert('Registration submitted successfully! We will contact you soon via Whatsapp.');
+      navigate('/');
     } catch (error) {
-      console.error("Error saving registration:", error);
-      alert(
-        "There was an error submitting your registration. Please try again."
-      );
+      console.error('Error saving registration:', error);
+      alert('There was an error submitting your registration. Please try again.');
     } finally {
       setLoading(false);
     }
   };
-
-  // Show loading while checking authentication status
-  if (loadingAuth) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-50 via-white to-green-50">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-500 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Checking authentication...</p>
-        </div>
-      </div>
-    );
-  }
-
-  // Show login prompt if user is not authenticated
-  if (!user) {
-    return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-red-50 via-white to-green-50 px-4">
-        <div className="bg-white shadow-lg rounded-xl p-8 text-center max-w-md w-full">
-          <div className="w-16 h-16 bg-gradient-to-r from-red-500 to-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Users className="text-white" size={32} />
-          </div>
-          
-          <h2 className="text-2xl font-bold text-red-600 mb-4">
-            Please Login First
-          </h2>
-          
-          <p className="text-gray-600 mb-6">
-            You need to be logged in to register for the Pakistan Youth Council team.
-          </p>
-          
-          <button
-            onClick={() => navigate("/login")}
-            className="w-full bg-gradient-to-r from-red-500 to-green-500 text-white py-3 rounded-lg font-semibold hover:from-red-600 hover:to-green-600 transition-all duration-200 transform hover:scale-105"
-          >
-            Go to Login Page
-          </button>
-          
-          <p className="text-sm text-gray-500 mt-4">
-            Don't have an account?{" "}
-            <button
-              onClick={() => navigate("/signup")}
-              className="text-red-600 hover:text-red-700 font-medium"
-            >
-              Sign up here
-            </button>
-          </p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-50 via-white to-green-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -149,32 +63,26 @@ const TeamRegistration: React.FC = () => {
             <ArrowLeft size={20} className="mr-2" />
             Back
           </button>
-
+          
           <div className="w-20 h-20 bg-gradient-to-r from-red-500 to-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
             <Users className="text-white" size={32} />
           </div>
-
+          
           <h1 className="text-4xl font-bold bg-gradient-to-r from-red-600 to-green-600 bg-clip-text text-transparent mb-4">
             Join Our Team
           </h1>
-
+          
           <p className="text-gray-600 text-lg">
-            Work for Imran Khan and contribute to Pakistan Youth Council
+            Work for Imran Khan and contribute to Pakistan's digital revolution
           </p>
         </div>
 
         {/* Registration Form */}
-        <form
-          onSubmit={handleSubmit}
-          className="bg-white rounded-2xl shadow-xl p-6 sm:p-8"
-        >
+        <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-xl p-6 sm:p-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             {/* Name */}
             <div>
-              <label
-                htmlFor="name"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
+              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
                 Full Name *
               </label>
               <div className="relative">
@@ -196,10 +104,7 @@ const TeamRegistration: React.FC = () => {
 
             {/* Email */}
             <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
                 Email Address *
               </label>
               <div className="relative">
@@ -221,10 +126,7 @@ const TeamRegistration: React.FC = () => {
 
             {/* Phone */}
             <div>
-              <label
-                htmlFor="phone"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
+              <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
                 Phone Number *
               </label>
               <div className="relative">
@@ -246,10 +148,7 @@ const TeamRegistration: React.FC = () => {
 
             {/* City */}
             <div>
-              <label
-                htmlFor="city"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
+              <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-2">
                 City *
               </label>
               <div className="relative">
@@ -268,18 +167,11 @@ const TeamRegistration: React.FC = () => {
                 />
               </div>
             </div>
-
-            
           </div>
-
-          
 
           {/* Previous Experience */}
           <div className="mb-6">
-            <label
-              htmlFor="previousExperience"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
+            <label htmlFor="previousExperience" className="block text-sm font-medium text-gray-700 mb-2">
               Previous Experience (if any)
             </label>
             <textarea
@@ -293,14 +185,10 @@ const TeamRegistration: React.FC = () => {
             />
           </div>
 
-          
 
           {/* Social Media */}
           <div className="mb-6">
-            <label
-              htmlFor="socialMedia"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
+            <label htmlFor="socialMedia" className="block text-sm font-medium text-gray-700 mb-2">
               Social Media Profiles (if any)
             </label>
             <div className="relative">
@@ -318,7 +206,6 @@ const TeamRegistration: React.FC = () => {
               />
             </div>
           </div>
-
 
           {/* Submit Button */}
           <button
@@ -347,14 +234,11 @@ const TeamRegistration: React.FC = () => {
         {/* Additional Info */}
         <div className="mt-8 text-center">
           <p className="text-gray-600">
-            Have questions? Contact us on{" "}
+            Have questions? Contact us at{' '}
             <a
-              target="_blank"
-              href="https://api.whatsapp.com/send/?phone=%2B923319235660&text&type=phone_number&app_absent=0"
-              className="text-red-600 hover:text-red-700"
-              rel="noopener noreferrer"
-            >
-              WhatsApp
+            target="_blank"
+             href="https://api.whatsapp.com/send/?phone=%2B923319235660&text&type=phone_number&app_absent=0" className="text-red-600 hover:text-red-700">
+              whatsapp
             </a>
           </p>
         </div>
