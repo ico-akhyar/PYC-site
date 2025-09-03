@@ -54,7 +54,6 @@ const Showcase = () => {
           title: 'Meeting with MNA Junaid Akbar Khan',
           description: ' ',
           imageUrl: '/assets/3.webp',
-          videoUrl: 'https://player.vimeo.com/video/148751763',
           date: '2024-01-10',
           type: 'showcase'
         },
