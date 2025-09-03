@@ -154,6 +154,15 @@ const Home = () => {
           <div className="absolute inset-0 bg-gradient-to-r from-red-500 to-green-500 transform rotate-12 scale-150"></div>
         </div>
 
+        <div className="text-center mt-10">
+  <a
+    href="/team-registration"
+    className="inline-flex items-center px-10 py-5 bg-gradient-to-r from-red-500 to-green-600 text-white rounded-2xl font-bold shadow-xl transform transition-all duration-300 hover:scale-105 animate-pulse" style={{ animationDelay: "0.5s" }}>
+    <User className="mr-3" size={26} />
+    Join Our Team
+  </a>
+</div>
+
         <div className="text-center mb-12">
           <h2 className="text-5xl font-bold bg-gradient-to-r from-red-600 to-green-600 bg-clip-text text-transparent mb-6">
             What is PTI ?
@@ -183,15 +192,6 @@ const Home = () => {
               future through technology, social media, and grassroots activism.
             </p>
           </div>
-
-          <div className="text-center mt-10">
-  <a
-    href="/team-registration"
-    className="inline-flex items-center px-10 py-5 bg-gradient-to-r from-red-500 to-green-600 text-white rounded-2xl font-bold shadow-xl transform transition-all duration-300 hover:scale-105 animate-pulse" style={{ animationDelay: "0.5s" }}>
-    <User className="mr-3" size={26} />
-    Join Our Team
-  </a>
-</div>
 
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
