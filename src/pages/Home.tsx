@@ -69,36 +69,27 @@ const Home = () => {
               </p>
               
               {/* Authentication and WhatsApp buttons */}
-<div className="flex flex-col sm:flex-row gap-4 animate-fade-in" style={{animationDelay: '0.6s'}}>
-  <a 
-    target="_blank"
-    rel="noopener noreferrer"
-    href="https://whatsapp.com/channel/0029VaDDfNd1iUxdIoaKUp2b"
-    className="inline-flex items-center px-8 py-4 bg-green-500 text-white rounded-xl font-semibold hover:bg-green-600 transition-all duration-300 shadow-2xl transform hover:scale-105 hover:shadow-green-500/25"
-  >
-    <MessageCircle className="mr-3" size={24} />
-    Join WhatsApp Channel
-    <ExternalLink className="ml-2" size={18} />
-  </a>
-
-  <a
-    href="/team-head"
-    className="inline-flex items-center px-8 py-4 bg-white text-red-600 rounded-xl font-semibold hover:bg-gray-100 transition-all duration-300 shadow-2xl transform hover:scale-105"
-  >
-    <Users className="mr-3" size={24} />
-    Meet Our Team Head
-  </a>
-
-  {/* New Register Button */}
-  <a
-    href="/register"
-    className="inline-flex items-center px-8 py-4 bg-red-500 text-white rounded-xl font-semibold hover:bg-red-600 transition-all duration-300 shadow-2xl transform hover:scale-105 hover:shadow-red-500/25"
-  >
-    <User className="mr-3" size={24} />
-    Join Our Team
-  </a>
-</div>
-
+              <div className="flex flex-col sm:flex-row gap-4 animate-fade-in" style={{animationDelay: '0.6s'}}>
+                <a 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://whatsapp.com/channel/0029VaDDfNd1iUxdIoaKUp2b"
+                  className="inline-flex items-center px-8 py-4 bg-green-500 text-white rounded-xl font-semibold hover:bg-green-600 transition-all duration-300 shadow-2xl transform hover:scale-105 hover:shadow-green-500/25"
+                >
+                  <MessageCircle className="mr-3" size={24} />
+                  Join WhatsApp Channel
+                  <ExternalLink className="ml-2" size={18} />
+                </a>
+              
+                
+                <a
+                  href="/team-head"
+                  className="inline-flex items-center px-8 py-4 bg-white text-red-600 rounded-xl font-semibold hover:bg-gray-100 transition-all duration-300 shadow-2xl transform hover:scale-105"
+                >
+                  <Users className="mr-3" size={24} />
+                  Meet Our Team Head
+                </a>
+              </div>
               
               {/* Welcome message for logged in users */}
               {userLoggedIn && currentUser && (
@@ -192,6 +183,17 @@ const Home = () => {
               future through technology, social media, and grassroots activism.
             </p>
           </div>
+
+          <div className="text-center mt-10">
+  <a
+    href="/register"
+    className="inline-flex items-center px-10 py-5 bg-gradient-to-r from-red-500 to-green-600 text-white rounded-2xl font-bold shadow-xl transform transition-all duration-300 hover:scale-105 animate-pulse"
+  >
+    <User className="mr-3" size={26} />
+    Join Our Team
+  </a>
+</div>
+
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div>
