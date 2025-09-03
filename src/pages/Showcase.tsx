@@ -115,7 +115,7 @@ const Showcase = () => {
         {/* Header */}
         <div className="text-center mb-12 bg-white rounded-2xl shadow-xl p-8 border-t-4 border-green-500">
           <h1 className="text-5xl font-bold bg-gradient-to-r from-red-600 to-green-600 bg-clip-text text-transparent mb-4 flex items-center justify-center">
-            Team Incharge
+            Team Head
           </h1>
           <p className="text-2xl text-gray-700">Meetings, discussions, and events from PTI and Pakistan Youth Council</p>
         </div>
