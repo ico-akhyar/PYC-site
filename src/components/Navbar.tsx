@@ -1,20 +1,42 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Home, Users, Calendar, Newspaper, Settings, Star, Flag } from 'lucide-react';
+import { Menu, X, Home, Users, Calendar, Newspaper, Settings, Star, Flag, ChevronDown } from 'lucide-react';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
   const location = useLocation();
 
-  const navItems = [
+  const mainNavItems = [
     { path: '/', label: 'Home', icon: Home },
     { path: '/management', label: 'Management', icon: Users },
     { path: '/imran-khan-in-jail', label: 'Imran Khan', icon: Calendar },
     { path: '/social-media-accounts', label: 'Accounts', icon: Flag },
     { path: '/notifications', label: 'Notifications', icon: Newspaper },
+  ];
+
+  const moreNavItems = [
     { path: '/contributions', label: 'Contributions', icon: Star },
     { path: '/dashboard', label: 'Dashboard', icon: Settings },
   ];
+
+  const renderLink = (item, extraClasses = '') => {
+    const Icon = item.icon;
+    return (
+      <Link
+        key={item.path}
+        to={item.path}
+        className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors duration-200 ${extraClasses} ${
+          location.pathname === item.path
+            ? 'bg-red-500 text-white'
+            : 'text-gray-700 hover:bg-gray-100'
+        }`}
+      >
+        <Icon size={18} />
+        <span>{item.label}</span>
+      </Link>
+    );
+  };
 
   return (
     <nav className="bg-white shadow-lg border-b-4 border-red-500 sticky top-0 z-50">
@@ -22,40 +44,39 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3">
-  <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center">
-    <img
-      src="/assets/pyc_logo_webp.webp"
-      alt="PYC Logo"
-      className="w-full h-full object-cover"
-      loading='lazy'
-    />
-  </div>
-  <div>
-    <h1 className="text-xl font-bold text-gray-800">PYC Social Media Team</h1>
-    <p className="text-sm text-green-600">Pakistan Youth Council</p>
-  </div>
-</Link>
-
+            <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center">
+              <img
+                src="/assets/pyc_logo_webp.webp"
+                alt="PYC Logo"
+                className="w-full h-full object-cover"
+                loading='lazy'
+              />
+            </div>
+            <div>
+              <h1 className="text-xl font-bold text-gray-800">PYC Social Media Team</h1>
+              <p className="text-sm text-green-600">Pakistan Youth Council</p>
+            </div>
+          </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-1">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              return (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors duration-200 ${
-                    location.pathname === item.path
-                      ? 'bg-red-500 text-white'
-                      : 'text-gray-700 hover:bg-gray-100'
-                  }`}
-                >
-                  <Icon size={18} />
-                  <span>{item.label}</span>
-                </Link>
-              );
-            })}
+          <div className="hidden md:flex items-center space-x-1 relative">
+            {mainNavItems.map(item => renderLink(item))}
+
+            {/* More Dropdown */}
+            <div className="relative">
+              <button
+                onClick={() => setMoreOpen(!moreOpen)}
+                className="flex items-center space-x-2 px-4 py-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+              >
+                <span>More</span>
+                <ChevronDown size={16} className={`${moreOpen ? 'rotate-180' : ''} transition-transform`} />
+              </button>
+              {moreOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg z-50">
+                  {moreNavItems.map(item => renderLink(item, 'px-4 py-2 block w-full'))}
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Mobile menu button */}
@@ -72,25 +93,48 @@ const Navbar = () => {
         {/* Mobile Navigation */}
         {isOpen && (
           <div className="md:hidden bg-white border-t border-gray-200">
-            <div className="py-2">
-              {navItems.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <Link
-                    key={item.path}
-                    to={item.path}
-                    onClick={() => setIsOpen(false)}
-                    className={`flex items-center space-x-3 px-4 py-3 transition-colors duration-200 ${
-                      location.pathname === item.path
-                        ? 'bg-red-500 text-white'
-                        : 'text-gray-700 hover:bg-gray-100'
-                    }`}
-                  >
-                    <Icon size={20} />
-                    <span>{item.label}</span>
-                  </Link>
-                );
-              })}
+            <div className="py-2 flex flex-col">
+              {mainNavItems.map(item => (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  onClick={() => setIsOpen(false)}
+                  className={`flex items-center space-x-3 px-4 py-3 transition-colors duration-200 ${
+                    location.pathname === item.path
+                      ? 'bg-red-500 text-white'
+                      : 'text-gray-700 hover:bg-gray-100'
+                  }`}
+                >
+                  <item.icon size={20} />
+                  <span>{item.label}</span>
+                </Link>
+              ))}
+
+              {/* Mobile More Dropdown */}
+              <div className="relative">
+                <button
+                  onClick={() => setMoreOpen(!moreOpen)}
+                  className="flex items-center justify-between w-full px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors duration-200"
+                >
+                  <span>More</span>
+                  <ChevronDown size={16} className={`${moreOpen ? 'rotate-180' : ''} transition-transform`} />
+                </button>
+                {moreOpen && (
+                  <div className="flex flex-col">
+                    {moreNavItems.map(item => (
+                      <Link
+                        key={item.path}
+                        to={item.path}
+                        onClick={() => { setIsOpen(false); setMoreOpen(false); }}
+                        className="flex items-center space-x-3 px-6 py-3 text-gray-700 hover:bg-gray-100"
+                      >
+                        <item.icon size={20} />
+                        <span>{item.label}</span>
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         )}
