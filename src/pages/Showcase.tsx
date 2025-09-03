@@ -130,6 +130,7 @@ const Showcase = () => {
                           src={item.imageUrl}
                           alt={item.title}
                           className="w-full h-full object-cover opacity-70"
+                          loading='lazy'
                         />
                         <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
                           <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center hover:bg-red-700 transition-colors">
