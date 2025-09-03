@@ -13,6 +13,7 @@ import SocialMediaAccounts from './pages/SocialMediaAccounts';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import { useAuth } from './contexts/AuthContext';
+import TeamRegistration from './pages/Registration';
 
 // Create a simple TeamHead component
 const TeamHead = () => {
@@ -65,6 +66,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/team-head" element={<TeamHead />} />
+              <Route path="/team-registration" element={<TeamRegistration />} />
             </Routes>
           </main>
           <Footer />

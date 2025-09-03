@@ -186,7 +186,7 @@ const Home = () => {
 
           <div className="text-center mt-10">
   <a
-    href="/register"
+    href="/team-registration"
     className="inline-flex items-center px-10 py-5 bg-gradient-to-r from-red-500 to-green-600 text-white rounded-2xl font-bold shadow-xl transform transition-all duration-300 hover:scale-105 animate-pulse" style={{ animationDelay: "0.5s" }}>
     <User className="mr-3" size={26} />
     Join Our Team
