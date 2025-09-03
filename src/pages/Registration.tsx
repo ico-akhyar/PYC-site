@@ -9,6 +9,11 @@ import {
   Users,
   MessageCircle,
   Save,
+  Calendar,
+  Briefcase,
+  Award,
+  Clock,
+  Heart,
 } from "lucide-react";
 import { db, auth } from "../config/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
@@ -30,7 +35,7 @@ interface FormData {
 
 const TeamRegistration: React.FC = () => {
   const navigate = useNavigate();
-  const [user] = useAuthState(auth);
+  const [user, loadingAuth] = useAuthState(auth);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -47,7 +52,7 @@ const TeamRegistration: React.FC = () => {
   });
 
   const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -61,16 +66,13 @@ const TeamRegistration: React.FC = () => {
     setLoading(true);
 
     try {
-      if (!user) {
-        alert("Please login first to register.");
-        return;
-      }
-
+      // Add user's UID to the form data
       await addDoc(collection(db, "teamRegistrations"), {
         ...formData,
         createdAt: serverTimestamp(),
         status: "pending",
-        uid: user.uid,
+        userId: user?.uid,
+        userEmail: user?.email,
       });
 
       alert("Registration submitted successfully! We will contact you soon.");
@@ -85,19 +87,51 @@ const TeamRegistration: React.FC = () => {
     }
   };
 
+  // Show loading while checking authentication status
+  if (loadingAuth) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-50 via-white to-green-50">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-500 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Checking authentication...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show login prompt if user is not authenticated
   if (!user) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-red-50 via-white to-green-50 px-4">
-        <div className="bg-white shadow-lg rounded-xl p-8 text-center">
+        <div className="bg-white shadow-lg rounded-xl p-8 text-center max-w-md w-full">
+          <div className="w-16 h-16 bg-gradient-to-r from-red-500 to-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+            <Users className="text-white" size={32} />
+          </div>
+          
           <h2 className="text-2xl font-bold text-red-600 mb-4">
-            Please login first to register in the team 🚀
+            Please Login First
           </h2>
+          
+          <p className="text-gray-600 mb-6">
+            You need to be logged in to register for the Pakistan Youth Council team.
+          </p>
+          
           <button
             onClick={() => navigate("/login")}
-            className="mt-4 px-6 py-3 bg-gradient-to-r from-red-500 to-green-500 text-white rounded-lg font-semibold hover:from-red-600 hover:to-green-600 transition-all duration-200"
+            className="w-full bg-gradient-to-r from-red-500 to-green-500 text-white py-3 rounded-lg font-semibold hover:from-red-600 hover:to-green-600 transition-all duration-200 transform hover:scale-105"
           >
             Go to Login Page
           </button>
+          
+          <p className="text-sm text-gray-500 mt-4">
+            Don't have an account?{" "}
+            <button
+              onClick={() => navigate("/signup")}
+              className="text-red-600 hover:text-red-700 font-medium"
+            >
+              Sign up here
+            </button>
+          </p>
         </div>
       </div>
     );
@@ -234,6 +268,83 @@ const TeamRegistration: React.FC = () => {
                 />
               </div>
             </div>
+
+            {/* Age */}
+            <div>
+              <label
+                htmlFor="age"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Age *
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Calendar className="h-5 w-5 text-gray-400" />
+                </div>
+                <input
+                  type="number"
+                  id="age"
+                  name="age"
+                  required
+                  min="16"
+                  max="60"
+                  value={formData.age}
+                  onChange={handleChange}
+                  className="pl-10 w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-200"
+                  placeholder="Enter your age"
+                />
+              </div>
+            </div>
+
+            {/* Occupation */}
+            <div>
+              <label
+                htmlFor="occupation"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Occupation/Profession *
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Briefcase className="h-5 w-5 text-gray-400" />
+                </div>
+                <input
+                  type="text"
+                  id="occupation"
+                  name="occupation"
+                  required
+                  value={formData.occupation}
+                  onChange={handleChange}
+                  className="pl-10 w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-200"
+                  placeholder="e.g., Student, Engineer, Teacher"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Skills */}
+          <div className="mb-6">
+            <label
+              htmlFor="skills"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Skills & Expertise *
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 pt-3 flex items-start pointer-events-none">
+                <Award className="h-5 w-5 text-gray-400" />
+              </div>
+              <textarea
+                id="skills"
+                name="skills"
+                required
+                rows={3}
+                value={formData.skills}
+                onChange={handleChange}
+                className="pl-10 w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-200"
+                placeholder="What skills can you contribute? (e.g., Social Media, Graphic Design, Writing, Leadership)"
+              />
+            </div>
           </div>
 
           {/* Previous Experience */}
@@ -253,6 +364,36 @@ const TeamRegistration: React.FC = () => {
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-200"
               placeholder="Any previous political or volunteer experience?"
             />
+          </div>
+
+          {/* Availability */}
+          <div className="mb-6">
+            <label
+              htmlFor="availability"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Availability *
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <Clock className="h-5 w-5 text-gray-400" />
+              </div>
+              <select
+                id="availability"
+                name="availability"
+                required
+                value={formData.availability}
+                onChange={handleChange}
+                className="pl-10 w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-200"
+              >
+                <option value="">Select your availability</option>
+                <option value="full-time">Full Time</option>
+                <option value="part-time">Part Time</option>
+                <option value="weekends">Weekends Only</option>
+                <option value="evenings">Evenings Only</option>
+                <option value="flexible">Flexible Hours</option>
+              </select>
+            </div>
           </div>
 
           {/* Social Media */}
@@ -275,6 +416,31 @@ const TeamRegistration: React.FC = () => {
                 onChange={handleChange}
                 className="pl-10 w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-200"
                 placeholder="Facebook, Twitter, Instagram handles (optional)"
+              />
+            </div>
+          </div>
+
+          {/* Motivation */}
+          <div className="mb-8">
+            <label
+              htmlFor="motivation"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Why do you want to join our team? *
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 pt-3 flex items-start pointer-events-none">
+                <Heart className="h-5 w-5 text-gray-400" />
+              </div>
+              <textarea
+                id="motivation"
+                name="motivation"
+                required
+                rows={4}
+                value={formData.motivation}
+                onChange={handleChange}
+                className="pl-10 w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-200"
+                placeholder="Share your motivation for working with Imran Khan and PTI"
               />
             </div>
           </div>
@@ -306,13 +472,14 @@ const TeamRegistration: React.FC = () => {
         {/* Additional Info */}
         <div className="mt-8 text-center">
           <p className="text-gray-600">
-            Have questions? Contact us at{" "}
+            Have questions? Contact us on{" "}
             <a
               target="_blank"
               href="https://api.whatsapp.com/send/?phone=%2B923319235660&text&type=phone_number&app_absent=0"
               className="text-red-600 hover:text-red-700"
+              rel="noopener noreferrer"
             >
-              whatsapp
+              WhatsApp
             </a>
           </p>
         </div>
