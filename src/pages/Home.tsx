@@ -80,33 +80,7 @@ const Home = () => {
                   Join WhatsApp Channel
                   <ExternalLink className="ml-2" size={18} />
                 </a>
-                
-                {userLoggedIn ? (
-                  <button
-                    onClick={handleLogout}
-                    className="inline-flex items-center px-8 py-4 bg-gray-600 text-white rounded-xl font-semibold hover:bg-gray-700 transition-all duration-300 shadow-2xl transform hover:scale-105"
-                  >
-                    <LogOut className="mr-3" size={24} />
-                    Logout
-                  </button>
-                ) : (
-                  <>
-                    <button
-                      onClick={() => navigate('/login')}
-                      className="inline-flex items-center px-8 py-4 bg-red-500 text-white rounded-xl font-semibold hover:bg-red-600 transition-all duration-300 shadow-2xl transform hover:scale-105"
-                    >
-                      <User className="mr-3" size={24} />
-                      Login
-                    </button>
-                    <button
-                      onClick={() => navigate('/signup')}
-                      className="inline-flex items-center px-8 py-4 bg-green-600 text-white rounded-xl font-semibold hover:bg-green-700 transition-all duration-300 shadow-2xl transform hover:scale-105"
-                    >
-                      <User className="mr-3" size={24} />
-                      Sign Up
-                    </button>
-                  </>
-                )}
+              
                 
                 <a
                   href="/team-head"
