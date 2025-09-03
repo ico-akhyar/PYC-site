@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { 
   User, 
@@ -70,7 +69,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <AuthContext.Provider value={value}>
-      {!loading && children}
+      {loading ? (
+        // Loading screen instead of blank white page
+        <div className="flex items-center justify-center h-screen bg-gray-100">
+          <h2 className="text-xl font-semibold text-gray-700">Loading...</h2>
+        </div>
+      ) : (
+        children
+      )}
     </AuthContext.Provider>
   );
 }
