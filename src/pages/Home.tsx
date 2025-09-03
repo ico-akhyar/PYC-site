@@ -75,6 +75,13 @@ const Home = () => {
                   <Users className="mr-3" size={24} />
                   Meet Our Management Team
                 </a>
+                <a
+                  href="#"
+                  className="inline-flex items-center px-8 py-4 bg-white text-red-600 rounded-xl font-semibold hover:bg-gray-100 transition-all duration-300 shadow-2xl transform hover:scale-105"
+                >
+                  <Users className="mr-3" size={24} />
+                  Meet Our Team Head
+                </a>
               </div>
             </div>
             
