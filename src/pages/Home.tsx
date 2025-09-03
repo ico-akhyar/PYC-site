@@ -98,7 +98,7 @@ const Home = () => {
                     Welcome back, {currentUser.displayName || currentUser.email}!
                   </p>
                   <p className="text-sm opacity-90">
-                    Thank you for supporting Pakistan's digital revolution.
+                    Thank you for supporting Pakistan Youth Council & Imran Khan.
                   </p>
                 </div>
               )}
