@@ -78,10 +78,10 @@ const Signup = () => {
             Please check your inbox and click the link to verify your account.
           </p>
           <button
-            onClick={() => navigate('/')}
+            onClick={() => navigate('/Login')}
             className="w-full bg-gradient-to-r from-red-500 to-green-500 text-white py-3 rounded-lg font-semibold hover:from-red-600 hover:to-green-600 transition-all duration-200"
           >
-            Continue to Home
+            Continue to Login Screen
           </button>
         </div>
       </div>
