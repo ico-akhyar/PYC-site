@@ -191,45 +191,6 @@ const TeamRegistration = () => {
                 />
               </div>
             </div>
-
-            {/* Occupation */}
-            <div>
-              <label htmlFor="occupation" className="block text-sm font-medium text-gray-700 mb-2">
-                Occupation/Profession *
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <User className="h-5 w-5 text-gray-400" />
-                </div>
-                <input
-                  type="text"
-                  id="occupation"
-                  name="occupation"
-                  required
-                  value={formData.occupation}
-                  onChange={handleChange}
-                  className="pl-10 w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-200"
-                  placeholder="e.g., Student, Engineer, Teacher"
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Skills */}
-          <div className="mb-6">
-            <label htmlFor="skills" className="block text-sm font-medium text-gray-700 mb-2">
-              Skills & Expertise *
-            </label>
-            <textarea
-              id="skills"
-              name="skills"
-              required
-              rows={3}
-              value={formData.skills}
-              onChange={handleChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-200"
-              placeholder="What skills can you contribute? (e.g., Social Media, Graphic Design, Writing, Leadership)"
-            />
           </div>
 
           {/* Previous Experience */}
@@ -248,32 +209,11 @@ const TeamRegistration = () => {
             />
           </div>
 
-          {/* Availability */}
-          <div className="mb-6">
-            <label htmlFor="availability" className="block text-sm font-medium text-gray-700 mb-2">
-              Availability *
-            </label>
-            <select
-              id="availability"
-              name="availability"
-              required
-              value={formData.availability}
-              onChange={handleChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-200"
-            >
-              <option value="">Select your availability</option>
-              <option value="full-time">Full Time</option>
-              <option value="part-time">Part Time</option>
-              <option value="weekends">Weekends Only</option>
-              <option value="evenings">Evenings Only</option>
-              <option value="flexible">Flexible Hours</option>
-            </select>
-          </div>
 
           {/* Social Media */}
           <div className="mb-6">
             <label htmlFor="socialMedia" className="block text-sm font-medium text-gray-700 mb-2">
-              Social Media Profiles
+              Social Media Profiles (if any)
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -289,23 +229,6 @@ const TeamRegistration = () => {
                 placeholder="Facebook, Twitter, Instagram handles (optional)"
               />
             </div>
-          </div>
-
-          {/* Motivation */}
-          <div className="mb-8">
-            <label htmlFor="motivation" className="block text-sm font-medium text-gray-700 mb-2">
-              Why do you want to join our team? *
-            </label>
-            <textarea
-              id="motivation"
-              name="motivation"
-              required
-              rows={4}
-              value={formData.motivation}
-              onChange={handleChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-200"
-              placeholder="Share your motivation for working with Imran Khan and PTI"
-            />
           </div>
 
           {/* Submit Button */}
