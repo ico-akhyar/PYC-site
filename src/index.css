@@ -35,3 +35,16 @@
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(to bottom, #cc0000, #006600);
 }
+
+@keyframes glow-green {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(34,197,94,0.6), 0 0 40px rgba(34,197,94,0.4);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(34,197,94,0.8), 0 0 60px rgba(34,197,94,0.6);
+  }
+}
+
+.animate-glow-green {
+  animation: glow-green 3s ease-in-out infinite;
+}

@@ -226,14 +226,21 @@ const Home = () => {
             </div>
             
             <div className="text-center">
-              <div className="w-72 h-72 bg-gradient-to-br from-red-500 to-green-600 rounded-full mx-auto shadow-2xl flex items-center justify-center transform hover:scale-105 transition-all duration-300 animate-pulse" style={{ animationDelay: "0.1s" }}>
-                <div className="text-white text-center">
-                  <h4 className="text-4xl font-bold mb-3">PYC</h4>
-                  <p className="text-xl font-semibold">Pakistan Youth Council</p>
-                  <p className="text-base opacity-90 mt-2">Digital Warriors</p>
-                </div>
-              </div>
-            </div>
+  <div
+    className="relative w-72 h-72 rounded-full mx-auto shadow-2xl flex items-center justify-center transform hover:scale-105 transition-all duration-500 overflow-hidden animate-glow-green"
+  >
+    {/* Logo Image */}
+    <img
+      src="/assets/pyc_logo_webp.webp" // <-- apna logo ka path lagao yahan
+      alt="PYC Logo"
+      className="w-40 h-40 object-contain z-10"
+    />
+
+    {/* Glow Border */}
+    <div className="absolute inset-0 rounded-full border-4 border-green-500 opacity-80 animate-pulse"></div>
+  </div>
+</div>
+
           </div>
         </div>
       </section>
