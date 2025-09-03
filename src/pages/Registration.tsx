@@ -1,55 +1,107 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, User, Mail, Phone, MapPin, Calendar, Users, MessageCircle, Save } from 'lucide-react';
-import { db } from '../config/firebase';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import React, { useState, ChangeEvent, FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  ArrowLeft,
+  User,
+  Mail,
+  Phone,
+  MapPin,
+  Users,
+  MessageCircle,
+  Save,
+} from "lucide-react";
+import { db, auth } from "../config/firebase";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { useAuthState } from "react-firebase-hooks/auth";
 
-const TeamRegistration = () => {
+interface FormData {
+  name: string;
+  email: string;
+  phone: string;
+  city: string;
+  age: string;
+  occupation: string;
+  skills: string;
+  previousExperience: string;
+  availability: string;
+  motivation: string;
+  socialMedia: string;
+}
+
+const TeamRegistration: React.FC = () => {
   const navigate = useNavigate();
+  const [user] = useAuthState(auth);
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    city: '',
-    age: '',
-    occupation: '',
-    skills: '',
-    previousExperience: '',
-    availability: '',
-    motivation: '',
-    socialMedia: ''
+  const [formData, setFormData] = useState<FormData>({
+    name: "",
+    email: "",
+    phone: "",
+    city: "",
+    age: "",
+    occupation: "",
+    skills: "",
+    previousExperience: "",
+    availability: "",
+    motivation: "",
+    socialMedia: "",
   });
 
-  const handleChange = (e) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      // Save to Firestore
-      await addDoc(collection(db, 'teamRegistrations'), {
+      if (!user) {
+        alert("Please login first to register.");
+        return;
+      }
+
+      await addDoc(collection(db, "teamRegistrations"), {
         ...formData,
         createdAt: serverTimestamp(),
-        status: 'pending'
+        status: "pending",
+        uid: user.uid,
       });
 
-      alert('Registration submitted successfully! We will contact you soon.');
-      navigate('/');
+      alert("Registration submitted successfully! We will contact you soon.");
+      navigate("/");
     } catch (error) {
-      console.error('Error saving registration:', error);
-      alert('There was an error submitting your registration. Please try again.');
+      console.error("Error saving registration:", error);
+      alert(
+        "There was an error submitting your registration. Please try again."
+      );
     } finally {
       setLoading(false);
     }
   };
+
+  if (!user) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-red-50 via-white to-green-50 px-4">
+        <div className="bg-white shadow-lg rounded-xl p-8 text-center">
+          <h2 className="text-2xl font-bold text-red-600 mb-4">
+            Please login first to register in the team 🚀
+          </h2>
+          <button
+            onClick={() => navigate("/login")}
+            className="mt-4 px-6 py-3 bg-gradient-to-r from-red-500 to-green-500 text-white rounded-lg font-semibold hover:from-red-600 hover:to-green-600 transition-all duration-200"
+          >
+            Go to Login Page
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-50 via-white to-green-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -63,26 +115,32 @@ const TeamRegistration = () => {
             <ArrowLeft size={20} className="mr-2" />
             Back
           </button>
-          
+
           <div className="w-20 h-20 bg-gradient-to-r from-red-500 to-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
             <Users className="text-white" size={32} />
           </div>
-          
+
           <h1 className="text-4xl font-bold bg-gradient-to-r from-red-600 to-green-600 bg-clip-text text-transparent mb-4">
             Join Our Team
           </h1>
-          
+
           <p className="text-gray-600 text-lg">
             Work for Imran Khan and contribute to Pakistan's digital revolution
           </p>
         </div>
 
         {/* Registration Form */}
-        <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-xl p-6 sm:p-8">
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white rounded-2xl shadow-xl p-6 sm:p-8"
+        >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             {/* Name */}
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Full Name *
               </label>
               <div className="relative">
@@ -104,7 +162,10 @@ const TeamRegistration = () => {
 
             {/* Email */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Email Address *
               </label>
               <div className="relative">
@@ -126,7 +187,10 @@ const TeamRegistration = () => {
 
             {/* Phone */}
             <div>
-              <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="phone"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Phone Number *
               </label>
               <div className="relative">
@@ -148,7 +212,10 @@ const TeamRegistration = () => {
 
             {/* City */}
             <div>
-              <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="city"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 City *
               </label>
               <div className="relative">
@@ -171,7 +238,10 @@ const TeamRegistration = () => {
 
           {/* Previous Experience */}
           <div className="mb-6">
-            <label htmlFor="previousExperience" className="block text-sm font-medium text-gray-700 mb-2">
+            <label
+              htmlFor="previousExperience"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
               Previous Experience (if any)
             </label>
             <textarea
@@ -185,10 +255,12 @@ const TeamRegistration = () => {
             />
           </div>
 
-
           {/* Social Media */}
           <div className="mb-6">
-            <label htmlFor="socialMedia" className="block text-sm font-medium text-gray-700 mb-2">
+            <label
+              htmlFor="socialMedia"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
               Social Media Profiles (if any)
             </label>
             <div className="relative">
@@ -234,10 +306,12 @@ const TeamRegistration = () => {
         {/* Additional Info */}
         <div className="mt-8 text-center">
           <p className="text-gray-600">
-            Have questions? Contact us at{' '}
+            Have questions? Contact us at{" "}
             <a
-            target="_blank"
-             href="https://api.whatsapp.com/send/?phone=%2B923319235660&text&type=phone_number&app_absent=0" className="text-red-600 hover:text-red-700">
+              target="_blank"
+              href="https://api.whatsapp.com/send/?phone=%2B923319235660&text&type=phone_number&app_absent=0"
+              className="text-red-600 hover:text-red-700"
+            >
               whatsapp
             </a>
           </p>
