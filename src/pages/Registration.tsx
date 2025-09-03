@@ -159,7 +159,7 @@ const TeamRegistration: React.FC = () => {
           </h1>
 
           <p className="text-gray-600 text-lg">
-            Work for Imran Khan and contribute to Pakistan's digital revolution
+            Work for Imran Khan and contribute to Pakistan Youth Council
           </p>
         </div>
 
