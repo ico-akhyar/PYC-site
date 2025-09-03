@@ -14,7 +14,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import { useAuth } from './contexts/AuthContext';
 import TeamRegistration from './pages/Registration';
-import loadShowcase from './pages/Showcase';
+import Showcase from './pages/Showcase';
 
 // Create a simple TeamHead component
 const TeamHead = () => {
@@ -68,7 +68,7 @@ function App() {
               <Route path="/signup" element={<Signup />} />
               <Route path="/team-head" element={<TeamHead />} />
               <Route path="/team-registration" element={<TeamRegistration />} />
-              <Route path="/team-incharge" element={<loadShowcase />} />
+              <Route path="/team-incharge" element={<Showcase />} />
             </Routes>
           </main>
           <Footer />
