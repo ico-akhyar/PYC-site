@@ -269,83 +269,10 @@ const TeamRegistration: React.FC = () => {
               </div>
             </div>
 
-            {/* Age */}
-            <div>
-              <label
-                htmlFor="age"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
-                Age *
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Calendar className="h-5 w-5 text-gray-400" />
-                </div>
-                <input
-                  type="number"
-                  id="age"
-                  name="age"
-                  required
-                  min="16"
-                  max="60"
-                  value={formData.age}
-                  onChange={handleChange}
-                  className="pl-10 w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-200"
-                  placeholder="Enter your age"
-                />
-              </div>
-            </div>
-
-            {/* Occupation */}
-            <div>
-              <label
-                htmlFor="occupation"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
-                Occupation/Profession *
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Briefcase className="h-5 w-5 text-gray-400" />
-                </div>
-                <input
-                  type="text"
-                  id="occupation"
-                  name="occupation"
-                  required
-                  value={formData.occupation}
-                  onChange={handleChange}
-                  className="pl-10 w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-200"
-                  placeholder="e.g., Student, Engineer, Teacher"
-                />
-              </div>
-            </div>
+            
           </div>
 
-          {/* Skills */}
-          <div className="mb-6">
-            <label
-              htmlFor="skills"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
-              Skills & Expertise *
-            </label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 pt-3 flex items-start pointer-events-none">
-                <Award className="h-5 w-5 text-gray-400" />
-              </div>
-              <textarea
-                id="skills"
-                name="skills"
-                required
-                rows={3}
-                value={formData.skills}
-                onChange={handleChange}
-                className="pl-10 w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-200"
-                placeholder="What skills can you contribute? (e.g., Social Media, Graphic Design, Writing, Leadership)"
-              />
-            </div>
-          </div>
+          
 
           {/* Previous Experience */}
           <div className="mb-6">
