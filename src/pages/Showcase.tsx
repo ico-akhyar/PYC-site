@@ -138,11 +138,13 @@ const Showcase = () => {
       Welcome to the Showcase
     </h2>
     <p className="text-gray-600 text-lg leading-relaxed">
-      Ye section PTI aur Pakistan Youth Council ki important meetings, 
-      discussions aur events ko highlight karta hai. Yahan pe aapko 
-      hamari journey ka ek glimpse milega jo sirf politics nahi 
-      balkay youth empowerment aur community building ke bare mein bhi hai.
-    </p>
+  This page introduces <span className="font-semibold">Ahmad Raza</span>, 
+  the in-charge of our team. With his strong leadership and vision, 
+  he has played a key role in empowering the youth and guiding 
+  the Pakistan Youth Council toward meaningful initiatives. 
+  Under his direction, countless efforts have been launched to 
+  promote community development, youth engagement, and social awareness.
+</p>
   </div>
 </div>
 
