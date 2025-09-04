@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar, Eye, ExternalLink, Video, Image as ImageIcon, Play } from 'lucide-react';
-import { newsService, NewsItem, ContentType } from '../services/newsService';
+import { contentService, ContentItem, ContentType } from '../services/contentService';
 
 const Showcase = () => {
-  const [showcaseItems, setShowcaseItems] = useState<NewsItem[]>([]);
+  const [showcaseItems, setShowcaseItems] = useState<ContentItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedItem, setSelectedItem] = useState<NewsItem | null>(null);
+  const [selectedItem, setSelectedItem] = useState<ContentItem | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
@@ -15,22 +15,21 @@ const Showcase = () => {
   const loadShowcase = async () => {
     try {
       setIsLoading(true);
-      const allItems = await newsService.getAllNews();
-      const showcaseItems = allItems.filter(item => item.type === 'showcase');
+      const showcaseItems = await contentService.getContentByType('showcase');
       setShowcaseItems(showcaseItems);
     } catch (error) {
       console.error('Error loading showcase:', error);
       // Fallback to sample data if Firebase fails
-      const sampleShowcase: NewsItem[] = [
+      const sampleShowcase: ContentItem[] = [
         {
-            id: '2',
-            title: 'Discussion with Barister Gohar Ali Khan',
-            description: ' ',
-            imageUrl: '/assets/1.webp',
-            date: '2025-9-4',
-            link: '#',
-            type: 'showcase'
-          },
+          id: '1',
+          title: 'Discussion with Barister Gohar Ali Khan',
+          description: ' ',
+          imageUrl: '/assets/1.webp',
+          date: '2025-9-4',
+          link: '#',
+          type: 'showcase'
+        },
         {
           id: '2',
           title: 'Meeting with MNA Junaid Akbar Khan',
@@ -40,15 +39,6 @@ const Showcase = () => {
           link: '#',
           type: 'showcase'
         },
-        // {
-        //   id: '3',
-        //   title: 'Meeting with MNA Junaid Akbar Khan',
-        //   description: ' ',
-        //   imageUrl: '/assets/3.webp',
-        //   videoUrl: 'https://player.vimeo.com/video/148751763',
-        //   date: '2024-01-10',
-        //   type: 'showcase'
-        // }
         {
           id: '3',
           title: 'Meeting with MNA Junaid Akbar Khan',
@@ -58,21 +48,21 @@ const Showcase = () => {
           type: 'showcase'
         },
         {
-            id: '4',
-            title: 'With MNA Juniad Khan Akber & MNA Arbab Sher ',
-            description: ' ',
-            imageUrl: '/assets/4.webp',
-            date: '2025-9-4',
-            type: 'showcase'
-          },
-          {
-            id: '5',
-            title: 'Team Discussion with MNA Junaid Akbar Khan',
-            description: ' ',
-            imageUrl: '/assets/5.webp',
-            date: '2025-9-4',
-            type: 'showcase'
-          }
+          id: '4',
+          title: 'With MNA Juniad Khan Akber & MNA Arbab Sher ',
+          description: ' ',
+          imageUrl: '/assets/4.webp',
+          date: '2025-9-4',
+          type: 'showcase'
+        },
+        {
+          id: '5',
+          title: 'Team Discussion with MNA Junaid Akbar Khan',
+          description: ' ',
+          imageUrl: '/assets/5.webp',
+          date: '2025-9-4',
+          type: 'showcase'
+        }
       ];
       setShowcaseItems(sampleShowcase);
     } finally {
@@ -107,7 +97,7 @@ const Showcase = () => {
     return url;
   };
 
-  const openModal = (item: NewsItem) => {
+  const openModal = (item: ContentItem) => {
     setSelectedItem(item);
     setIsModalOpen(true);
   };
@@ -129,32 +119,31 @@ const Showcase = () => {
         </div>
 
         {/* Intro Section */}
-<div className="flex flex-col lg:flex-row items-center bg-white rounded-2xl shadow-xl p-8 mb-12">
-  {/* Left Side Image */}
-  <div className="w-full lg:w-1/2 mb-6 lg:mb-0">
-    <img 
-      src="/assets/main.webp" 
-      alt="Introduction" 
-      className="rounded-xl w-full h-80 object-cover shadow-lg"
-    />
-  </div>
+        <div className="flex flex-col lg:flex-row items-center bg-white rounded-2xl shadow-xl p-8 mb-12">
+          {/* Left Side Image */}
+          <div className="w-full lg:w-1/2 mb-6 lg:mb-0">
+            <img 
+              src="/assets/main.webp" 
+              alt="Introduction" 
+              className="rounded-xl w-full h-80 object-cover shadow-lg"
+            />
+          </div>
 
-  {/* Right Side Text */}
-  <div className="w-full lg:w-1/2 lg:pl-10 text-center lg:text-left">
-    <h2 className="text-3xl font-bold text-gray-800 mb-4">
-      Ahmed Raza
-    </h2>
-    <p className="text-gray-600 text-lg leading-relaxed">
-  This page introduces <span className="font-semibold">Ahmed Raza</span>, 
-  the incharge of our team. With his strong leadership and vision, 
-  he has played a key role in empowering the youth and guiding 
-  the Pakistan Youth Council toward meaningful initiatives. 
-  Under his direction, countless efforts have been launched to 
-  promote community development, youth engagement, and social awareness.
-</p>
-  </div>
-</div>
-
+          {/* Right Side Text */}
+          <div className="w-full lg:w-1/2 lg:pl-10 text-center lg:text-left">
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">
+              Ahmed Raza
+            </h2>
+            <p className="text-gray-600 text-lg leading-relaxed">
+              This page introduces <span className="font-semibold">Ahmed Raza</span>, 
+              the incharge of our team. With his strong leadership and vision, 
+              he has played a key role in empowering the youth and guiding 
+              the Pakistan Youth Council toward meaningful initiatives. 
+              Under his direction, countless efforts have been launched to 
+              promote community development, youth engagement, and social awareness.
+            </p>
+          </div>
+        </div>
 
         {/* Content Grid */}
         {isLoading ? (
