@@ -1,6 +1,6 @@
 // App.tsx
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'; // Added Navigate import
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -17,7 +17,6 @@ import TeamRegistration from './pages/Registration';
 import Showcase from './pages/Showcase';
 import Registrations from './pages/Registrations';
 
-/*************  ✨ Windsurf Command 🌟  *************/
 function App() {
   const { currentUser, userLoggedIn } = useAuth();
 
@@ -44,17 +43,12 @@ function App() {
               <Route path="/imran-khan-in-jail" element={<ImranKhanInJail />} />
               <Route path="/notifications" element={<Notifications />} />
               <Route path="/dashboard" element={userLoggedIn ? <Dashboard /> : <Navigate to="/login" />} />
-              <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/contributions" element={<Contributions />} />
               <Route path="/social-media-accounts" element={<SocialMediaAccounts />} />
               <Route path="/login" element={!userLoggedIn ? <Login /> : <Navigate to="/" />} />
               <Route path="/signup" element={!userLoggedIn ? <Signup /> : <Navigate to="/" />} />
               <Route path="/team-registration" element={userLoggedIn && currentUser?.role === 'admin' ? <TeamRegistration /> : <Navigate to="/" />} />
               <Route path="/team-incharge" element={userLoggedIn && currentUser?.role === 'incharge' ? <Showcase /> : <Navigate to="/" />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/team-registration" element={<TeamRegistration />} />
-              <Route path="/team-incharge" element={<Showcase />} />
               <Route path="/registrations" element={<Registrations />} />
             </Routes>
           </main>
@@ -64,6 +58,5 @@ function App() {
     </Router>
   );
 }
-/*******  135b2833-03a4-4707-8c12-69b5cc83995a  *******/
 
 export default App;
