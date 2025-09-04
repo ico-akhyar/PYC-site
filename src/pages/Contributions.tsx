@@ -94,34 +94,34 @@ const contributions: Contribution[] = [
     reference: 'https://www.aljazeera.com/news/2021/4/19/pakistan-pm-calls-for-west-to-criminalise-blasphemy-against-islam',
     date: '2020',
     type: 'policy'
-  },
-  {
-    id: '10',
-    title: 'Shaukat Khanum Memorial Cancer Hospital',
-    description: 'Built Pakistan\'s first free cancer hospital, providing world-class treatment to thousands of patients regardless of their ability to pay.',
-    image: 'https://images.pexels.com/photos/263402/pexels-photo-263402.jpeg?auto=compress&cs=tinysrgb&w=400',
-    reference: 'https://example.com/shaukat-khanum',
-    date: '1994',
-    type: 'project'
-  },
-  {
-    id: '11',
-    title: 'Pakistan Tehreek-e-Insaf Foundation',
-    description: 'Established PTI as a political movement for change, advocating for justice, accountability, and good governance in Pakistan.',
-    image: 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=400',
-    reference: 'https://example.com/pti-foundation',
-    date: '1996',
-    type: 'initiative'
-  },
-  {
-    id: '12',
-    title: 'KPK Police Reforms',
-    description: 'Revolutionized police system in Khyber Pakhtunkhwa, introducing merit-based recruitment and modern training methods.',
-    image: 'https://images.pexels.com/photos/5668473/pexels-photo-5668473.jpeg?auto=compress&cs=tinysrgb&w=400',
-    reference: 'https://example.com/police-reforms',
-    date: '2013',
-    type: 'policy'
   }
+  // {
+  //   id: '10',
+  //   title: 'Shaukat Khanum Memorial Cancer Hospital',
+  //   description: 'Built Pakistan\'s first free cancer hospital, providing world-class treatment to thousands of patients regardless of their ability to pay.',
+  //   image: 'https://images.pexels.com/photos/263402/pexels-photo-263402.jpeg?auto=compress&cs=tinysrgb&w=400',
+  //   reference: 'https://example.com/shaukat-khanum',
+  //   date: '1994',
+  //   type: 'project'
+  // },
+  // {
+  //   id: '11',
+  //   title: 'Pakistan Tehreek-e-Insaf Foundation',
+  //   description: 'Established PTI as a political movement for change, advocating for justice, accountability, and good governance in Pakistan.',
+  //   image: 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=400',
+  //   reference: 'https://example.com/pti-foundation',
+  //   date: '1996',
+  //   type: 'initiative'
+  // },
+  // {
+  //   id: '12',
+  //   title: 'KPK Police Reforms',
+  //   description: 'Revolutionized police system in Khyber Pakhtunkhwa, introducing merit-based recruitment and modern training methods.',
+  //   image: 'https://images.pexels.com/photos/5668473/pexels-photo-5668473.jpeg?auto=compress&cs=tinysrgb&w=400',
+  //   reference: 'https://example.com/police-reforms',
+  //   date: '2013',
+  //   type: 'policy'
+  // }
 ];
 
 const getTypeIcon = (type: string) => {
