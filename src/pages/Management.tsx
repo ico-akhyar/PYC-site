@@ -88,7 +88,7 @@ const Leaders = () => {
     },
     {
       name: "Shab Niaz Khan",
-      position: "Ex-Senior Vice President IYW Kpk",
+      position: "Ex-Senior Vice President IYW KPK",
       image: "/assets/Shab Niaz khan.webp"
     }
   ];
