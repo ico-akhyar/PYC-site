@@ -2,9 +2,13 @@ import { MessageCircle, Users, Calendar, Newspaper, ExternalLink, LogOut, User }
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { contentService, ContentItem } from '../services/contentService';
 
 const Home = () => {
   const [days, setDays] = useState(0);
+  const [notifications, setNotifications] = useState<ContentItem[]>([]);
+  const [showcaseItems, setShowcaseItems] = useState<ContentItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const { currentUser, userLoggedIn, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -29,6 +33,53 @@ const Home = () => {
     return () => clearTimeout(timeout);
   }, []);
 
+  useEffect(() => {
+    loadContent();
+  }, []);
+
+  const loadContent = async () => {
+    try {
+      setIsLoading(true);
+      const allContent = await contentService.getAllContent();
+      
+      const notificationItems = allContent.filter(item => item.type === 'notification').slice(0, 3);
+      const showcaseItems = allContent.filter(item => item.type === 'showcase').slice(0, 3);
+      
+      setNotifications(notificationItems);
+      setShowcaseItems(showcaseItems);
+    } catch (error) {
+      console.error('Error loading content:', error);
+      // Fallback to sample data if Firebase fails
+      const sampleNotifications: ContentItem[] = [
+        // {
+        //   id: '1',
+        //   title: 'PTI Youth Rally Success',
+        //   description: 'Thousands of young Pakistanis joined the peaceful demonstration for democracy and justice in Lahore.',
+        //   imageUrl: 'https://images.pexels.com/photos/1367269/pexels-photo-1367269.jpeg?auto=compress&cs=tinysrgb&w=800',
+        //   date: '2024-01-15',
+        //   link: '#',
+        //   type: 'notification'
+        // }
+      ];
+      
+      const sampleShowcase: ContentItem[] = [
+        // {
+        //   id: '2',
+        //   title: 'Youth Leadership Conference',
+        //   description: 'PTI youth leaders discussing the future of Pakistan and democratic reforms.',
+        //   imageUrl: 'https://images.pexels.com/photos/1181406/pexels-photo-1181406.jpeg?auto=compress&cs=tinysrgb&w=800',
+        //   date: '2024-01-12',
+        //   type: 'showcase'
+        // }
+      ];
+      
+      setNotifications(sampleNotifications);
+      setShowcaseItems(sampleShowcase);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleLogout = async () => {
     try {
       await logout();
@@ -42,6 +93,15 @@ const Home = () => {
     { label: 'Days of Struggle', value: `${days}+`, icon: Calendar, color: 'text-red-500' },
     { label: 'News Updates', value: '20+', icon: Newspaper, color: 'text-blue-500' },
   ];
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
+  };
 
   return (
     <div className="min-h-screen">
@@ -129,13 +189,13 @@ const Home = () => {
       </section>
 
       <div className="text-center mt-10">
-  <a
-    href="/team-registration"
-    className="inline-flex items-center px-10 py-5 bg-gradient-to-r from-red-500 to-green-600 text-white rounded-2xl font-bold shadow-xl transform transition-all duration-300 hover:scale-105 animate-pulse" style={{ animationDelay: "0.5s" }}>
-    <User className="mr-3" size={26} />
-    Join Our Team
-  </a>
-</div>
+        <a
+          href="/team-registration"
+          className="inline-flex items-center px-10 py-5 bg-gradient-to-r from-red-500 to-green-600 text-white rounded-2xl font-bold shadow-xl transform transition-all duration-300 hover:scale-105 animate-pulse" style={{ animationDelay: "0.5s" }}>
+          <User className="mr-3" size={26} />
+          Join Our Team
+        </a>
+      </div>
 
       {/* Stats Section */}
       <section className="py-20 bg-gradient-to-r from-gray-50 to-white">
@@ -157,13 +217,85 @@ const Home = () => {
         </div>
       </section> 
 
+      {/* Latest Notifications Section */}
+      <section className="py-20 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-red-600 to-green-600 bg-clip-text text-transparent mb-4">
+              Latest Updates
+            </h2>
+            <p className="text-xl text-gray-600">Stay informed with the latest from PTI and Pakistan Youth Council</p>
+          </div>
+
+          {isLoading ? (
+            <div className="text-center py-16">
+              <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-red-500 mb-4"></div>
+              <p className="text-gray-600">Loading latest updates...</p>
+            </div>
+          ) : notifications.length === 0 ? (
+            <div className="text-center py-16 bg-white rounded-2xl shadow-xl">
+              <Newspaper className="mx-auto text-gray-400 mb-4" size={64} />
+              <h3 className="text-2xl font-semibold text-gray-600 mb-2">No Updates Yet</h3>
+              <p className="text-gray-500">Latest updates will appear here once added.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+              {notifications.map((item) => (
+                <article key={item.id} className="bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden group transform hover:scale-105">
+                  <div className="relative">
+                    <div className="w-full h-48 bg-gray-200 overflow-hidden">
+                      <img
+                        src={item.imageUrl}
+                        alt={item.title}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="p-6">
+                    <div className="flex items-center text-gray-500 text-sm mb-3">
+                      <Calendar size={16} className="mr-2 text-red-500" />
+                      {formatDate(item.date)}
+                    </div>
+                    
+                    <h3 className="text-xl font-bold text-gray-800 mb-3 line-clamp-2">
+                      {item.title}
+                    </h3>
+                    
+                    <p className="text-gray-700 mb-4 line-clamp-3">
+                      {item.description}
+                    </p>
+                    
+                    <a
+                      href="/notifications"
+                      className="flex items-center text-red-600 hover:text-red-700 font-semibold transition-all duration-200"
+                    >
+                      <Eye size={16} className="mr-2" />
+                      Read More
+                    </a>
+                  </div>
+                </article>
+              ))}
+            </div>
+          )}
+
+          <div className="text-center">
+            <a
+              href="/notifications"
+              className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-xl inline-flex items-center"
+            >
+              View All Updates
+              <ExternalLink className="ml-2" size={20} />
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* Mission Section */}
       <section className="py-20 bg-gradient-to-br from-red-50 via-white to-green-50 relative overflow-hidden">
         <div className="absolute inset-0 opacity-5">
           <div className="absolute inset-0 bg-gradient-to-r from-red-500 to-green-500 transform rotate-12 scale-150"></div>
         </div>
-
-        
 
         <div className="text-center mb-12">
           <h2 className="text-5xl font-bold bg-gradient-to-r from-red-600 to-green-600 bg-clip-text text-transparent mb-6">
@@ -194,7 +326,6 @@ const Home = () => {
               future through technology, social media, and grassroots activism.
             </p>
           </div>
-
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div>
@@ -228,22 +359,20 @@ const Home = () => {
             </div>
             
             <div className="text-center">
-  <div
-    className="relative w-72 h-72 rounded-full mx-auto shadow-2xl flex items-center justify-center transform hover:scale-105 transition-all duration-500 overflow-hidden animate-glow-green"
-  >
-    {/* Logo Image */}
-    <img
-      src="/assets/pyc_logo_webp.webp" // 👈 apna logo ka path lagao
-      alt="PYC Logo"
-      className="w-90 h-90 object-cover rounded-full z-10"
-    />
+              <div
+                className="relative w-72 h-72 rounded-full mx-auto shadow-2xl flex items-center justify-center transform hover:scale-105 transition-all duration-500 overflow-hidden animate-glow-green"
+              >
+                {/* Logo Image */}
+                <img
+                  src="/assets/pyc_logo_webp.webp"
+                  alt="PYC Logo"
+                  className="w-90 h-90 object-cover rounded-full z-10"
+                />
 
-    {/* Glow Border */}
-    <div className="absolute inset-0 rounded-full border-4 border-green-500 opacity-80 animate-pulse"></div>
-  </div>
-</div>
-
-
+                {/* Glow Border */}
+                <div className="absolute inset-0 rounded-full border-4 border-green-500 opacity-80 animate-pulse"></div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

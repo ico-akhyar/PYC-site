@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar, Eye, ExternalLink, Image as ImageIcon } from 'lucide-react';
-import { newsService, NewsItem } from '../services/newsService';
+import { contentService, ContentItem, ContentType } from '../services/contentService';
 
 const News = () => {
-  const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
+  const [newsItems, setNewsItems] = useState<ContentItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -13,19 +13,21 @@ const News = () => {
   const loadNews = async () => {
     try {
       setIsLoading(true);
-      const news = await newsService.getAllNews();
+      // Use contentService to get only notification type content
+      const news = await contentService.getContentByType('notification');
       setNewsItems(news);
     } catch (error) {
       console.error('Error loading news:', error);
       // Fallback to sample data if Firebase fails
-      const sampleNews: NewsItem[] = [
+      const sampleNews: ContentItem[] = [
         // {
         //   id: '1',
         //   title: 'PTI Youth Rally Success',
         //   description: 'Thousands of young Pakistanis joined the peaceful demonstration for democracy and justice in Lahore.',
         //   imageUrl: 'https://images.pexels.com/photos/1367269/pexels-photo-1367269.jpeg?auto=compress&cs=tinysrgb&w=800',
         //   date: '2024-01-15',
-        //   link: '#'
+        //   link: '#',
+        //   type: 'notification'
         // }
       ];
       setNewsItems(sampleNews);
@@ -140,7 +142,10 @@ const News = () => {
         {/* Load More Button */}
         {newsItems.length > 0 && (
           <div className="text-center mt-12">
-            <button className="bg-gradient-to-r from-red-500 to-green-500 text-white px-10 py-4 rounded-xl font-bold hover:from-red-600 hover:to-green-600 transition-all duration-300 transform hover:scale-105 shadow-2xl text-lg">
+            <button 
+              onClick={loadNews}
+              className="bg-gradient-to-r from-red-500 to-green-500 text-white px-10 py-4 rounded-xl font-bold hover:from-red-600 hover:to-green-600 transition-all duration-300 transform hover:scale-105 shadow-2xl text-lg"
+            >
               Load More
             </button>
           </div>

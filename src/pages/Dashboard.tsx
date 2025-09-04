@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Upload, Save, Trash2, Image as ImageIcon, Link as LinkIcon, Lock, Users, User, Video, Type } from 'lucide-react';
-import { newsService, NewsItem, ContentType } from '../services/newsService';
+import { contentService, ContentItem, ContentType } from '../services/contentService';
 
 const Dashboard = () => {
-  const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
+  const [contentItems, setContentItems] = useState<ContentItem[]>([]);
   const [isAdding, setIsAdding] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [credentials, setCredentials] = useState({ username: '', password: '' });
   const [contentType, setContentType] = useState<ContentType>('notification');
-  const [newNews, setNewNews] = useState({
+  const [newContent, setNewContent] = useState({
     title: '',
     description: '',
     imageUrl: '',
@@ -20,18 +20,18 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      loadNews();
+      loadContent();
     }
   }, [isAuthenticated]);
 
-  const loadNews = async () => {
+  const loadContent = async () => {
     try {
       setIsLoading(true);
-      const news = await newsService.getAllNews();
-      setNewsItems(news);
+      const content = await contentService.getAllContent();
+      setContentItems(content);
     } catch (error) {
-      console.error('Error loading news:', error);
-      alert('Failed to load news items');
+      console.error('Error loading content:', error);
+      alert('Failed to load content items');
     } finally {
       setIsLoading(false);
     }
@@ -59,38 +59,38 @@ const Dashboard = () => {
     localStorage.removeItem('pti_auth');
   };
 
-  const addNews = async () => {
-    if (!newNews.title) {
+  const addContent = async () => {
+    if (!newContent.title) {
       alert('Please fill in the title field');
       return;
     }
 
-    if (newNews.type === 'notification' && (!newNews.description || !newNews.imageUrl)) {
+    if (newContent.type === 'notification' && (!newContent.description || !newContent.imageUrl)) {
       alert('Please fill in all required fields for notifications');
       return;
     }
 
-    if (newNews.type === 'showcase' && !newNews.imageUrl && !newNews.videoUrl) {
+    if (newContent.type === 'showcase' && !newContent.imageUrl && !newContent.videoUrl) {
       alert('Please provide either an image or video for showcase content');
       return;
     }
 
     try {
       setIsLoading(true);
-      await newsService.addNews({
-        title: newNews.title,
-        description: newNews.description,
-        imageUrl: newNews.imageUrl,
-        videoUrl: newNews.videoUrl || undefined,
+      await contentService.addContent({
+        title: newContent.title,
+        description: newContent.description,
+        imageUrl: newContent.imageUrl,
+        videoUrl: newContent.videoUrl || undefined,
         date: new Date().toISOString().split('T')[0],
-        link: newNews.link || undefined,
-        type: newNews.type
+        link: newContent.link || undefined,
+        type: newContent.type
       });
       
-      // Reload news items
-      await loadNews();
+      // Reload content items
+      await loadContent();
       
-      setNewNews({ 
+      setNewContent({ 
         title: '', 
         description: '', 
         imageUrl: '', 
@@ -109,7 +109,7 @@ const Dashboard = () => {
     }
   };
 
-  const deleteNews = async (id: string) => {
+  const deleteContent = async (id: string) => {
     if (!id) return;
     
     if (!confirm('Are you sure you want to delete this item?')) {
@@ -118,8 +118,8 @@ const Dashboard = () => {
 
     try {
       setIsLoading(true);
-      await newsService.deleteNews(id);
-      await loadNews();
+      await contentService.deleteContent(id);
+      await loadContent();
       alert('Item deleted successfully!');
     } catch (error) {
       console.error('Error deleting item:', error);
@@ -134,7 +134,7 @@ const Dashboard = () => {
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        setNewNews({ ...newNews, imageUrl: e.target?.result as string });
+        setNewContent({ ...newContent, imageUrl: e.target?.result as string });
       };
       reader.readAsDataURL(file);
     }
@@ -251,7 +251,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Add News Form */}
+        {/* Add Content Form */}
         {isAdding && (
           <div className="bg-white rounded-xl shadow-xl p-8 mb-8 border-2 border-gradient-to-r from-red-200 to-green-200">
             <h2 className="text-2xl font-semibold bg-gradient-to-r from-red-600 to-green-600 bg-clip-text text-transparent mb-6">Add New Content</h2>
@@ -265,7 +265,7 @@ const Dashboard = () => {
                   type="button"
                   onClick={() => {
                     setContentType('notification');
-                    setNewNews({...newNews, type: 'notification'});
+                    setNewContent({...newContent, type: 'notification'});
                   }}
                   className={`px-6 py-3 rounded-lg flex items-center font-semibold transition-all duration-200 ${
                     contentType === 'notification' 
@@ -280,7 +280,7 @@ const Dashboard = () => {
                   type="button"
                   onClick={() => {
                     setContentType('showcase');
-                    setNewNews({...newNews, type: 'showcase'});
+                    setNewContent({...newContent, type: 'showcase'});
                   }}
                   className={`px-6 py-3 rounded-lg flex items-center font-semibold transition-all duration-200 ${
                     contentType === 'showcase' 
@@ -301,8 +301,8 @@ const Dashboard = () => {
                 </label>
                 <input
                   type="text"
-                  value={newNews.title}
-                  onChange={(e) => setNewNews({ ...newNews, title: e.target.value })}
+                  value={newContent.title}
+                  onChange={(e) => setNewContent({ ...newContent, title: e.target.value })}
                   className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-200"
                   placeholder="Enter content title"
                 />
@@ -314,8 +314,8 @@ const Dashboard = () => {
                 </label>
                 <input
                   type="url"
-                  value={newNews.link}
-                  onChange={(e) => setNewNews({ ...newNews, link: e.target.value })}
+                  value={newContent.link}
+                  onChange={(e) => setNewContent({ ...newContent, link: e.target.value })}
                   className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-200"
                   placeholder="https://example.com"
                 />
@@ -328,11 +328,11 @@ const Dashboard = () => {
                   Description *
                 </label>
                 <textarea
-                  value={newNews.description}
-                  onChange={(e) => setNewNews({ ...newNews, description: e.target.value })}
+                  value={newContent.description}
+                  onChange={(e) => setNewContent({ ...newContent, description: e.target.value })}
                   rows={4}
                   className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-200"
-                  placeholder="Enter news description"
+                  placeholder="Enter content description"
                 />
               </div>
             )}
@@ -344,8 +344,8 @@ const Dashboard = () => {
               <div className="flex gap-4">
                 <input
                   type="url"
-                  value={newNews.imageUrl}
-                  onChange={(e) => setNewNews({ ...newNews, imageUrl: e.target.value })}
+                  value={newContent.imageUrl}
+                  onChange={(e) => setNewContent({ ...newContent, imageUrl: e.target.value })}
                   className="flex-1 px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-200"
                   placeholder="Enter image URL"
                 />
@@ -360,10 +360,10 @@ const Dashboard = () => {
                   />
                 </label>
               </div>
-              {newNews.imageUrl && (
+              {newContent.imageUrl && (
                 <div className="mt-4">
                   <img
-                    src={newNews.imageUrl}
+                    src={newContent.imageUrl}
                     alt="Preview"
                     className="w-32 h-32 object-cover rounded-lg border-2 border-gray-200"
                   />
@@ -378,12 +378,12 @@ const Dashboard = () => {
                 </label>
                 <input
                   type="url"
-                  value={newNews.videoUrl}
-                  onChange={(e) => setNewNews({ ...newNews, videoUrl: e.target.value })}
+                  value={newContent.videoUrl}
+                  onChange={(e) => setNewContent({ ...newContent, videoUrl: e.target.value })}
                   className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-200"
                   placeholder="Enter YouTube, Vimeo, TikTok, etc. URL"
                 />
-                {newNews.videoUrl && isVideoUrl(newNews.videoUrl) && (
+                {newContent.videoUrl && isVideoUrl(newContent.videoUrl) && (
                   <div className="mt-4">
                     <div className="text-sm text-green-600 mb-2">✓ Valid video URL detected</div>
                     <div className="w-full h-48 bg-gray-200 rounded-lg flex items-center justify-center">
@@ -391,7 +391,7 @@ const Dashboard = () => {
                     </div>
                   </div>
                 )}
-                {newNews.videoUrl && !isVideoUrl(newNews.videoUrl) && (
+                {newContent.videoUrl && !isVideoUrl(newContent.videoUrl) && (
                   <div className="mt-4 text-sm text-red-600">
                     ⚠️ This doesn't appear to be a supported video URL (YouTube, Vimeo, TikTok, Facebook, Twitter)
                   </div>
@@ -404,7 +404,7 @@ const Dashboard = () => {
                 onClick={() => {
                   setIsAdding(false);
                   setContentType('notification');
-                  setNewNews({ 
+                  setNewContent({ 
                     title: '', 
                     description: '', 
                     imageUrl: '', 
@@ -418,7 +418,7 @@ const Dashboard = () => {
                 Cancel
               </button>
               <button
-                onClick={addNews}
+                onClick={addContent}
                 disabled={isLoading}
                 className="bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-3 rounded-lg flex items-center font-semibold hover:from-green-600 hover:to-green-700 transition-all duration-200 transform hover:scale-105 shadow-lg"
               >
@@ -438,14 +438,14 @@ const Dashboard = () => {
         )}
         
         <div className="space-y-6">
-          {newsItems.length === 0 ? (
+          {contentItems.length === 0 ? (
             <div className="text-center py-16 bg-white rounded-xl shadow-lg border-2 border-gray-100">
               <ImageIcon className="mx-auto text-gray-400 mb-4" size={64} />
               <h3 className="text-2xl font-semibold text-gray-600 mb-2">No Items</h3>
               <p className="text-gray-500">Add your first content item to get started.</p>
             </div>
           ) : (
-            newsItems.map((item) => (
+            contentItems.map((item) => (
               <div key={item.id} className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 overflow-hidden border-l-4 border-red-500 transform hover:scale-[1.02]">
                 <div className="flex">
                   <div className="w-48 h-32 bg-gray-200 overflow-hidden">
@@ -492,7 +492,7 @@ const Dashboard = () => {
                         </div>
                       </div>
                       <button
-                        onClick={() => deleteNews(item.id)}
+                        onClick={() => deleteContent(item.id || '')}
                         disabled={isLoading}
                         className="text-red-500 hover:text-red-700 p-2 rounded-lg hover:bg-red-50 transition-all duration-200 transform hover:scale-110"
                       >
