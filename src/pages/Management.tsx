@@ -117,9 +117,9 @@ const Leaders = () => {
       image: "/assets/Wasid Dawer.webp"
     },
     {
-      name: "Waheed khan",
+      name: "Waheed Khan",
       position: "Senior Leader PTI dir",
-      image: "/assets/Waheed khan.webp"
+      image: "/assets/Waheed Khan.webp"
     }
   ];
 
