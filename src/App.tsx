@@ -47,9 +47,9 @@ function App() {
               <Route path="/social-media-accounts" element={<SocialMediaAccounts />} />
               <Route path="/login" element={!userLoggedIn ? <Login /> : <Navigate to="/" />} />
               <Route path="/signup" element={!userLoggedIn ? <Signup /> : <Navigate to="/" />} />
-              <Route path="/showcase" element={<Showcase />} />
+              <Route path="/team-incharge" element={<Showcase />} />
               <Route path="/team-registration" element={<TeamRegistration />} />
-              <Route path="/team-incharge" element={<Registrations />} />
+              <Route path="/registrations" element={<Registrations />} />
               
             </Routes>
           </main>
