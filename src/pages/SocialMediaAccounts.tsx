@@ -73,14 +73,20 @@ const accounts: SocialAccount[] = [
   {
     id: "11",
     platform: "TikTok",
-    name: "User",
-    url: "#",
+    name: "PYC THARPARKER OFFICIAL",
+    url: "https://tiktok.com/@pyctharparkaroffice",
   },
   {
     id: "12",
     platform: "TikTok",
     name: "PYC SARGODHA OFFICIAL",
     url: "https://vm.tiktok.com/ZSHtarQ2NVA71-ziVnT/",
+  },
+  {
+    id: "13",
+    platform: "TikTok",
+    name: "PYC MIRPUR KHAS OFFICIAL",
+    url: "https://tiktok.com/@pycmirpurkhas",
   }
 ];
 

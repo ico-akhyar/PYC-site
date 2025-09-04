@@ -54,7 +54,7 @@ const Showcase = () => {
           title: 'Meeting with MNA Junaid Akbar Khan',
           description: ' ',
           imageUrl: '/assets/3.webp',
-          date: '2024-01-10',
+          date: '2025-9-4',
           type: 'showcase'
         },
         {
@@ -62,7 +62,15 @@ const Showcase = () => {
             title: 'With MNA Juniad Khan Akber + MNA Arbab Sher ',
             description: ' ',
             imageUrl: '/assets/4.webp',
-            date: '2024-01-10',
+            date: '2025-9-4',
+            type: 'showcase'
+          },
+          {
+            id: '5',
+            title: 'Team Discussion with MNA Junaid Akbar Khan',
+            description: ' ',
+            imageUrl: '/assets/5.webp',
+            date: '2025-9-4',
             type: 'showcase'
           }
       ];
@@ -134,10 +142,10 @@ const Showcase = () => {
   {/* Right Side Text */}
   <div className="w-full lg:w-1/2 lg:pl-10 text-center lg:text-left">
     <h2 className="text-3xl font-bold text-gray-800 mb-4">
-      Ahmad Raza
+      Ahmed Raza
     </h2>
     <p className="text-gray-600 text-lg leading-relaxed">
-  This page introduces <span className="font-semibold">Ahmad Raza</span>, 
+  This page introduces <span className="font-semibold">Ahmed Raza</span>, 
   the incharge of our team. With his strong leadership and vision, 
   he has played a key role in empowering the youth and guiding 
   the Pakistan Youth Council toward meaningful initiatives. 
