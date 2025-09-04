@@ -48,7 +48,7 @@ const Leaders = () => {
   const WolvesOfIk = [
     {
       name: "Khalid Khan khorshid",
-      position: "Ex- Cm GB",
+      position: "Ex-Cheif Minister Gilgit Baltistan",
       image: "/assets/Khalid Khan khorshid.webp"
     },
     {
@@ -58,12 +58,12 @@ const Leaders = () => {
     },
     {
       name: "Waqas khan Orakzai",
-      position: "Ex- Senator Candidate",
+      position: "Ex-Senator Candidate",
       image: "/assets/Waqas khan Orakzai.webp"
     },
     {
       name: "Abdul Waheed Mehsood",
-      position: "Ex Mpa Candidate Pk-113",
+      position: "Ex-MPA Candidate Pk-113",
       image: "/assets/Abdul Waheed Mehsood.webp"
     },
     {
