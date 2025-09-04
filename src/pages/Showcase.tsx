@@ -59,7 +59,7 @@ const Showcase = () => {
         },
         {
             id: '4',
-            title: 'With MNA Juniad Khan Akber + MNA Arbab Sher ',
+            title: 'With MNA Juniad Khan Akber & MNA Arbab Sher ',
             description: ' ',
             imageUrl: '/assets/4.webp',
             date: '2025-9-4',
