@@ -63,7 +63,7 @@ const Leaders = () => {
     },
     {
       name: "Abdul Waheed Mehsood",
-      position: "Ex-MPA Candidate Pk-113",
+      position: "Ex-MPA Candidate PK-113",
       image: "/assets/Abdul Waheed Mehsood.webp"
     },
     {
@@ -71,6 +71,26 @@ const Leaders = () => {
       position: "Senate Candidate PTI",
       image: "/assets/Khurram Zeeshan.webp"
     },
+    {
+      name: "Seemabia Tahir",
+      position: "MNA Form 45 NA-57 / Deputy Organizer Pakistan Youth Council",
+      image: "/assets/Seemabia Tahir.webp"
+    },
+    {
+      name: "Abdul Salam Afridi",
+      position: "MPA PK-58 Mardan",
+      image: "/assets/Abdul Salam Afridi.webp"
+    },
+    {
+      name: "Haji Mehmood Jan",
+      position: "Ex-Deputy Speaker KPK Assembly / Ex-MPA",
+      image: "/assets/Haji Mehmood Jan.webp"
+    },
+    {
+      name: "Shab Niaz Khan",
+      position: "Ex-Senior Vice President IYW Kpk",
+      image: "/assets/Shab Niaz Khan.webp"
+    }
   ];
 
   const seniorLeaders = [
