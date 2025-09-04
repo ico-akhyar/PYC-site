@@ -47,9 +47,10 @@ function App() {
               <Route path="/social-media-accounts" element={<SocialMediaAccounts />} />
               <Route path="/login" element={!userLoggedIn ? <Login /> : <Navigate to="/" />} />
               <Route path="/signup" element={!userLoggedIn ? <Signup /> : <Navigate to="/" />} />
-              <Route path="/team-registration" element={userLoggedIn && currentUser?.role === 'admin' ? <TeamRegistration /> : <Navigate to="/" />} />
-              <Route path="/team-incharge" element={userLoggedIn && currentUser?.role === 'incharge' ? <Showcase /> : <Navigate to="/" />} />
-              <Route path="/registrations" element={<Registrations />} />
+              <Route path="/showcase" element={<Showcase />} />
+              <Route path="/team-registration" element={<TeamRegistration />} />
+              <Route path="/team-incharge" element={<Registrations />} />
+              
             </Routes>
           </main>
           <Footer />
