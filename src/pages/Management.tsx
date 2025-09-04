@@ -182,7 +182,7 @@ const Leaders = () => {
               <Users className="mr-3 text-red-500" size={32} />
               Wolves Of Imran Khan
             </h2>
-            <p className="text-xl text-gray-700">Imran Khan's brave warriors — who have never been bought, never backed down, and are still standing firm with unwavering resolve.</p>
+            <p className="text-xl text-gray-700">Peoples who have never been bought, never backed down, and are still standing firm with unwavering resolve.</p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
