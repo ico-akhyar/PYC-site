@@ -45,6 +45,34 @@ const Leaders = () => {
     },
   ];
 
+  const WolvesOfIk = [
+    {
+      name: "Khalid Khan khorshid",
+      position: "Ex- Cm GB",
+      image: "/assets/Khalid Khan khorshid.webp"
+    },
+    {
+      name: "Juniad Khan Akber", 
+      position: "MNA NA-9 Malakand",
+      image: "/assets/Juniad Khan Akber.webp"
+    },
+    {
+      name: "Waqas khan Orakzai",
+      position: "Ex- Senator Candidate",
+      image: "/assets/Waqas khan Orakzai.webp"
+    },
+    {
+      name: "Abdul Waheed Mehsood",
+      position: "Ex Mpa Candidate Pk-113",
+      image: "/assets/Abdul Waheed Mehsood.webp"
+    },
+    {
+      name: "Khurram Zeeshan",
+      position: "Senate Candidate PTI",
+      image: "/assets/Khurram Zeeshan.webp"
+    },
+  ];
+
   const seniorLeaders = [
     {
       name: "Senior Leader 1",
