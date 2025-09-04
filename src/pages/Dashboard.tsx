@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Upload, Save, Trash2, Image as ImageIcon, Link as LinkIcon, Lock, User, Video, Type } from 'lucide-react';
+import { Plus, Upload, Save, Trash2, Image as ImageIcon, Link as LinkIcon, Lock, Users, Video, Type } from 'lucide-react';
 import { newsService, NewsItem, ContentType } from '../services/newsService';
 
 const Dashboard = () => {
