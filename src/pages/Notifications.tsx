@@ -19,22 +19,14 @@ const News = () => {
       console.error('Error loading news:', error);
       // Fallback to sample data if Firebase fails
       const sampleNews: NewsItem[] = [
-        {
-          id: '1',
-          title: 'PTI Youth Rally Success',
-          description: 'Thousands of young Pakistanis joined the peaceful demonstration for democracy and justice in Lahore.',
-          imageUrl: 'https://images.pexels.com/photos/1367269/pexels-photo-1367269.jpeg?auto=compress&cs=tinysrgb&w=800',
-          date: '2024-01-15',
-          link: '#'
-        },
-        {
-          id: '2',
-          title: 'Digital Campaign Launch',
-          description: 'PYC launches comprehensive social media campaign to raise awareness about democratic values.',
-          imageUrl: 'https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=800',
-          date: '2024-01-12',
-          link: '#'
-        }
+        // {
+        //   id: '1',
+        //   title: 'PTI Youth Rally Success',
+        //   description: 'Thousands of young Pakistanis joined the peaceful demonstration for democracy and justice in Lahore.',
+        //   imageUrl: 'https://images.pexels.com/photos/1367269/pexels-photo-1367269.jpeg?auto=compress&cs=tinysrgb&w=800',
+        //   date: '2024-01-15',
+        //   link: '#'
+        // }
       ];
       setNewsItems(sampleNews);
     } finally {
