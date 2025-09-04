@@ -160,9 +160,9 @@ const Leaders = () => {
           <div className="text-center mb-12 bg-white rounded-2xl shadow-xl p-8 border-t-4 border-red-500">
             <h2 className="text-4xl font-bold bg-gradient-to-r from-red-600 to-green-600 bg-clip-text text-transparent mb-4 flex items-center justify-center">
               <Users className="mr-3 text-red-500" size={32} />
-              Top Personalities
+              Wolves Of Imran Khan
             </h2>
-            <p className="text-xl text-gray-700">Standing against injustice</p>
+            <p className="text-xl text-gray-700">Imran Khan's brave warriors — who have never been bought, never backed down, and are still standing firm with unwavering resolve.</p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
