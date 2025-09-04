@@ -166,7 +166,7 @@ const Leaders = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {TopPersonalities.map((leader, index) => (
+            {WolvesOfIk.map((leader, index) => (
               <div key={index} className="bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden transform hover:scale-105 border-b-4 border-red-500">
                 <div className="w-full h-64 bg-gray-200 overflow-hidden">
                   <img
