@@ -68,7 +68,7 @@ const Leaders = () => {
     },
     {
       name: "Khurram Zeeshan",
-      position: "Senate Candidate PTI",
+      position: "Senate Candidate PTI / Depty Information Sec. PTi KPK",
       image: "/assets/Khurram Zeeshan.webp"
     },
     {
@@ -90,6 +90,36 @@ const Leaders = () => {
       name: "Shab Niaz Khan",
       position: "Ex-Senior Vice President IYW KPK",
       image: "/assets/Shab Niaz khan.webp"
+    },
+    {
+      name: " ",
+      position: " ",
+      image: "/assets/unknown.webp"
+    },
+    {
+      name: "Irfan Wazir",
+      position: "Cheif Minister KPK Team",
+      image: "/assets/Irfan Wazir.webp"
+    },
+    {
+      name: "Malik Saheed Orakzai ",
+      position: "Ex-President PTI Orakzai",
+      image: "/assets/Malik Saheed Orakzai.webp"
+    },
+    {
+      name: "Gohar Ayub",
+      position: "Ex-president IYW Peshawer",
+      image: "/assets/Gohar Ayub.webp"
+    },
+    {
+      name: "Wasid Dawer",
+      position: "Ex-SVP South Waziristan",
+      image: "/assets/Wasid Dawer.webp"
+    },
+    {
+      name: "Waheed khan",
+      position: "Senior Leader PTI dir",
+      image: "/assets/Waheed khan.webp"
     }
   ];
 
