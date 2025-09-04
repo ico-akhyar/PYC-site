@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, User, Mail, Phone, MapPin, Calendar, Users, MessageCircle, Save } from 'lucide-react';
+import { ArrowLeft, User, Mail, Phone, MapPin, Users, MessageCircle, Save } from 'lucide-react';
 import { db } from '../config/firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
-const TeamRegistration = () => {
+const TeamRegistration: React.FC = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -12,29 +12,20 @@ const TeamRegistration = () => {
     email: '',
     phone: '',
     city: '',
-    age: '',
-    occupation: '',
-    skills: '',
     previousExperience: '',
-    availability: '',
-    motivation: '',
     socialMedia: ''
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      // Save to Firestore
       await addDoc(collection(db, 'teamRegistrations'), {
         ...formData,
         createdAt: serverTimestamp(),
@@ -45,7 +36,7 @@ const TeamRegistration = () => {
       navigate('/');
     } catch (error) {
       console.error('Error saving registration:', error);
-      alert('There was an error submitting your registration. Please try again.');
+      alert('Error submitting your registration. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -82,21 +73,16 @@ const TeamRegistration = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             {/* Name */}
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                Full Name *
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <User className="h-5 w-5 text-gray-400" />
-                </div>
+                <User className="absolute left-3 top-3 text-gray-400" size={18} />
                 <input
                   type="text"
-                  id="name"
                   name="name"
                   required
                   value={formData.name}
                   onChange={handleChange}
-                  className="pl-10 w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-200"
+                  className="pl-10 w-full px-4 py-3 border rounded-lg"
                   placeholder="Enter your full name"
                 />
               </div>
@@ -104,21 +90,16 @@ const TeamRegistration = () => {
 
             {/* Email */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                Email Address *
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Email *</label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Mail className="h-5 w-5 text-gray-400" />
-                </div>
+                <Mail className="absolute left-3 top-3 text-gray-400" size={18} />
                 <input
                   type="email"
-                  id="email"
                   name="email"
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className="pl-10 w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-200"
+                  className="pl-10 w-full px-4 py-3 border rounded-lg"
                   placeholder="Enter your email"
                 />
               </div>
@@ -126,122 +107,77 @@ const TeamRegistration = () => {
 
             {/* Phone */}
             <div>
-              <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
-                Phone Number *
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Phone *</label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Phone className="h-5 w-5 text-gray-400" />
-                </div>
+                <Phone className="absolute left-3 top-3 text-gray-400" size={18} />
                 <input
                   type="tel"
-                  id="phone"
                   name="phone"
                   required
                   value={formData.phone}
                   onChange={handleChange}
-                  className="pl-10 w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-200"
-                  placeholder="Enter your phone number"
+                  className="pl-10 w-full px-4 py-3 border rounded-lg"
+                  placeholder="Enter your phone"
                 />
               </div>
             </div>
 
             {/* City */}
             <div>
-              <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-2">
-                City *
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">City *</label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <MapPin className="h-5 w-5 text-gray-400" />
-                </div>
+                <MapPin className="absolute left-3 top-3 text-gray-400" size={18} />
                 <input
                   type="text"
-                  id="city"
                   name="city"
                   required
                   value={formData.city}
                   onChange={handleChange}
-                  className="pl-10 w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-200"
+                  className="pl-10 w-full px-4 py-3 border rounded-lg"
                   placeholder="Enter your city"
                 />
               </div>
             </div>
           </div>
 
-          {/* Previous Experience */}
+          {/* Experience */}
           <div className="mb-6">
-            <label htmlFor="previousExperience" className="block text-sm font-medium text-gray-700 mb-2">
-              Previous Experience (if any)
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Previous Experience</label>
             <textarea
-              id="previousExperience"
               name="previousExperience"
               rows={2}
               value={formData.previousExperience}
               onChange={handleChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-200"
+              className="w-full px-4 py-3 border rounded-lg"
               placeholder="Any previous political or volunteer experience?"
             />
           </div>
 
-
           {/* Social Media */}
           <div className="mb-6">
-            <label htmlFor="socialMedia" className="block text-sm font-medium text-gray-700 mb-2">
-              Social Media Profiles (if any)
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Social Media Profiles</label>
             <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <MessageCircle className="h-5 w-5 text-gray-400" />
-              </div>
+              <MessageCircle className="absolute left-3 top-3 text-gray-400" size={18} />
               <input
                 type="text"
-                id="socialMedia"
                 name="socialMedia"
                 value={formData.socialMedia}
                 onChange={handleChange}
-                className="pl-10 w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-200"
-                placeholder="Facebook, Twitter, Instagram handles (optional)"
+                className="pl-10 w-full px-4 py-3 border rounded-lg"
+                placeholder="Facebook, Twitter, Instagram..."
               />
             </div>
           </div>
 
-          {/* Submit Button */}
+          {/* Submit */}
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-gradient-to-r from-red-500 to-green-500 text-white py-4 rounded-lg font-semibold hover:from-red-600 hover:to-green-600 transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+            className="w-full bg-gradient-to-r from-red-500 to-green-500 text-white py-4 rounded-lg font-semibold flex justify-center items-center"
           >
-            {loading ? (
-              <>
-                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                Submitting...
-              </>
-            ) : (
-              <>
-                <Save size={20} className="mr-2" />
-                Submit Application
-              </>
-            )}
+            {loading ? 'Submitting...' : <><Save size={20} className="mr-2" /> Submit</>}
           </button>
-
-          <p className="text-center text-sm text-gray-500 mt-4">
-            By submitting this form, you agree to our terms and privacy policy.
-          </p>
         </form>
-
-        {/* Additional Info */}
-        <div className="mt-8 text-center">
-          <p className="text-gray-600">
-            Have questions? Contact us at{' '}
-            <a
-            target="_blank"
-             href="https://api.whatsapp.com/send/?phone=%2B923319235660&text&type=phone_number&app_absent=0" className="text-red-600 hover:text-red-700">
-              whatsapp
-            </a>
-          </p>
-        </div>
       </div>
     </div>
   );
