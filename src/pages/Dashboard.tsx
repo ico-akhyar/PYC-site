@@ -226,7 +226,6 @@ const Dashboard = () => {
             <p className="text-gray-600 mt-2">Manage PTI notifications and showcase content</p>
           </div>
           <div className="flex gap-4">
-          // inside the header buttons
 <button
   onClick={() => window.location.href = '/registrations'}
   className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-3 rounded-lg flex items-center font-semibold hover:from-blue-600 hover:to-blue-700 transition-all duration-200 transform hover:scale-105 shadow-lg"
