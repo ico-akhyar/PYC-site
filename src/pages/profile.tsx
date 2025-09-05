@@ -319,8 +319,8 @@ export default function ProfilePage() {
     try {
       const html2canvas = (await import("html2canvas")).default;
       const canvas = await html2canvas(cardRef.current, { 
-        scale: 2,
-        backgroundColor: null
+        scale: 4,                // higher scale → crisp output
+        backgroundColor: "#ffffff" // fallback white background
       });
       const dataUrl = canvas.toDataURL("image/png");
       const a = document.createElement("a");
@@ -332,30 +332,37 @@ export default function ProfilePage() {
       setTimeout(() => setMessage(null), 3000);
     }
   }
-
+  
   async function downloadCardPDF() {
     if (!cardRef.current) return;
     try {
       const html2canvas = (await import("html2canvas")).default;
       const { jsPDF } = await import("jspdf");
       const canvas = await html2canvas(cardRef.current, { 
-        scale: 2,
-        backgroundColor: null
+        scale: 4,
+        backgroundColor: "#ffffff"
       });
       const imgData = canvas.toDataURL("image/png");
-
+  
+      // Use real ID-1 card dimensions at 300 DPI (~1011x639 px)
+      const mmToPt = (mm: number) => (mm * 72) / 25.4; // convert mm → PDF points
+      const cardWidth = mmToPt(85.60);
+      const cardHeight = mmToPt(53.98);
+  
       const pdf = new jsPDF({
         orientation: "landscape",
         unit: "pt",
-        format: [canvas.width, canvas.height],
+        format: [cardWidth, cardHeight],
       });
-      pdf.addImage(imgData, "PNG", 0, 0, canvas.width, canvas.height);
+  
+      pdf.addImage(imgData, "PNG", 0, 0, cardWidth, cardHeight);
       pdf.save(`${(user?.name || "member").replace(/\s+/g,"_")}-card.pdf`);
     } catch (err) {
       setMessage("Could not generate PDF.");
       setTimeout(() => setMessage(null), 3000);
     }
   }
+  
 
   if (loading) return (
     <div className="min-h-screen bg-gradient-to-br from-red-50 via-white to-green-50 flex items-center justify-center">
@@ -566,48 +573,64 @@ export default function ProfilePage() {
             </div>
 
             {user?.status === "accepted" && (
-              <div className="bg-white rounded-2xl shadow-lg p-6">
-                <h2 className="text-xl font-semibold mb-4 flex items-center">
-                  <Download className="mr-2 text-blue-500" size={24} />
-                  Membership Card
-                </h2>
+  <div className="bg-white rounded-2xl shadow-lg p-6">
+    <h2 className="text-xl font-semibold mb-4 flex items-center">
+      <Download className="mr-2 text-blue-500" size={24} />
+      Membership Card
+    </h2>
 
-                <div ref={cardRef} className="p-6 rounded-xl bg-gradient-to-r from-red-500 to-green-500 text-white mb-4">
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center">
-                      <User className="text-red-500" size={32} />
-                    </div>
-                    <div>
-                      <div className="text-sm opacity-80">Pakistan Youth Council</div>
-                      <div className="text-xl font-bold">{user?.name}</div>
-                      <div className="text-xs opacity-80 mt-1">
-                        Member since: {formatDatePretty(user.memberSince)}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="text-xs opacity-80 text-center">
-                    ID: {user.userId?.substring(0, 8)}...
-                  </div>
-                </div>
+    {/* Card preview */}
+    <div
+      ref={cardRef}
+      className="relative rounded-lg shadow-md text-white overflow-hidden"
+      style={{
+        width: "325px",     // ~ standard card at 96 DPI
+        height: "205px",    // maintains 1.586 aspect ratio
+        aspectRatio: "1.586 / 1",
+        background: "linear-gradient(135deg, #ef4444, #22c55e)", // red→green
+        padding: "16px",
+      }}
+    >
+      {/* Logo + user info */}
+      <div className="flex items-center gap-4 mb-4">
+        <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center">
+          <User className="text-red-500" size={28} />
+        </div>
+        <div>
+          <div className="text-xs opacity-80">Pakistan Youth Council</div>
+          <div className="text-lg font-bold leading-tight">{user?.name}</div>
+          <div className="text-xs opacity-80 mt-1">
+            Member since: {formatDatePretty(user.memberSince)}
+          </div>
+        </div>
+      </div>
 
-                <div className="grid grid-cols-2 gap-3">
-                  <button 
-                    onClick={downloadCardPNG} 
-                    className="px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-center"
-                  >
-                    <Download className="mr-2" size={16} />
-                    PNG
-                  </button>
-                  <button 
-                    onClick={downloadCardPDF} 
-                    className="px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-center"
-                  >
-                    <Download className="mr-2" size={16} />
-                    PDF
-                  </button>
-                </div>
-              </div>
-            )}
+      {/* User ID bottom center */}
+      <div className="absolute bottom-3 left-0 right-0 text-center text-xs opacity-90">
+        ID: {user.userId?.substring(0, 8)}...
+      </div>
+    </div>
+
+    {/* Download buttons */}
+    <div className="grid grid-cols-2 gap-3 mt-4">
+      <button
+        onClick={downloadCardPNG}
+        className="px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-center"
+      >
+        <Download className="mr-2" size={16} />
+        PNG
+      </button>
+      <button
+        onClick={downloadCardPDF}
+        className="px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-center"
+      >
+        <Download className="mr-2" size={16} />
+        PDF
+      </button>
+    </div>
+  </div>
+)}
+
           </div>
         </div>
       </div>
