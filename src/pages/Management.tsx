@@ -170,7 +170,6 @@ const Leaders = () => {
   ];
 
   const localCoordinators = [
-    { name: "Muhammad Fakhr", city: "Islamabad", region: "Federal" },
     { name: "Qazi Talha", city: "Rahim Yar Khan", region: "Lower Punjab" },
     { name: "Usama Bhutta", city: "Dera Ghazi Khan", region: "Lower Punjab" },
     { name: "Khurram", city: "Hassan Abdal", region: "Upper Punjab" },
@@ -180,7 +179,8 @@ const Leaders = () => {
     { name: "Ali Sher", city: "Peshawar", region: "KPK" },
     { name: "Amjad", city: "Lower Dir", region: "KPK" },
     { name: "Sikandar Khan", city: "Hayatabad", region: "KPK" },
-    { name: "Muhammad Shoaib", city: "Chakdara", region: "KPK" }
+    { name: "Muhammad Shoaib", city: "Chakdara", region: "KPK" },
+    { name: "Muhammad Fakhr", city: "Islamabad", region: "Federal" }
   ];
 
   return (
