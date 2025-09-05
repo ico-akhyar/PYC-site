@@ -42,7 +42,7 @@ const Dashboard = () => {
 
   const handleLogin = () => {
     // Simple authentication - in production, use proper authentication
-    if (credentials.username === 'senbro!' && credentials.password === 'sen@2612.') {
+    if (credentials.username === 'pycadmin' && credentials.password === 'admin@pyc.pti') {
       setIsAuthenticated(true);
       localStorage.setItem('pti_auth', 'true');
     } else {
