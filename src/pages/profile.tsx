@@ -321,7 +321,7 @@ export default function ProfilePage() {
     try {
       const html2canvas = (await import("html2canvas")).default;
       const canvas = await html2canvas(cardRef.current, { 
-        scale: 4,                // higher scale → crisp output
+        scale: 8,                // higher scale → crisp output
         backgroundColor: "#ffffff" // fallback white background
       });
       const dataUrl = canvas.toDataURL("image/png");
@@ -341,7 +341,7 @@ export default function ProfilePage() {
       const html2canvas = (await import("html2canvas")).default;
       const { jsPDF } = await import("jspdf");
       const canvas = await html2canvas(cardRef.current, { 
-        scale: 4,
+        scale: 8,
         backgroundColor: "#ffffff"
       });
       const imgData = canvas.toDataURL("image/png");
@@ -615,15 +615,15 @@ export default function ProfilePage() {
         <div className="flex items-center gap-4">
           <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center overflow-hidden">
             <img
-              src="/assets/pyc_logo.webp"
+              src="/assets/pyc_logo_webp.webp"
               alt="Team Logo"
               className="w-10 h-10 object-contain"
             />
           </div>
           <div>
-            <div className="text-xs opacity-80">Pakistan Youth Council</div>
+            <div className="text-xs opacity-90">Pakistan Youth Council</div>
             <div className="text-lg font-bold leading-tight">{user?.name}</div>
-            <div className="text-xs opacity-80 mt-1">
+            <div className="text-xs opacity-90 mt-1">
               Member since: {formatDatePretty(user.memberSince)}
             </div>
           </div>
