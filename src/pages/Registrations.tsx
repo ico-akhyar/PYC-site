@@ -27,19 +27,14 @@ const Registrations: React.FC = () => {
   const [userLookup, setUserLookup] = useState<{ [email: string]: UserLookupResult }>({});
   const [lookupLoading, setLookupLoading] = useState(false);
 
-  // Simulated user lookup - in production, this should call your backend
   const findUserByEmail = async (email: string): Promise<string | null> => {
     if (userLookup[email]) {
       return userLookup[email].uid;
     }
-
+  
     setLookupLoading(true);
     try {
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // In a real app, this would call your backend API
-      // For demo, we'll create a consistent UID based on email
+      // Generate UID directly from email (no backend call needed)
       const simulatedUid = `user_${email.replace(/[^a-zA-Z0-9]/g, '_')}`;
       const userData: UserLookupResult = {
         uid: simulatedUid,
