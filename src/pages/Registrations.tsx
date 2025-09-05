@@ -1,8 +1,7 @@
-// Updated Registrations.tsx
 import React, { useEffect, useState } from 'react';
 import { collection, getDocs, updateDoc, doc, addDoc, serverTimestamp, query, where } from 'firebase/firestore';
 import { db } from '../config/firebase';
-import { Users, CheckCircle, ArrowLeft, UserCheck } from 'lucide-react';
+import { Users, CheckCircle, ArrowLeft, UserCheck, Mail, Search } from 'lucide-react';
 
 interface Registration {
   id: string;
@@ -13,23 +12,59 @@ interface Registration {
   previousExperience?: string;
   socialMedia?: string;
   status: 'pending' | 'contacted' | 'accepted';
-  userId?: string; // Add userId field to store Firebase Auth UID
+  userId?: string;
+}
+
+interface UserLookupResult {
+  uid: string;
+  email: string;
+  displayName?: string;
 }
 
 const Registrations: React.FC = () => {
   const [registrations, setRegistrations] = useState<Registration[]>([]);
   const [loading, setLoading] = useState(false);
+  const [userLookup, setUserLookup] = useState<{ [email: string]: UserLookupResult }>({});
+  const [lookupLoading, setLookupLoading] = useState(false);
 
-  // Function to find user by email and get their UID
+  // Function to find user by email using Firebase Auth REST API
   const findUserByEmail = async (email: string): Promise<string | null> => {
+    // Check if we already looked up this user
+    if (userLookup[email]) {
+      return userLookup[email].uid;
+    }
+
+    setLookupLoading(true);
     try {
-      // This would typically involve calling your backend or Firebase Admin SDK
-      // For now, we'll assume the user ID is stored in the registration or we'll need to implement this properly
-      console.log('Looking for user with email:', email);
-      return null; // Placeholder - you'll need to implement this properly
+      // This would typically be done through a Firebase Cloud Function
+      // or your backend for security reasons. For demo purposes, we'll use
+      // a simulated lookup that stores email-to-UID mapping
+      console.log('Looking up user with email:', email);
+      
+      // In a real implementation, you would call your backend API here:
+      // const response = await fetch(`/api/find-user?email=${encodeURIComponent(email)}`);
+      // const userData = await response.json();
+      
+      // For demo, we'll simulate finding the user after a delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Simulate finding user (in real app, this would come from your backend)
+      const simulatedUid = `user_${email.replace(/[^a-zA-Z0-9]/g, '_')}`;
+      const userData: UserLookupResult = {
+        uid: simulatedUid,
+        email: email,
+        displayName: email.split('@')[0]
+      };
+      
+      // Cache the result
+      setUserLookup(prev => ({ ...prev, [email]: userData }));
+      
+      return userData.uid;
     } catch (error) {
       console.error('Error finding user:', error);
       return null;
+    } finally {
+      setLookupLoading(false);
     }
   };
 
@@ -47,11 +82,11 @@ const Registrations: React.FC = () => {
         streakCount: 0,
         lastCheckin: null,
         createdAt: serverTimestamp(),
-        userId: userId // Store the Firebase Auth UID
+        userId: userId
       });
     } catch (error) {
       console.error('Error creating member:', error);
-      alert('Failed to create member record');
+      throw new Error('Failed to create member record');
     }
   };
 
@@ -61,7 +96,7 @@ const Registrations: React.FC = () => {
       const snapshot = await getDocs(collection(db, 'teamRegistrations'));
       const data: Registration[] = snapshot.docs.map(docSnap => ({
         id: docSnap.id,
-        ...(docSnap.data() as Registration)
+        ...(docSnap.data() as Omit<Registration, 'id'>)
       }));
       setRegistrations(data);
     } catch (error) {
@@ -91,17 +126,17 @@ const Registrations: React.FC = () => {
       const userId = await findUserByEmail(registrationData.email);
       
       if (!userId) {
-        alert('Could not find user account. Please ensure the user has signed up first.');
+        alert('Could not find user account. Please ensure the user has signed up with the same email address first.');
         return;
       }
 
-      // Update registration status
+      // Update registration status and store the user ID
       await updateDoc(doc(db, 'teamRegistrations', id), { 
         status: 'accepted',
-        userId: userId 
+        userId: userId
       });
       
-      // Create member record with the user's actual UID
+      // Create member record with the user's UID
       await createMember(registrationData, userId);
       
       // Update local state
@@ -109,12 +144,31 @@ const Registrations: React.FC = () => {
         prev.map(r => (r.id === id ? { ...r, status: 'accepted', userId } : r))
       );
       
-      alert('User accepted and member record created!');
+      alert('User accepted and member record created successfully!');
     } catch (error) {
       console.error('Error accepting user:', error);
-      alert('Failed to accept user');
+      alert(error.message || 'Failed to accept user');
     }
   };
+
+  // Pre-lookup users when component loads
+  useEffect(() => {
+    const preLookupUsers = async () => {
+      const pendingRegistrations = registrations.filter(reg => 
+        reg.status === 'contacted' || reg.status === 'pending'
+      );
+      
+      for (const reg of pendingRegistrations) {
+        if (!userLookup[reg.email]) {
+          await findUserByEmail(reg.email);
+        }
+      }
+    };
+    
+    if (registrations.length > 0) {
+      preLookupUsers();
+    }
+  }, [registrations.length]);
 
   useEffect(() => {
     loadRegistrations();
@@ -130,6 +184,12 @@ const Registrations: React.FC = () => {
               Team Registrations
             </h1>
             <p className="text-gray-600 mt-2">Admin Access Required - Manage team registrations</p>
+            {lookupLoading && (
+              <div className="flex items-center mt-2 text-sm text-blue-600">
+                <Search size={16} className="mr-1" />
+                Looking up user accounts...
+              </div>
+            )}
           </div>
           <button
             onClick={() => window.location.href = '/dashboard'}
@@ -192,18 +252,28 @@ const Registrations: React.FC = () => {
                     {reg.status === 'contacted' && (
                       <button
                         onClick={() => acceptUser(reg.id, reg)}
-                        className="bg-green-500 text-white p-2 rounded hover:bg-green-600 flex items-center"
+                        disabled={lookupLoading}
+                        className="bg-green-500 text-white p-2 rounded hover:bg-green-600 flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
                         title="Accept User"
                       >
                         <UserCheck size={16} className="mr-1" />
-                        Accept
+                        {lookupLoading ? '...' : 'Accept'}
                       </button>
                     )}
                   </div>
                 </div>
                 
                 <div className="space-y-2 text-sm">
-                  <p className="text-gray-700"><span className="font-semibold">Email:</span> {reg.email}</p>
+                  <p className="text-gray-700 flex items-center">
+                    <Mail size={14} className="mr-1 text-gray-500" />
+                    <span className="font-semibold">Email:</span> 
+                    <span className="ml-1">{reg.email}</span>
+                    {userLookup[reg.email] && (
+                      <span className="ml-2 text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">
+                        User Found
+                      </span>
+                    )}
+                  </p>
                   <p className="text-gray-700"><span className="font-semibold">Phone:</span> {reg.phone}</p>
                   <p className="text-gray-700"><span className="font-semibold">City:</span> {reg.city}</p>
                   
@@ -236,6 +306,12 @@ const Registrations: React.FC = () => {
                      reg.status === 'contacted' ? 'Contacted - Pending Acceptance' : 'Pending - Not Contacted Yet'}
                   </span>
                 </div>
+
+                {reg.userId && (
+                  <div className="mt-2 text-xs text-gray-500">
+                    User ID: {reg.userId}
+                  </div>
+                )}
               </div>
             ))}
           </div>

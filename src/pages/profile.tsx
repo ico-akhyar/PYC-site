@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from '../contexts/AuthContext';
 import { db } from '../config/firebase';
-import { doc, getDoc, updateDoc, serverTimestamp, collection, query, where, getDocs } from 'firebase/firestore';
-import { User, Mail, Phone, MapPin, Calendar, Award, Download, CheckCircle, Clock } from 'lucide-react';
+import { doc, getDoc, updateDoc, serverTimestamp, collection, query, where, getDocs, addDoc } from 'firebase/firestore';
+import { User, Mail, Phone, MapPin, Calendar, Award, Download, CheckCircle, Clock, Save } from 'lucide-react';
 
 type UserData = {
   id?: string;
@@ -47,7 +47,14 @@ export default function ProfilePage() {
       
       if (!membersSnapshot.empty) {
         const memberDoc = membersSnapshot.docs[0];
-        setUser({ id: memberDoc.id, ...memberDoc.data() });
+        const memberData = memberDoc.data();
+        setUser({ 
+          id: memberDoc.id, 
+          ...memberData,
+          // Ensure social field is properly structured
+          social: typeof memberData.social === 'object' ? memberData.social : {}
+        });
+        setLoading(false);
         return;
       }
 
@@ -60,7 +67,13 @@ export default function ProfilePage() {
       
       if (!registrationsSnapshot.empty) {
         const regDoc = registrationsSnapshot.docs[0];
-        setUser({ id: regDoc.id, ...regDoc.data() });
+        const regData = regDoc.data();
+        setUser({ 
+          id: regDoc.id, 
+          ...regData,
+          social: typeof regData.social === 'object' ? regData.social : {}
+        });
+        setLoading(false);
         return;
       }
 
@@ -73,7 +86,13 @@ export default function ProfilePage() {
       
       if (!emailRegistrationsSnapshot.empty) {
         const regDoc = emailRegistrationsSnapshot.docs[0];
-        setUser({ id: regDoc.id, ...regDoc.data() });
+        const regData = regDoc.data();
+        setUser({ 
+          id: regDoc.id, 
+          ...regData,
+          social: typeof regData.social === 'object' ? regData.social : {}
+        });
+        setLoading(false);
         return;
       }
 
@@ -81,7 +100,8 @@ export default function ProfilePage() {
       setUser({
         name: currentUser.displayName || '',
         email: currentUser.email || '',
-        status: 'pending'
+        status: 'pending',
+        social: {}
       });
     } catch (error) {
       console.error('Error loading profile:', error);
@@ -96,6 +116,13 @@ export default function ProfilePage() {
     setUser(prev => prev ? { ...prev, [field]: value } : prev);
   }
 
+  function updateSocialField(field: string, value: string) {
+    setUser(prev => prev ? { 
+      ...prev, 
+      social: { ...(prev.social || {}), [field]: value } 
+    } : prev);
+  }
+
   async function saveProfile() {
     if (!user || !currentUser) return;
     setSaving(true);
@@ -107,9 +134,27 @@ export default function ProfilePage() {
       if (user.status === 'accepted' && user.id) {
         // Update in members collection
         docRef = doc(db, 'members', user.id);
+        await updateDoc(docRef, {
+          name: user.name,
+          phone: user.phone,
+          city: user.city,
+          social: user.social || {},
+          previousExperience: user.previousExperience,
+          socialMedia: user.socialMedia,
+          updatedAt: serverTimestamp()
+        });
       } else if (user.id) {
         // Update in registrations collection
         docRef = doc(db, 'teamRegistrations', user.id);
+        await updateDoc(docRef, {
+          name: user.name,
+          phone: user.phone,
+          city: user.city,
+          social: user.social || {},
+          previousExperience: user.previousExperience,
+          socialMedia: user.socialMedia,
+          updatedAt: serverTimestamp()
+        });
       } else {
         // Create new registration if no ID exists
         const newDoc = await addDoc(collection(db, 'teamRegistrations'), {
@@ -117,7 +162,7 @@ export default function ProfilePage() {
           email: currentUser.email,
           phone: user.phone,
           city: user.city,
-          social: user.social,
+          social: user.social || {},
           previousExperience: user.previousExperience,
           socialMedia: user.socialMedia,
           status: 'pending',
@@ -130,15 +175,6 @@ export default function ProfilePage() {
         setTimeout(() => setMessage(null), 3000);
         return;
       }
-      
-      await updateDoc(docRef, {
-        name: user.name,
-        phone: user.phone,
-        city: user.city,
-        social: user.social,
-        previousExperience: user.previousExperience,
-        socialMedia: user.socialMedia
-      });
       
       setMessage("Profile saved successfully!");
     } catch (error) {
@@ -154,7 +190,11 @@ export default function ProfilePage() {
     if (!timestamp) return "-";
     try {
       const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
-      return date.toLocaleDateString();
+      return date.toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+      });
     } catch {
       return "-";
     }
@@ -214,7 +254,7 @@ export default function ProfilePage() {
         // Update local state
         setUser(prev => prev ? { 
           ...prev, 
-          lastCheckin: { toDate: () => today },
+          lastCheckin: serverTimestamp(),
           streakCount: newStreak
         } : prev);
         
@@ -235,7 +275,10 @@ export default function ProfilePage() {
     if (!cardRef.current) return;
     try {
       const html2canvas = (await import("html2canvas")).default;
-      const canvas = await html2canvas(cardRef.current, { scale: 2 });
+      const canvas = await html2canvas(cardRef.current, { 
+        scale: 2,
+        backgroundColor: null
+      });
       const dataUrl = canvas.toDataURL("image/png");
       const a = document.createElement("a");
       a.href = dataUrl;
@@ -252,15 +295,18 @@ export default function ProfilePage() {
     try {
       const html2canvas = (await import("html2canvas")).default;
       const { jsPDF } = await import("jspdf");
-      const canvas = await html2canvas(cardRef.current, { scale: 2 });
+      const canvas = await html2canvas(cardRef.current, { 
+        scale: 2,
+        backgroundColor: null
+      });
       const imgData = canvas.toDataURL("image/png");
 
       const pdf = new jsPDF({
         orientation: "landscape",
         unit: "pt",
-        format: [canvas.width + 40, canvas.height + 40],
+        format: [canvas.width, canvas.height],
       });
-      pdf.addImage(imgData, "PNG", 20, 20, canvas.width, canvas.height);
+      pdf.addImage(imgData, "PNG", 0, 0, canvas.width, canvas.height);
       pdf.save(`${(user?.name || "member").replace(/\s+/g,"_")}-card.pdf`);
     } catch (err) {
       setMessage("Could not generate PDF.");
@@ -366,7 +412,7 @@ export default function ProfilePage() {
                 <label className="block text-sm text-gray-600 mb-2">Twitter</label>
                 <input
                   value={user?.social?.twitter || ""}
-                  onChange={(e) => updateField("social", { ...(user?.social || {}), twitter: e.target.value })}
+                  onChange={(e) => updateSocialField("twitter", e.target.value)}
                   placeholder="@username"
                   className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                 />
@@ -375,7 +421,7 @@ export default function ProfilePage() {
                 <label className="block text-sm text-gray-600 mb-2">Instagram</label>
                 <input
                   value={user?.social?.instagram || ""}
-                  onChange={(e) => updateField("social", { ...(user?.social || {}), instagram: e.target.value })}
+                  onChange={(e) => updateSocialField("instagram", e.target.value)}
                   placeholder="@username"
                   className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                 />
@@ -384,7 +430,7 @@ export default function ProfilePage() {
                 <label className="block text-sm text-gray-600 mb-2">LinkedIn</label>
                 <input
                   value={user?.social?.linkedin || ""}
-                  onChange={(e) => updateField("social", { ...(user?.social || {}), linkedin: e.target.value })}
+                  onChange={(e) => updateSocialField("linkedin", e.target.value)}
                   placeholder="linkedin.com/in/username"
                   className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                 />
@@ -395,11 +441,16 @@ export default function ProfilePage() {
               <button
                 onClick={saveProfile}
                 disabled={saving}
-                className="bg-gradient-to-r from-red-500 to-red-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-red-600 hover:to-red-700 transition-all duration-200 flex items-center"
+                className="bg-gradient-to-r from-red-500 to-red-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-red-600 hover:to-red-700 transition-all duration-200 flex items-center disabled:opacity-50"
               >
+                <Save size={18} className="mr-2" />
                 {saving ? "Saving..." : "Save Profile"}
               </button>
-              {message && <div className="text-sm text-green-600">{message}</div>}
+              {message && (
+                <div className={`text-sm ${message.includes('Failed') ? 'text-red-600' : 'text-green-600'}`}>
+                  {message}
+                </div>
+              )}
             </div>
           </div>
 
@@ -420,9 +471,15 @@ export default function ProfilePage() {
                       Accepted Member
                     </span>
                   ) : user?.status === "contacted" ? (
-                    <span className="text-blue-600">Contacted / In review</span>
+                    <span className="text-blue-600 flex items-center">
+                      <Clock className="mr-1" size={18} />
+                      Contacted / In review
+                    </span>
                   ) : (
-                    <span className="text-gray-600">Pending Registration</span>
+                    <span className="text-gray-600 flex items-center">
+                      <Clock className="mr-1" size={18} />
+                      Pending Registration
+                    </span>
                   )}
                 </div>
               </div>
@@ -437,30 +494,32 @@ export default function ProfilePage() {
                 </div>
               )}
 
-              <div className="pt-4 border-t">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className="text-sm text-gray-500">Daily streak</div>
-                    <div className="text-2xl font-bold text-red-600">{user?.streakCount || 0} days</div>
-                    <div className="text-xs text-gray-500">
-                      Last check-in: {user?.lastCheckin ? formatDatePretty(user.lastCheckin) : "Never"}
+              {user?.status === "accepted" && (
+                <div className="pt-4 border-t">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <div className="text-sm text-gray-500">Daily streak</div>
+                      <div className="text-2xl font-bold text-red-600">{user?.streakCount || 0} days</div>
+                      <div className="text-xs text-gray-500">
+                        Last check-in: {user?.lastCheckin ? formatDatePretty(user.lastCheckin) : "Never"}
+                      </div>
                     </div>
-                  </div>
 
-                  <button
-                    onClick={doCheckin}
-                    disabled={hasCheckedInToday() || checkinLoading || user?.status !== 'accepted'}
-                    className={`px-4 py-2 rounded-lg flex items-center ${
-                      hasCheckedInToday() || user?.status !== 'accepted' 
-                        ? "bg-gray-300 text-gray-500" 
-                        : "bg-green-500 text-white hover:bg-green-600"
-                    }`}
-                  >
-                    <Clock className="mr-2" size={16} />
-                    {checkinLoading ? "Checking..." : hasCheckedInToday() ? "Checked In" : "Check In"}
-                  </button>
+                    <button
+                      onClick={doCheckin}
+                      disabled={hasCheckedInToday() || checkinLoading}
+                      className={`px-4 py-2 rounded-lg flex items-center transition-all ${
+                        hasCheckedInToday()
+                          ? "bg-gray-300 text-gray-500 cursor-not-allowed" 
+                          : "bg-green-500 text-white hover:bg-green-600"
+                      }`}
+                    >
+                      <Clock className="mr-2" size={16} />
+                      {checkinLoading ? "Checking..." : hasCheckedInToday() ? "Checked In" : "Check In"}
+                    </button>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
 
             {user?.status === "accepted" && (
@@ -470,32 +529,35 @@ export default function ProfilePage() {
                   Membership Card
                 </h2>
 
-                <div ref={cardRef} className="p-4 rounded-xl bg-gradient-to-r from-red-500 to-green-500 text-white mb-4">
-                  <div className="flex items-center gap-4">
+                <div ref={cardRef} className="p-6 rounded-xl bg-gradient-to-r from-red-500 to-green-500 text-white mb-4">
+                  <div className="flex items-center gap-4 mb-4">
                     <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center">
                       <User className="text-red-500" size={32} />
                     </div>
                     <div>
                       <div className="text-sm opacity-80">Pakistan Youth Council</div>
                       <div className="text-xl font-bold">{user?.name}</div>
-                      <div className="text-xs opacity-80">
+                      <div className="text-xs opacity-80 mt-1">
                         Member since: {formatDatePretty(user.memberSince)}
                       </div>
                     </div>
                   </div>
+                  <div className="text-xs opacity-80 text-center">
+                    ID: {user.userId?.substring(0, 8)}...
+                  </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-2 gap-3">
                   <button 
                     onClick={downloadCardPNG} 
-                    className="px-3 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-center"
+                    className="px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-center"
                   >
                     <Download className="mr-2" size={16} />
                     PNG
                   </button>
                   <button 
                     onClick={downloadCardPDF} 
-                    className="px-3 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-center"
+                    className="px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-center"
                   >
                     <Download className="mr-2" size={16} />
                     PDF
