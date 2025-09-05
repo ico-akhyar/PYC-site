@@ -616,7 +616,7 @@ export default function ProfilePage() {
           style={{
             fontSize: "32px",
             opacity: 0.08,
-            transform: "rotate(-30deg)",
+            transform: "rotate(-25deg)",
             whiteSpace: "nowrap",
           }}
         >
@@ -632,7 +632,7 @@ export default function ProfilePage() {
             <img
               src="/assets/pyc_logo_webp.webp"
               alt="Team Logo"
-              className="w-16 h-16 object-contain"
+              className="w-14 h-14 object-contain"
             />
           </div>
           <div>
