@@ -170,12 +170,11 @@ const Leaders = () => {
   ];
 
   const localCoordinators = [
-    { name: "Qazi Talha", city: "Rahim Yar Khan", region: "Lower Punjab" },
-    { name: "Usama Bhutta", city: "Dera Ghazi Khan", region: "Lower Punjab" },
-    { name: "Khurram", city: "Hassan Abdal", region: "Upper Punjab" },
-    { name: "Hub-e-Ali", city: "Wah Cantt.", region: "Upper Punjab" },
-    { name: "Naheem", city: "Rawalpindi", region: "Upper Punjab" },
-    { name: "Muhammad Umar", city: "Rawalpindi", region: "Upper Punjab" },
+    { name: "Qazi Talha", city: "Rahim Yar Khan", region: "Punjab" },
+    { name: "Usama Bhutta", city: "Dera Ghazi Khan", region: "Punjab" },
+    { name: "Khurram", city: "Hassan Abdal", region: "Punjab" },
+    { name: "Hub-e-Ali", city: "Wah Cantt.", region: "Punjab" },
+    { name: "Muhammad Umar", city: "Rawalpindi", region: "Punjab" },
     { name: "Ali Sher", city: "Peshawar", region: "KPK" },
     { name: "Amjad", city: "Lower Dir", region: "KPK" },
     { name: "Sikandar Khan", city: "Hayatabad", region: "KPK" },
