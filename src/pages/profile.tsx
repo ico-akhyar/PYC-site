@@ -609,6 +609,21 @@ export default function ProfilePage() {
         }}
       ></div>
 
+      {/* Watermark text */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <span
+          className="text-white font-bold select-none"
+          style={{
+            fontSize: "64px",
+            opacity: 0.08,
+            transform: "rotate(-30deg)",
+            whiteSpace: "nowrap",
+          }}
+        >
+          PYC MEMBERSHIP
+        </span>
+      </div>
+
       {/* Content Layer */}
       <div className="relative z-10 h-full flex flex-col justify-between">
         {/* Logo + user info */}
@@ -635,24 +650,21 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      {/* Bottom ribbon strip */}
+      {/* Bottom double ribbon strips */}
       <div
         className="absolute bottom-0 left-0 w-full h-8"
         style={{
           background: "linear-gradient(135deg, #dc2626, #16a34a)",
           clipPath: "polygon(0 100%, 100% 0, 100% 100%)",
         }}
-        
-      >
-        <div
-        className="absolute bottom-0 left-0 w-full h-8"
+      ></div>
+      <div
+        className="absolute bottom-0 left-0 w-full h-6 opacity-80"
         style={{
           background: "linear-gradient(45deg, #dc2626, #16a34a)",
           clipPath: "polygon(0 100%, 100% 0, 100% 100%)",
         }}
-        
-      >
-      </div>
+      ></div>
     </div>
 
     {/* Download buttons */}
@@ -674,8 +686,6 @@ export default function ProfilePage() {
     </div>
   </div>
 )}
-
-
           </div>
         </div>
       </div>
