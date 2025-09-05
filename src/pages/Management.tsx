@@ -238,7 +238,7 @@ const Leaders = () => {
           </div>
         </section>
 
-        Senior Leaders Section
+        {/* Senior Leaders Section
         <section className="mb-16">
           <div className="text-center mb-12 bg-white rounded-2xl shadow-xl p-8 border-t-4 border-red-500">
             <h2 className="text-4xl font-bold bg-gradient-to-r from-red-600 to-green-600 bg-clip-text text-transparent mb-4 flex items-center justify-center">
@@ -266,7 +266,7 @@ const Leaders = () => {
               </div>
             ))}
           </div>
-        </section>
+        </section> */}
 
         {/* PYC Social Media Team */}
         <section className="mb-16">
