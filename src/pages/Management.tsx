@@ -303,7 +303,7 @@ const Leaders = () => {
           <div className="text-center mb-12 bg-white rounded-2xl shadow-xl p-8 border-t-4 border-blue-500">
             <h2 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent mb-4 flex items-center justify-center">
               <MapPin className="mr-3 text-blue-500" size={32} />
-              Local Body Coordinators
+              District Coordinators
             </h2>
             <p className="text-xl text-gray-700">PYC Social Media Team coordinators across Pakistan</p>
           </div>
