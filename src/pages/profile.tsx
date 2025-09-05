@@ -614,7 +614,7 @@ export default function ProfilePage() {
         <span
           className="text-white font-bold select-none"
           style={{
-            fontSize: "64px",
+            fontSize: "32px",
             opacity: 0.08,
             transform: "rotate(-30deg)",
             whiteSpace: "nowrap",
