@@ -16,6 +16,7 @@ import { useAuth } from './contexts/AuthContext';
 import TeamRegistration from './pages/Registration';
 import Showcase from './pages/Showcase';
 import Registrations from './pages/Registrations';
+import ProfilePage from './pages/profile';
 
 function App() {
   const { currentUser, userLoggedIn } = useAuth();
@@ -50,7 +51,7 @@ function App() {
               <Route path="/team-incharge" element={<Showcase />} />
               <Route path="/team-registration" element={<TeamRegistration />} />
               <Route path="/registrations" element={<Registrations />} />
-              
+              <Route path="/profile" element={<ProfilePage />} />
             </Routes>
           </main>
           <Footer />
