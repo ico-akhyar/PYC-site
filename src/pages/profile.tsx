@@ -209,7 +209,8 @@ export default function ProfilePage() {
   function hasCheckedInToday() {
     if (!user || !user.lastCheckin) return false;
     try {
-      const lastCheckinDate = user.lastCheckin.toDate();
+      // Use new Date() to handle any type of date input
+      const lastCheckinDate = new Date(user.lastCheckin);
       const today = new Date();
       return lastCheckinDate.toDateString() === today.toDateString();
     } catch {
@@ -223,7 +224,12 @@ export default function ProfilePage() {
     setMessage(null);
     try {
       const today = new Date();
-      const lastCheckinDate = user.lastCheckin ? user.lastCheckin.toDate() : null;
+      let lastCheckinDate: Date | null = null;
+      
+      // Safely convert lastCheckin to Date object if it exists
+      if (user.lastCheckin) {
+        lastCheckinDate = new Date(user.lastCheckin);
+      }
       
       let newStreak = user.streakCount || 0;
       
