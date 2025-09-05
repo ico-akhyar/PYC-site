@@ -1,5 +1,4 @@
-import Link from "next/link";
-import Image from "next/image";
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 type User = {
