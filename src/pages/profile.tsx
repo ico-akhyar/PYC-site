@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from '../contexts/AuthContext';
 import { db } from '../config/firebase';
-import { doc, getDoc, updateDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, getDoc, updateDoc, serverTimestamp, collection, query, where, getDocs } from 'firebase/firestore';
 import { User, Mail, Phone, MapPin, Calendar, Award, Download, CheckCircle, Clock } from 'lucide-react';
 
 type UserData = {
@@ -17,6 +17,7 @@ type UserData = {
   streakCount?: number;
   previousExperience?: string;
   socialMedia?: string;
+  userId?: string;
 };
 
 export default function ProfilePage() {
@@ -37,24 +38,51 @@ export default function ProfilePage() {
   const loadUserProfile = async () => {
     setLoading(true);
     try {
-      // Try to get user data from members collection first
-      const userDoc = await getDoc(doc(db, 'members', currentUser.uid));
+      // First try to find user in members collection by userId field
+      const membersQuery = query(
+        collection(db, 'members'), 
+        where('userId', '==', currentUser.uid)
+      );
+      const membersSnapshot = await getDocs(membersQuery);
       
-      if (userDoc.exists()) {
-        setUser({ id: userDoc.id, ...userDoc.data() });
-      } else {
-        // Fallback to registrations if not yet a member
-        const regDoc = await getDoc(doc(db, 'teamRegistrations', currentUser.uid));
-        if (regDoc.exists()) {
-          setUser({ id: regDoc.id, ...regDoc.data() });
-        } else {
-          setUser({
-            name: currentUser.displayName || '',
-            email: currentUser.email || '',
-            status: 'pending'
-          });
-        }
+      if (!membersSnapshot.empty) {
+        const memberDoc = membersSnapshot.docs[0];
+        setUser({ id: memberDoc.id, ...memberDoc.data() });
+        return;
       }
+
+      // If not found in members, try registrations collection by userId
+      const registrationsQuery = query(
+        collection(db, 'teamRegistrations'), 
+        where('userId', '==', currentUser.uid)
+      );
+      const registrationsSnapshot = await getDocs(registrationsQuery);
+      
+      if (!registrationsSnapshot.empty) {
+        const regDoc = registrationsSnapshot.docs[0];
+        setUser({ id: regDoc.id, ...regDoc.data() });
+        return;
+      }
+
+      // Fallback: try to find by email (for backward compatibility)
+      const emailRegistrationsQuery = query(
+        collection(db, 'teamRegistrations'), 
+        where('email', '==', currentUser.email)
+      );
+      const emailRegistrationsSnapshot = await getDocs(emailRegistrationsQuery);
+      
+      if (!emailRegistrationsSnapshot.empty) {
+        const regDoc = emailRegistrationsSnapshot.docs[0];
+        setUser({ id: regDoc.id, ...regDoc.data() });
+        return;
+      }
+
+      // If nothing found, create basic user object
+      setUser({
+        name: currentUser.displayName || '',
+        email: currentUser.email || '',
+        status: 'pending'
+      });
     } catch (error) {
       console.error('Error loading profile:', error);
       setMessage('Failed to load profile data');
@@ -73,8 +101,36 @@ export default function ProfilePage() {
     setSaving(true);
     setMessage(null);
     try {
-      // Update in members collection if user is a member, otherwise update in registrations
-      const docRef = doc(db, user.status === 'accepted' ? 'members' : 'teamRegistrations', currentUser.uid);
+      // Determine which collection to update based on user status
+      let docRef;
+      
+      if (user.status === 'accepted' && user.id) {
+        // Update in members collection
+        docRef = doc(db, 'members', user.id);
+      } else if (user.id) {
+        // Update in registrations collection
+        docRef = doc(db, 'teamRegistrations', user.id);
+      } else {
+        // Create new registration if no ID exists
+        const newDoc = await addDoc(collection(db, 'teamRegistrations'), {
+          name: user.name,
+          email: currentUser.email,
+          phone: user.phone,
+          city: user.city,
+          social: user.social,
+          previousExperience: user.previousExperience,
+          socialMedia: user.socialMedia,
+          status: 'pending',
+          userId: currentUser.uid,
+          createdAt: serverTimestamp()
+        });
+        setUser(prev => prev ? { ...prev, id: newDoc.id, status: 'pending' } : prev);
+        setMessage("Profile saved successfully! Your registration is pending.");
+        setSaving(false);
+        setTimeout(() => setMessage(null), 3000);
+        return;
+      }
+      
       await updateDoc(docRef, {
         name: user.name,
         phone: user.phone,
@@ -116,7 +172,7 @@ export default function ProfilePage() {
   }
 
   async function doCheckin() {
-    if (!user || !currentUser) return;
+    if (!user || !currentUser || user.status !== 'accepted') return;
     setCheckinLoading(true);
     setMessage(null);
     try {
@@ -141,21 +197,31 @@ export default function ProfilePage() {
         newStreak = 1;
       }
       
-      // Update in Firestore
-      const docRef = doc(db, 'members', currentUser.uid);
-      await updateDoc(docRef, {
-        lastCheckin: serverTimestamp(),
-        streakCount: newStreak
-      });
+      // Update in Firestore - find the member document by userId
+      const membersQuery = query(
+        collection(db, 'members'), 
+        where('userId', '==', currentUser.uid)
+      );
+      const membersSnapshot = await getDocs(membersQuery);
       
-      // Update local state
-      setUser(prev => prev ? { 
-        ...prev, 
-        lastCheckin: { toDate: () => today },
-        streakCount: newStreak
-      } : prev);
-      
-      setMessage("Check-in recorded. Keep up the streak!");
+      if (!membersSnapshot.empty) {
+        const memberDoc = membersSnapshot.docs[0];
+        await updateDoc(doc(db, 'members', memberDoc.id), {
+          lastCheckin: serverTimestamp(),
+          streakCount: newStreak
+        });
+        
+        // Update local state
+        setUser(prev => prev ? { 
+          ...prev, 
+          lastCheckin: { toDate: () => today },
+          streakCount: newStreak
+        } : prev);
+        
+        setMessage("Check-in recorded. Keep up the streak!");
+      } else {
+        setMessage("Member record not found. Please contact admin.");
+      }
     } catch (error) {
       console.error('Error recording check-in:', error);
       setMessage("Failed to record check-in");
@@ -245,7 +311,7 @@ export default function ProfilePage() {
                 <div className="relative">
                   <Mail className="absolute left-3 top-3 text-gray-400" size={18} />
                   <input
-                    value={user?.email || ""}
+                    value={user?.email || currentUser?.email || ""}
                     readOnly
                     className="pl-10 w-full px-4 py-3 border rounded-lg bg-gray-50"
                   />

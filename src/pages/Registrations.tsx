@@ -1,6 +1,6 @@
 // Updated Registrations.tsx
 import React, { useEffect, useState } from 'react';
-import { collection, getDocs, updateDoc, doc, addDoc, serverTimestamp } from 'firebase/firestore';
+import { collection, getDocs, updateDoc, doc, addDoc, serverTimestamp, query, where } from 'firebase/firestore';
 import { db } from '../config/firebase';
 import { Users, CheckCircle, ArrowLeft, UserCheck } from 'lucide-react';
 
@@ -13,14 +13,27 @@ interface Registration {
   previousExperience?: string;
   socialMedia?: string;
   status: 'pending' | 'contacted' | 'accepted';
+  userId?: string; // Add userId field to store Firebase Auth UID
 }
 
 const Registrations: React.FC = () => {
   const [registrations, setRegistrations] = useState<Registration[]>([]);
   const [loading, setLoading] = useState(false);
 
-  // Add function to create member
-  const createMember = async (registrationData: Registration) => {
+  // Function to find user by email and get their UID
+  const findUserByEmail = async (email: string): Promise<string | null> => {
+    try {
+      // This would typically involve calling your backend or Firebase Admin SDK
+      // For now, we'll assume the user ID is stored in the registration or we'll need to implement this properly
+      console.log('Looking for user with email:', email);
+      return null; // Placeholder - you'll need to implement this properly
+    } catch (error) {
+      console.error('Error finding user:', error);
+      return null;
+    }
+  };
+
+  const createMember = async (registrationData: Registration, userId: string) => {
     try {
       await addDoc(collection(db, 'members'), {
         name: registrationData.name,
@@ -33,7 +46,8 @@ const Registrations: React.FC = () => {
         memberSince: serverTimestamp(),
         streakCount: 0,
         lastCheckin: null,
-        createdAt: serverTimestamp()
+        createdAt: serverTimestamp(),
+        userId: userId // Store the Firebase Auth UID
       });
     } catch (error) {
       console.error('Error creating member:', error);
@@ -58,7 +72,7 @@ const Registrations: React.FC = () => {
     }
   };
 
-  const toggleStatus = async (id: string, current: string, email: string) => {
+  const toggleStatus = async (id: string, current: string) => {
     const newStatus = current === 'pending' ? 'contacted' : 'pending';
     try {
       await updateDoc(doc(db, 'teamRegistrations', id), { status: newStatus });
@@ -71,18 +85,28 @@ const Registrations: React.FC = () => {
     }
   };
 
-  // Add function to accept user
   const acceptUser = async (id: string, registrationData: Registration) => {
     try {
-      // Update registration status
-      await updateDoc(doc(db, 'teamRegistrations', id), { status: 'accepted' });
+      // First try to find the user by email to get their UID
+      const userId = await findUserByEmail(registrationData.email);
       
-      // Create member record
-      await createMember(registrationData);
+      if (!userId) {
+        alert('Could not find user account. Please ensure the user has signed up first.');
+        return;
+      }
+
+      // Update registration status
+      await updateDoc(doc(db, 'teamRegistrations', id), { 
+        status: 'accepted',
+        userId: userId 
+      });
+      
+      // Create member record with the user's actual UID
+      await createMember(registrationData, userId);
       
       // Update local state
       setRegistrations(prev =>
-        prev.map(r => (r.id === id ? { ...r, status: 'accepted' } : r))
+        prev.map(r => (r.id === id ? { ...r, status: 'accepted', userId } : r))
       );
       
       alert('User accepted and member record created!');
@@ -155,9 +179,9 @@ const Registrations: React.FC = () => {
                         checked={reg.status === 'contacted' || reg.status === 'accepted'}
                         onChange={() => {
                           if (reg.status === 'pending') {
-                            toggleStatus(reg.id, reg.status, reg.email);
+                            toggleStatus(reg.id, reg.status);
                           } else if (reg.status === 'contacted') {
-                            toggleStatus(reg.id, reg.status, reg.email);
+                            toggleStatus(reg.id, reg.status);
                           }
                         }}
                         className="w-4 h-4 text-red-600 rounded focus:ring-red-500"
@@ -168,10 +192,11 @@ const Registrations: React.FC = () => {
                     {reg.status === 'contacted' && (
                       <button
                         onClick={() => acceptUser(reg.id, reg)}
-                        className="bg-green-500 text-white p-1 rounded hover:bg-green-600"
+                        className="bg-green-500 text-white p-2 rounded hover:bg-green-600 flex items-center"
                         title="Accept User"
                       >
-                        <UserCheck size={16} />
+                        <UserCheck size={16} className="mr-1" />
+                        Accept
                       </button>
                     )}
                   </div>
