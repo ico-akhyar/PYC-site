@@ -42,7 +42,20 @@ const Registrations: React.FC = () => {
   };
 
   const loadRegistrations = async () => {
-    // ... existing code ...
+    setLoading(true);
+    try {
+      const snapshot = await getDocs(collection(db, 'teamRegistrations'));
+      const data: Registration[] = snapshot.docs.map(docSnap => ({
+        id: docSnap.id,
+        ...(docSnap.data() as Registration)
+      }));
+      setRegistrations(data);
+    } catch (error) {
+      console.error('Error loading registrations:', error);
+      alert('Failed to load registrations');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const toggleStatus = async (id: string, current: string, email: string) => {
