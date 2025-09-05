@@ -28,6 +28,7 @@ export default function ProfilePage() {
   const [checkinLoading, setCheckinLoading] = useState(false);
   const { currentUser } = useAuth();
   const cardRef = useRef<HTMLDivElement | null>(null);
+  const [userDocId, setUserDocId] = useState<string | null>(null);
 
   useEffect(() => {
     if (currentUser) {
@@ -48,10 +49,10 @@ export default function ProfilePage() {
       if (!membersSnapshot.empty) {
         const memberDoc = membersSnapshot.docs[0];
         const memberData = memberDoc.data();
+        setUserDocId(memberDoc.id);
         setUser({ 
           id: memberDoc.id, 
           ...memberData,
-          // Ensure social field is properly structured
           social: typeof memberData.social === 'object' ? memberData.social : {}
         });
         setLoading(false);
@@ -68,6 +69,7 @@ export default function ProfilePage() {
       if (!registrationsSnapshot.empty) {
         const regDoc = registrationsSnapshot.docs[0];
         const regData = regDoc.data();
+        setUserDocId(regDoc.id);
         setUser({ 
           id: regDoc.id, 
           ...regData,
@@ -87,6 +89,7 @@ export default function ProfilePage() {
       if (!emailRegistrationsSnapshot.empty) {
         const regDoc = emailRegistrationsSnapshot.docs[0];
         const regData = regDoc.data();
+        setUserDocId(regDoc.id);
         setUser({ 
           id: regDoc.id, 
           ...regData,
@@ -103,6 +106,7 @@ export default function ProfilePage() {
         status: 'pending',
         social: {}
       });
+      setUserDocId(null);
     } catch (error) {
       console.error('Error loading profile:', error);
       setMessage('Failed to load profile data');
@@ -130,31 +134,16 @@ export default function ProfilePage() {
     try {
       // Determine which collection to update based on user status
       let docRef;
+      let collectionName;
       
-      if (user.status === 'accepted' && user.id) {
+      if (user.status === 'accepted' && userDocId) {
         // Update in members collection
-        docRef = doc(db, 'members', user.id);
-        await updateDoc(docRef, {
-          name: user.name,
-          phone: user.phone,
-          city: user.city,
-          social: user.social || {},
-          previousExperience: user.previousExperience,
-          socialMedia: user.socialMedia,
-          updatedAt: serverTimestamp()
-        });
-      } else if (user.id) {
+        collectionName = 'members';
+        docRef = doc(db, 'members', userDocId);
+      } else if (userDocId) {
         // Update in registrations collection
-        docRef = doc(db, 'teamRegistrations', user.id);
-        await updateDoc(docRef, {
-          name: user.name,
-          phone: user.phone,
-          city: user.city,
-          social: user.social || {},
-          previousExperience: user.previousExperience,
-          socialMedia: user.socialMedia,
-          updatedAt: serverTimestamp()
-        });
+        collectionName = 'teamRegistrations';
+        docRef = doc(db, 'teamRegistrations', userDocId);
       } else {
         // Create new registration if no ID exists
         const newDoc = await addDoc(collection(db, 'teamRegistrations'), {
@@ -169,17 +158,34 @@ export default function ProfilePage() {
           userId: currentUser.uid,
           createdAt: serverTimestamp()
         });
+        setUserDocId(newDoc.id);
         setUser(prev => prev ? { ...prev, id: newDoc.id, status: 'pending' } : prev);
         setMessage("Profile saved successfully! Your registration is pending.");
         setSaving(false);
         setTimeout(() => setMessage(null), 3000);
         return;
       }
+
+      // Verify the document exists before updating
+      const docSnap = await getDoc(docRef);
+      if (!docSnap.exists()) {
+        throw new Error(`Document not found in ${collectionName} collection`);
+      }
+
+      await updateDoc(docRef, {
+        name: user.name,
+        phone: user.phone,
+        city: user.city,
+        social: user.social || {},
+        previousExperience: user.previousExperience,
+        socialMedia: user.socialMedia,
+        updatedAt: serverTimestamp()
+      });
       
       setMessage("Profile saved successfully!");
     } catch (error) {
       console.error('Error saving profile:', error);
-      setMessage("Failed to save profile");
+      setMessage(error.message || "Failed to save profile");
     } finally {
       setSaving(false);
       setTimeout(() => setMessage(null), 3000);
@@ -237,7 +243,7 @@ export default function ProfilePage() {
         newStreak = 1;
       }
       
-      // Update in Firestore - find the member document by userId
+      // Find the member document by userId
       const membersQuery = query(
         collection(db, 'members'), 
         where('userId', '==', currentUser.uid)
@@ -260,7 +266,38 @@ export default function ProfilePage() {
         
         setMessage("Check-in recorded. Keep up the streak!");
       } else {
-        setMessage("Member record not found. Please contact admin.");
+        // If not found in members, try to create a member record
+        try {
+          const newMemberDoc = await addDoc(collection(db, 'members'), {
+            name: user.name,
+            email: user.email,
+            phone: user.phone,
+            city: user.city,
+            social: user.social || {},
+            previousExperience: user.previousExperience,
+            socialMedia: user.socialMedia,
+            status: 'accepted',
+            memberSince: serverTimestamp(),
+            streakCount: newStreak,
+            lastCheckin: serverTimestamp(),
+            userId: currentUser.uid,
+            createdAt: serverTimestamp()
+          });
+          
+          setUserDocId(newMemberDoc.id);
+          setUser(prev => prev ? { 
+            ...prev, 
+            lastCheckin: serverTimestamp(),
+            streakCount: newStreak,
+            status: 'accepted',
+            id: newMemberDoc.id
+          } : prev);
+          
+          setMessage("Member record created and check-in recorded!");
+        } catch (createError) {
+          console.error('Error creating member record:', createError);
+          setMessage("Member record not found and could not be created. Please contact admin.");
+        }
       }
     } catch (error) {
       console.error('Error recording check-in:', error);

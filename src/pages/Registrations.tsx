@@ -27,28 +27,19 @@ const Registrations: React.FC = () => {
   const [userLookup, setUserLookup] = useState<{ [email: string]: UserLookupResult }>({});
   const [lookupLoading, setLookupLoading] = useState(false);
 
-  // Function to find user by email using Firebase Auth REST API
+  // Simulated user lookup - in production, this should call your backend
   const findUserByEmail = async (email: string): Promise<string | null> => {
-    // Check if we already looked up this user
     if (userLookup[email]) {
       return userLookup[email].uid;
     }
 
     setLookupLoading(true);
     try {
-      // This would typically be done through a Firebase Cloud Function
-      // or your backend for security reasons. For demo purposes, we'll use
-      // a simulated lookup that stores email-to-UID mapping
-      console.log('Looking up user with email:', email);
-      
-      // In a real implementation, you would call your backend API here:
-      // const response = await fetch(`/api/find-user?email=${encodeURIComponent(email)}`);
-      // const userData = await response.json();
-      
-      // For demo, we'll simulate finding the user after a delay
+      // Simulate API call delay
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      // Simulate finding user (in real app, this would come from your backend)
+      // In a real app, this would call your backend API
+      // For demo, we'll create a consistent UID based on email
       const simulatedUid = `user_${email.replace(/[^a-zA-Z0-9]/g, '_')}`;
       const userData: UserLookupResult = {
         uid: simulatedUid,
@@ -56,7 +47,6 @@ const Registrations: React.FC = () => {
         displayName: email.split('@')[0]
       };
       
-      // Cache the result
       setUserLookup(prev => ({ ...prev, [email]: userData }));
       
       return userData.uid;
@@ -122,7 +112,7 @@ const Registrations: React.FC = () => {
 
   const acceptUser = async (id: string, registrationData: Registration) => {
     try {
-      // First try to find the user by email to get their UID
+      // Find the user by email to get their UID
       const userId = await findUserByEmail(registrationData.email);
       
       if (!userId) {
@@ -150,25 +140,6 @@ const Registrations: React.FC = () => {
       alert(error.message || 'Failed to accept user');
     }
   };
-
-  // Pre-lookup users when component loads
-  useEffect(() => {
-    const preLookupUsers = async () => {
-      const pendingRegistrations = registrations.filter(reg => 
-        reg.status === 'contacted' || reg.status === 'pending'
-      );
-      
-      for (const reg of pendingRegistrations) {
-        if (!userLookup[reg.email]) {
-          await findUserByEmail(reg.email);
-        }
-      }
-    };
-    
-    if (registrations.length > 0) {
-      preLookupUsers();
-    }
-  }, [registrations.length]);
 
   useEffect(() => {
     loadRegistrations();
@@ -309,7 +280,7 @@ const Registrations: React.FC = () => {
 
                 {reg.userId && (
                   <div className="mt-2 text-xs text-gray-500">
-                    User ID: {reg.userId}
+                    User ID: {reg.userId.substring(0, 8)}...
                   </div>
                 )}
               </div>
