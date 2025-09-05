@@ -642,7 +642,17 @@ export default function ProfilePage() {
           background: "linear-gradient(135deg, #dc2626, #16a34a)",
           clipPath: "polygon(0 100%, 100% 0, 100% 100%)",
         }}
-      ></div>
+        
+      >
+        <div
+        className="absolute bottom-0 left-0 w-full h-8"
+        style={{
+          background: "linear-gradient(45deg, #dc2626, #16a34a)",
+          clipPath: "polygon(0 100%, 100% 0, 100% 100%)",
+        }}
+        
+      >
+      </div>
     </div>
 
     {/* Download buttons */}
