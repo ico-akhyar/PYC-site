@@ -325,7 +325,7 @@ export default function ProfilePage() {
                 <div ref={cardRef} className="p-3 rounded shadow-sm bg-gradient-to-r from-white via-gray-50 to-white" style={{width:320}}>
                   <div className="flex items-center gap-3">
                     <div style={{width:72, height:72}} className="rounded overflow-hidden bg-gray-100 flex items-center justify-center">
-                      <Image src="/logo.png" alt="logo" width={72} height={72} />
+                      <img src="/logo.png" alt="logo" width={72} height={72} />
                     </div>
                     <div>
                       <div className="text-sm text-gray-500">Member</div>

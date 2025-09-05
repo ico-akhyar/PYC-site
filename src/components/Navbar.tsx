@@ -44,7 +44,7 @@ export default function Navbar() {
         <Link href="/">
           <a className="flex items-center gap-2">
             {/* replace /logo.png with your team logo */}
-            <Image src="/logo.png" alt="logo" width={36} height={36} />
+            <img src="/logo.png" alt="logo" width={36} height={36} />
             <span className="font-semibold text-lg">YourSite</span>
           </a>
         </Link>
