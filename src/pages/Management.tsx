@@ -148,9 +148,9 @@ const Leaders = () => {
 
   const pycTeam = [
     {
-      name: "PYC Leader 1",
-      position: "Social Media Director",
-      image: "#"
+      name: "Ahmed Raza",
+      position: "Team Incharge",
+      image: "/assets/main.webp"
     },
     {
       name: "PYC Leader 2",
@@ -170,14 +170,17 @@ const Leaders = () => {
   ];
 
   const localCoordinators = [
-    { name: "Coordinator 1", city: "Lahore", region: "Punjab" },
-    { name: "Coordinator 2", city: "Karachi", region: "Sindh" },
-    { name: "Coordinator 3", city: "Islamabad", region: "Federal Capital" },
-    { name: "Coordinator 4", city: "Peshawar", region: "KPK" },
-    { name: "Coordinator 5", city: "Quetta", region: "Balochistan" },
-    { name: "Coordinator 6", city: "Multan", region: "Punjab" },
-    { name: "Coordinator 7", city: "Faisalabad", region: "Punjab" },
-    { name: "Coordinator 8", city: "Rawalpindi", region: "Punjab" }
+    { name: "Muhammad Fakhr", city: "Islamabad", region: "Federal" },
+    { name: "Qazi Talha", city: "Rahim Yar Khan", region: "Lower Punjab" },
+    { name: "Usama Bhutta", city: "Dera Ghazi Khan", region: "Lower Punjab" },
+    { name: "Khurram", city: "Hassan Abdal", region: "Upper Punjab" },
+    { name: "Hub-e-Ali", city: "Wah Cantt.", region: "Upper Punjab" },
+    { name: "Naheem", city: "Rawalpindi", region: "Upper Punjab" },
+    { name: "Muhammad Umar", city: "Rawalpindi", region: "Upper Punjab" },
+    { name: "Ali Sher", city: "Peshawar", region: "KPK" },
+    { name: "Amjad", city: "Lower Dir", region: "KPK" },
+    { name: "Sikandar Khan", city: "Hayatabad", region: "KPK" },
+    { name: "Muhammad Shoaib", city: "Chakdara", region: "KPK" }
   ];
 
   return (
@@ -235,7 +238,7 @@ const Leaders = () => {
           </div>
         </section>
 
-        {/* Senior Leaders Section */}
+        Senior Leaders Section
         <section className="mb-16">
           <div className="text-center mb-12 bg-white rounded-2xl shadow-xl p-8 border-t-4 border-red-500">
             <h2 className="text-4xl font-bold bg-gradient-to-r from-red-600 to-green-600 bg-clip-text text-transparent mb-4 flex items-center justify-center">
