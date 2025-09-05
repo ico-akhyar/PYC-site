@@ -617,7 +617,7 @@ export default function ProfilePage() {
             <img
               src="/assets/pyc_logo_webp.webp"
               alt="Team Logo"
-              className="w-10 h-10 object-contain"
+              className="w-16 h-16 object-contain"
             />
           </div>
           <div>
