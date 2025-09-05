@@ -322,7 +322,7 @@ export default function ProfilePage() {
       const html2canvas = (await import("html2canvas")).default;
       const canvas = await html2canvas(cardRef.current, { 
         scale: 8,                // higher scale → crisp output
-        backgroundColor: "#ffffff" // fallback white background
+        backgroundColor: null // fallback white background
       });
       const dataUrl = canvas.toDataURL("image/png");
       const a = document.createElement("a");
@@ -342,7 +342,7 @@ export default function ProfilePage() {
       const { jsPDF } = await import("jspdf");
       const canvas = await html2canvas(cardRef.current, { 
         scale: 8,
-        backgroundColor: "#ffffff"
+        backgroundColor: null
       });
       const imgData = canvas.toDataURL("image/png");
   
@@ -578,7 +578,7 @@ export default function ProfilePage() {
   <div className="bg-white rounded-2xl shadow-lg p-6">
     <h2 className="text-xl font-semibold mb-4 flex items-center">
       <Download className="mr-2 text-blue-500" size={24} />
-      Membership Card
+      Digital Membership Card
     </h2>
 
     {/* Card preview */}
