@@ -1,8 +1,8 @@
 // Updated Registrations.tsx
 import React, { useEffect, useState } from 'react';
-import { collection, getDocs, updateDoc, doc } from 'firebase/firestore';
+import { collection, getDocs, updateDoc, doc, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../config/firebase';
-import { Users, CheckCircle, ArrowLeft } from 'lucide-react';
+import { Users, CheckCircle, ArrowLeft, UserCheck } from 'lucide-react';
 
 interface Registration {
   id: string;
@@ -12,31 +12,40 @@ interface Registration {
   city: string;
   previousExperience?: string;
   socialMedia?: string;
-  status: 'pending' | 'contacted';
+  status: 'pending' | 'contacted' | 'accepted';
 }
 
 const Registrations: React.FC = () => {
   const [registrations, setRegistrations] = useState<Registration[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const loadRegistrations = async () => {
-    setLoading(true);
+  // Add function to create member
+  const createMember = async (registrationData: Registration) => {
     try {
-      const snapshot = await getDocs(collection(db, 'teamRegistrations'));
-      const data: Registration[] = snapshot.docs.map(docSnap => ({
-        id: docSnap.id,
-        ...(docSnap.data() as Registration)
-      }));
-      setRegistrations(data);
+      await addDoc(collection(db, 'members'), {
+        name: registrationData.name,
+        email: registrationData.email,
+        phone: registrationData.phone,
+        city: registrationData.city,
+        previousExperience: registrationData.previousExperience || '',
+        socialMedia: registrationData.socialMedia || '',
+        status: 'accepted',
+        memberSince: serverTimestamp(),
+        streakCount: 0,
+        lastCheckin: null,
+        createdAt: serverTimestamp()
+      });
     } catch (error) {
-      console.error('Error loading registrations:', error);
-      alert('Failed to load registrations');
-    } finally {
-      setLoading(false);
+      console.error('Error creating member:', error);
+      alert('Failed to create member record');
     }
   };
 
-  const toggleStatus = async (id: string, current: string) => {
+  const loadRegistrations = async () => {
+    // ... existing code ...
+  };
+
+  const toggleStatus = async (id: string, current: string, email: string) => {
     const newStatus = current === 'pending' ? 'contacted' : 'pending';
     try {
       await updateDoc(doc(db, 'teamRegistrations', id), { status: newStatus });
@@ -46,6 +55,27 @@ const Registrations: React.FC = () => {
     } catch (error) {
       console.error('Error updating status:', error);
       alert('Failed to update status');
+    }
+  };
+
+  // Add function to accept user
+  const acceptUser = async (id: string, registrationData: Registration) => {
+    try {
+      // Update registration status
+      await updateDoc(doc(db, 'teamRegistrations', id), { status: 'accepted' });
+      
+      // Create member record
+      await createMember(registrationData);
+      
+      // Update local state
+      setRegistrations(prev =>
+        prev.map(r => (r.id === id ? { ...r, status: 'accepted' } : r))
+      );
+      
+      alert('User accepted and member record created!');
+    } catch (error) {
+      console.error('Error accepting user:', error);
+      alert('Failed to accept user');
     }
   };
 
@@ -91,24 +121,47 @@ const Registrations: React.FC = () => {
                 key={reg.id}
                 className={`p-6 rounded-xl shadow-lg transition-all duration-200 transform hover:scale-[1.02] ${
                   reg.status === 'contacted'
-                    ? 'bg-gray-100 border-2 border-gray-300' // Grey for contacted
-                    : 'bg-green-50 border-2 border-green-400' // Green for pending (not contacted yet)
+                    ? 'bg-blue-50 border-2 border-blue-400'
+                    : reg.status === 'accepted'
+                    ? 'bg-green-50 border-2 border-green-400'
+                    : 'bg-gray-50 border-2 border-gray-300'
                 }`}
               >
                 <div className="flex justify-between items-center mb-4">
                   <div className="flex items-center gap-2">
-                    <Users className={reg.status === 'contacted' ? 'text-gray-500' : 'text-green-600'} size={20} />
+                    <Users className={
+                      reg.status === 'accepted' ? 'text-green-600' : 
+                      reg.status === 'contacted' ? 'text-blue-600' : 'text-gray-500'
+                    } size={20} />
                     <h3 className="text-lg font-bold text-gray-800">{reg.name}</h3>
                   </div>
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={reg.status === 'contacted'}
-                      onChange={() => toggleStatus(reg.id, reg.status)}
-                      className="w-4 h-4 text-red-600 rounded focus:ring-red-500"
-                    />
-                    <span className="text-sm text-gray-600">Contacted</span>
-                  </label>
+                  <div className="flex items-center gap-2">
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={reg.status === 'contacted' || reg.status === 'accepted'}
+                        onChange={() => {
+                          if (reg.status === 'pending') {
+                            toggleStatus(reg.id, reg.status, reg.email);
+                          } else if (reg.status === 'contacted') {
+                            toggleStatus(reg.id, reg.status, reg.email);
+                          }
+                        }}
+                        className="w-4 h-4 text-red-600 rounded focus:ring-red-500"
+                        disabled={reg.status === 'accepted'}
+                      />
+                      <span className="text-sm text-gray-600">Contacted</span>
+                    </label>
+                    {reg.status === 'contacted' && (
+                      <button
+                        onClick={() => acceptUser(reg.id, reg)}
+                        className="bg-green-500 text-white p-1 rounded hover:bg-green-600"
+                        title="Accept User"
+                      >
+                        <UserCheck size={16} />
+                      </button>
+                    )}
+                  </div>
                 </div>
                 
                 <div className="space-y-2 text-sm">
@@ -132,10 +185,17 @@ const Registrations: React.FC = () => {
                 <div className="mt-4 flex items-center gap-2 text-sm">
                   <CheckCircle 
                     size={16} 
-                    className={reg.status === 'contacted' ? 'text-green-600' : 'text-gray-400'} 
+                    className={
+                      reg.status === 'accepted' ? 'text-green-600' : 
+                      reg.status === 'contacted' ? 'text-blue-600' : 'text-gray-400'
+                    } 
                   />
-                  <span className={reg.status === 'contacted' ? 'text-green-700 font-medium' : 'text-gray-600'}>
-                    {reg.status === 'contacted' ? 'Contacted' : 'Pending - Not Contacted Yet'}
+                  <span className={
+                    reg.status === 'accepted' ? 'text-green-700 font-medium' : 
+                    reg.status === 'contacted' ? 'text-blue-700 font-medium' : 'text-gray-600'
+                  }>
+                    {reg.status === 'accepted' ? 'Accepted Member' : 
+                     reg.status === 'contacted' ? 'Contacted - Pending Acceptance' : 'Pending - Not Contacted Yet'}
                   </span>
                 </div>
               </div>

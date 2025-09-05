@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Upload, Save, Trash2, Image as ImageIcon, Link as LinkIcon, Lock, Users, User, Video, Type } from 'lucide-react';
 import { contentService, ContentItem, ContentType } from '../services/contentService';
+import { db } from '../config/firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+
 
 const Dashboard = () => {
   const [contentItems, setContentItems] = useState<ContentItem[]>([]);
@@ -106,6 +109,28 @@ const Dashboard = () => {
       alert('Failed to add content item');
     } finally {
       setIsLoading(false);
+    }
+  };
+
+/*************  ✨ Windsurf Command ⭐  *************/
+  /**
+   * Create a new member from the given registration data.
+   * @param {Object} registrationData - Registration data from the team registration form.
+   * @returns {Promise<void>}
+   */
+/*******  f1fc2656-731f-4ade-94a2-4a3bac92d1a8  *******/
+  const createMember = async (registrationData: any) => {
+    try {
+      await addDoc(collection(db, 'members'), {
+        ...registrationData,
+        memberSince: serverTimestamp(),
+        status: 'accepted',
+        streakCount: 0,
+        lastCheckin: null,
+        createdAt: serverTimestamp()
+      });
+    } catch (error) {
+      console.error('Error creating member:', error);
     }
   };
 
