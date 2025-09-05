@@ -593,55 +593,77 @@ export default function ProfilePage() {
         padding: "16px",
       }}
     >
+      {/* Pattern Overlay */}
       <div
-  ref={cardRef}
-  className="relative rounded-lg shadow-md text-white overflow-hidden"
-  style={{
-    width: "325px",
-    height: "205px",
-    aspectRatio: "1.586 / 1",
-    backgroundImage: `
-      linear-gradient(135deg, #ef4444, #22c55e), 
-      repeating-linear-gradient(
-        45deg,
-        rgba(255,255,255,0.1) 0,
-        rgba(255,255,255,0.1) 2px,
-        transparent 2px,
-        transparent 6px
-      )
-    `,
-    backgroundBlendMode: "overlay",
-    padding: "16px",
-  }}
->
-  {/* Logo + user info */}
-  <div className="flex items-center gap-4 mb-4">
-    <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center overflow-hidden">
-      <img src="/assets/pyc_logo.webp" alt="Team Logo" className="w-10 h-10 object-contain" />
-    </div>
-    <div>
-      <div className="text-xs opacity-80">Pakistan Youth Council</div>
-      <div className="text-lg font-bold leading-tight">{user?.name}</div>
-      <div className="text-xs opacity-80 mt-1">
-        Member since: {formatDatePretty(user.memberSince)}
+        className="absolute inset-0 opacity-25"
+        style={{
+          backgroundImage: `
+            repeating-linear-gradient(
+              45deg,
+              rgba(255,255,255,0.35) 0,
+              rgba(255,255,255,0.35) 4px,
+              transparent 4px,
+              transparent 8px
+            )
+          `,
+        }}
+      ></div>
+
+      {/* Content Layer */}
+      <div className="relative z-10 h-full flex flex-col justify-between">
+        {/* Logo + user info */}
+        <div className="flex items-center gap-4">
+          <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center overflow-hidden">
+            <img
+              src="/assets/pyc_logo.webp"
+              alt="Team Logo"
+              className="w-10 h-10 object-contain"
+            />
+          </div>
+          <div>
+            <div className="text-xs opacity-80">Pakistan Youth Council</div>
+            <div className="text-lg font-bold leading-tight">{user?.name}</div>
+            <div className="text-xs opacity-80 mt-1">
+              Member since: {formatDatePretty(user.memberSince)}
+            </div>
+          </div>
+        </div>
+
+        {/* User ID */}
+        <div className="text-center text-xs opacity-90 font-mono mb-2">
+          ID: {user.userId}
+        </div>
       </div>
+
+      {/* Bottom ribbon strip */}
+      <div
+        className="absolute bottom-0 left-0 w-full h-8"
+        style={{
+          background: "linear-gradient(135deg, #dc2626, #16a34a)",
+          clipPath: "polygon(0 100%, 100% 0, 100% 100%)",
+        }}
+      ></div>
+    </div>
+
+    {/* Download buttons */}
+    <div className="grid grid-cols-2 gap-3 mt-4">
+      <button
+        onClick={downloadCardPNG}
+        className="px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-center"
+      >
+        <Download className="mr-2" size={16} />
+        PNG
+      </button>
+      <button
+        onClick={downloadCardPDF}
+        className="px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-center"
+      >
+        <Download className="mr-2" size={16} />
+        PDF
+      </button>
     </div>
   </div>
-
-  {/* User ID bottom center */}
-  <div className="absolute bottom-10 left-0 right-0 text-center text-xs opacity-90 font-mono">
-    ID: {user.userId}
-  </div>
-
-  {/* Bottom ribbon strip */}
-  <div 
-    className="absolute bottom-0 left-0 w-full h-8" 
-    style={{
-      background: "linear-gradient(135deg, #dc2626, #16a34a)",
-      clipPath: "polygon(0 100%, 100% 0, 100% 100%)"
-    }}
-  ></div>
-</div>
+)}
 
 
           </div>
