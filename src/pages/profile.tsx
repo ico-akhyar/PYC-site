@@ -586,8 +586,8 @@ export default function ProfilePage() {
       ref={cardRef}
       className="relative overflow-hidden"
       style={{
-        width: "325px",     // ~ standard card preview size
-        height: "205px",    // ID-1 card ratio
+        width: "1300px",     // ~ standard card preview size
+        height: "820px",    // ID-1 card ratio
         aspectRatio: "1.586 / 1",
         backgroundImage: "url('/assets/card_template.webp')", // 👈 Canva background image path
         backgroundSize: "cover",
