@@ -306,7 +306,7 @@ export default function ProfilePage() {
     // Council Name
     ctx.font = "42px 'Montserrat'";
     ctx.fillStyle = "#c9966b";
-    ctx.fillText("Pakistan Youth Council", 650, 100);
+    ctx.fillText("PYC Social Media Team", 650, 100);
   
     // User Name
     ctx.font = "54px 'Poppins'";
@@ -596,7 +596,7 @@ export default function ProfilePage() {
         color: "#c9966b",
       }}
     >
-      Pakistan Youth Council
+      PYC Social Media Team
     </div>
     <div
       style={{
