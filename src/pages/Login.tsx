@@ -46,7 +46,7 @@ const Login = () => {
           setError('Too many failed attempts. Please try again later.');
           break;
         default:
-          setError('An error occurred. Please try again.');
+          setError('Invalid email or/and password. Please try again.');
       }
     } finally {
       setLoading(false);
