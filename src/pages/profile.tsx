@@ -39,7 +39,6 @@ export default function ProfilePage() {
   const loadUserProfile = async () => {
     setLoading(true);
     try {
-      // First try to find user in members collection by userId field
       const membersQuery = query(
         collection(db, 'members'), 
         where('userId', '==', currentUser.uid)
@@ -59,7 +58,6 @@ export default function ProfilePage() {
         return;
       }
 
-      // If not found in members, try registrations collection by userId
       const registrationsQuery = query(
         collection(db, 'teamRegistrations'), 
         where('userId', '==', currentUser.uid)
@@ -79,7 +77,6 @@ export default function ProfilePage() {
         return;
       }
 
-      // Fallback: try to find by email (for backward compatibility)
       const emailRegistrationsQuery = query(
         collection(db, 'teamRegistrations'), 
         where('email', '==', currentUser.email)
@@ -99,7 +96,6 @@ export default function ProfilePage() {
         return;
       }
 
-      // If nothing found, create basic user object
       setUser({
         name: currentUser.displayName || '',
         email: currentUser.email || '',
@@ -132,20 +128,16 @@ export default function ProfilePage() {
     setSaving(true);
     setMessage(null);
     try {
-      // Determine which collection to update based on user status
       let docRef;
       let collectionName;
       
       if (user.status === 'accepted' && userDocId) {
-        // Update in members collection
         collectionName = 'members';
         docRef = doc(db, 'members', userDocId);
       } else if (userDocId) {
-        // Update in registrations collection
         collectionName = 'teamRegistrations';
         docRef = doc(db, 'teamRegistrations', userDocId);
       } else {
-        // Create new registration if no ID exists
         const newDoc = await addDoc(collection(db, 'teamRegistrations'), {
           name: user.name,
           email: currentUser.email,
@@ -166,7 +158,6 @@ export default function ProfilePage() {
         return;
       }
 
-      // Verify the document exists before updating
       const docSnap = await getDoc(docRef);
       if (!docSnap.exists()) {
         throw new Error(`Document not found in ${collectionName} collection`);
@@ -209,7 +200,6 @@ export default function ProfilePage() {
   function hasCheckedInToday() {
     if (!user || !user.lastCheckin) return false;
     try {
-      // Use new Date() to handle any type of date input
       const lastCheckinDate = new Date(user.lastCheckin);
       const today = new Date();
       return lastCheckinDate.toDateString() === today.toDateString();
@@ -226,14 +216,11 @@ export default function ProfilePage() {
       const today = new Date();
       let lastCheckinDate: Date | null = null;
       
-      // Safely convert lastCheckin to Date object if it exists
       if (user.lastCheckin) {
         lastCheckinDate = new Date(user.lastCheckin);
       }
       
       let newStreak = user.streakCount || 0;
-      
-      // Check if last checkin was yesterday to continue streak
       if (lastCheckinDate) {
         const yesterday = new Date();
         yesterday.setDate(yesterday.getDate() - 1);
@@ -241,15 +228,12 @@ export default function ProfilePage() {
         if (lastCheckinDate.toDateString() === yesterday.toDateString()) {
           newStreak += 1;
         } else if (lastCheckinDate.toDateString() !== today.toDateString()) {
-          // Reset streak if not consecutive
           newStreak = 1;
         }
       } else {
-        // First checkin
         newStreak = 1;
       }
       
-      // Find the member document by userId
       const membersQuery = query(
         collection(db, 'members'), 
         where('userId', '==', currentUser.uid)
@@ -263,49 +247,12 @@ export default function ProfilePage() {
           streakCount: newStreak
         });
         
-        // Update local state
         setUser(prev => prev ? { 
             ...prev, 
-            lastCheckin: new Date(),   // local update for UI
+            lastCheckin: new Date(),   
             streakCount: newStreak
           } : prev);
-          
-        
         setMessage("Check-in recorded. Keep up the streak!");
-      } else {
-        // If not found in members, try to create a member record
-        try {
-          const newMemberDoc = await addDoc(collection(db, 'members'), {
-            name: user.name,
-            email: user.email,
-            phone: user.phone,
-            city: user.city,
-            social: user.social || {},
-            previousExperience: user.previousExperience,
-            socialMedia: user.socialMedia,
-            status: 'accepted',
-            memberSince: serverTimestamp(),
-            streakCount: newStreak,
-            lastCheckin: serverTimestamp(),
-            userId: currentUser.uid,
-            createdAt: serverTimestamp()
-          });
-          
-          setUserDocId(newMemberDoc.id);
-          setUser(prev => prev ? { 
-            ...prev, 
-            lastCheckin: new Date(),   // local update
-            streakCount: newStreak,
-            status: 'accepted',
-            id: newMemberDoc.id
-          } : prev);
-          
-          
-          setMessage("Member record created and check-in recorded!");
-        } catch (createError) {
-          console.error('Error creating member record:', createError);
-          setMessage("Member record not found and could not be created. Please contact admin.");
-        }
       }
     } catch (error) {
       console.error('Error recording check-in:', error);
@@ -321,8 +268,8 @@ export default function ProfilePage() {
     try {
       const html2canvas = (await import("html2canvas")).default;
       const canvas = await html2canvas(cardRef.current, { 
-        scale: 4,                // higher scale → crisp output
-        backgroundColor: null // fallback white background
+        scale: 2,
+        backgroundColor: null
       });
       const dataUrl = canvas.toDataURL("image/png");
       const a = document.createElement("a");
@@ -341,13 +288,12 @@ export default function ProfilePage() {
       const html2canvas = (await import("html2canvas")).default;
       const { jsPDF } = await import("jspdf");
       const canvas = await html2canvas(cardRef.current, { 
-        scale: 4,
+        scale: 2,
         backgroundColor: null
       });
       const imgData = canvas.toDataURL("image/png");
   
-      // Use real ID-1 card dimensions at 300 DPI (~1011x639 px)
-      const mmToPt = (mm: number) => (mm * 72) / 25.4; // convert mm → PDF points
+      const mmToPt = (mm: number) => (mm * 72) / 25.4;
       const cardWidth = mmToPt(85.60);
       const cardHeight = mmToPt(53.98);
   
@@ -364,7 +310,6 @@ export default function ProfilePage() {
       setTimeout(() => setMessage(null), 3000);
     }
   }
-  
 
   if (loading) return (
     <div className="min-h-screen bg-gradient-to-br from-red-50 via-white to-green-50 flex items-center justify-center">
@@ -374,7 +319,8 @@ export default function ProfilePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-50 via-white to-green-50 py-12">
-      <div className="max-w-6xl mx-auto px-4">
+      <div className="max-w-4xl mx-auto px-4">
+        {/* Header */}
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden mb-8 border-l-4 border-red-500">
           <div className="bg-gradient-to-r from-red-600 to-green-600 p-6 text-white">
             <h1 className="text-3xl font-bold">My Profile</h1>
@@ -382,312 +328,128 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Profile Form */}
-          <div className="lg:col-span-2 bg-white rounded-2xl shadow-lg p-6">
-            <h2 className="text-xl font-semibold mb-6 flex items-center">
-              <User className="mr-2 text-red-500" size={24} />
-              Personal Information
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
-                <div className="relative">
-                  <User className="absolute left-3 top-3 text-gray-400" size={18} />
-                  <input
-                    value={user?.name || ""}
-                    onChange={(e) => updateField("name", e.target.value)}
-                    className="pl-10 w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                    placeholder="Your full name"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-3 text-gray-400" size={18} />
-                  <input
-                    value={user?.email || currentUser?.email || ""}
-                    readOnly
-                    className="pl-10 w-full px-4 py-3 border rounded-lg bg-gray-50"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
-                <div className="relative">
-                  <Phone className="absolute left-3 top-3 text-gray-400" size={18} />
-                  <input
-                    value={user?.phone || ""}
-                    onChange={(e) => updateField("phone", e.target.value)}
-                    className="pl-10 w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                    placeholder="+92 300 0000000"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">City</label>
-                <div className="relative">
-                  <MapPin className="absolute left-3 top-3 text-gray-400" size={18} />
-                  <input
-                    value={user?.city || ""}
-                    onChange={(e) => updateField("city", e.target.value)}
-                    className="pl-10 w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                    placeholder="Your city"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Previous Experience</label>
-              <textarea
-                value={user?.previousExperience || ""}
-                onChange={(e) => updateField("previousExperience", e.target.value)}
-                rows={3}
-                className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                placeholder="Any previous political or volunteer experience?"
+        {/* Profile Form */}
+        <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
+          <h2 className="text-xl font-semibold mb-6 flex items-center">
+            <User className="mr-2 text-red-500" size={24} />
+            Personal Information
+          </h2>
+          {/* Inputs */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            {/* Name */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+              <input
+                value={user?.name || ""}
+                onChange={(e) => updateField("name", e.target.value)}
+                className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-red-500"
+                placeholder="Your full name"
               />
             </div>
+            {/* Email */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+              <input
+                value={user?.email || currentUser?.email || ""}
+                readOnly
+                className="w-full px-4 py-3 border rounded-lg bg-gray-50"
+              />
+            </div>
+            {/* Phone */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
+              <input
+                value={user?.phone || ""}
+                onChange={(e) => updateField("phone", e.target.value)}
+                className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-red-500"
+                placeholder="+92 300 0000000"
+              />
+            </div>
+            {/* City */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">City</label>
+              <input
+                value={user?.city || ""}
+                onChange={(e) => updateField("city", e.target.value)}
+                className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-red-500"
+                placeholder="Your city"
+              />
+            </div>
+          </div>
 
-            <h3 className="text-lg font-medium mb-4 flex items-center">
-              <Award className="mr-2 text-red-500" size={20} />
-              Social Media Profiles
-            </h3>
+          {/* Save */}
+          <button
+            onClick={saveProfile}
+            disabled={saving}
+            className="bg-gradient-to-r from-red-500 to-red-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-red-600 hover:to-red-700 transition-all duration-200"
+          >
+            {saving ? "Saving..." : "Save Profile"}
+          </button>
+          {message && <p className="mt-2 text-sm text-green-600">{message}</p>}
+        </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        {/* Membership Card Section */}
+        {user?.status === "accepted" && (
+          <div className="bg-white rounded-2xl shadow-lg p-6">
+            <h2 className="text-xl font-semibold mb-4 flex items-center">
+              <Download className="mr-2 text-blue-500" size={24} />
+              Digital Membership Card
+            </h2>
+
+            {/* Card Preview */}
+            <div
+              ref={cardRef}
+              className="relative mx-auto"
+              style={{
+                width: "1300px",
+                height: "820px",
+                backgroundImage: "url('/assets/card_template.webp')",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                borderRadius: "50px",
+                overflow: "hidden",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                textAlign: "center",
+                padding: "40px",
+              }}
+            >
+              {/* Top */}
               <div>
-                <label className="block text-sm text-gray-600 mb-2">Twitter</label>
-                <input
-                  value={user?.social?.twitter || ""}
-                  onChange={(e) => updateSocialField("twitter", e.target.value)}
-                  placeholder="@username"
-                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                />
+                <div style={{ fontFamily: "Montserrat, sans-serif", fontSize: "32.8px", color: "#c9966b" }}>
+                  Pakistan Youth Council
+                </div>
+                <div style={{ fontFamily: "Poppins, sans-serif", fontSize: "43.5px", fontWeight: 700, color: "#ffc99c" }}>
+                  {user?.name}
+                </div>
+                <div style={{ fontFamily: "Sarabun, sans-serif", fontSize: "28.8px", color: "#c9966b" }}>
+                  Verified Member
+                </div>
               </div>
-              <div>
-                <label className="block text-sm text-gray-600 mb-2">Instagram</label>
-                <input
-                  value={user?.social?.instagram || ""}
-                  onChange={(e) => updateSocialField("instagram", e.target.value)}
-                  placeholder="@username"
-                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                />
-              </div>
-              <div>
-                <label className="block text-sm text-gray-600 mb-2">LinkedIn</label>
-                <input
-                  value={user?.social?.linkedin || ""}
-                  onChange={(e) => updateSocialField("linkedin", e.target.value)}
-                  placeholder="linkedin.com/in/username"
-                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                />
+
+              {/* Bottom */}
+              <div style={{ marginBottom: "20px" }}>
+                <div style={{ fontFamily: "Sarabun, sans-serif", fontSize: "18px", color: "#a4a7a5" }}>
+                  Member Since: {formatDatePretty(user.memberSince)}
+                </div>
+                <div style={{ fontFamily: "Alegreya Sans, sans-serif", fontSize: "27.6px", color: "#c9966b" }}>
+                  User ID: {user.userId}
+                </div>
               </div>
             </div>
 
-            <div className="flex items-center gap-4">
-              <button
-                onClick={saveProfile}
-                disabled={saving}
-                className="bg-gradient-to-r from-red-500 to-red-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-red-600 hover:to-red-700 transition-all duration-200 flex items-center disabled:opacity-50"
-              >
-                <Save size={18} className="mr-2" />
-                {saving ? "Saving..." : "Save Profile"}
+            {/* Download buttons */}
+            <div className="grid grid-cols-2 gap-3 mt-4">
+              <button onClick={downloadCardPNG} className="px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200">
+                <Download className="mr-2" size={16} /> PNG
               </button>
-              {message && (
-                <div className={`text-sm ${message.includes('Failed') ? 'text-red-600' : 'text-green-600'}`}>
-                  {message}
-                </div>
-              )}
+              <button onClick={downloadCardPDF} className="px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200">
+                <Download className="mr-2" size={16} /> PDF
+              </button>
             </div>
           </div>
-
-          {/* Membership Card & Status */}
-          <div className="space-y-6">
-            <div className="bg-white rounded-2xl shadow-lg p-6">
-              <h2 className="text-xl font-semibold mb-4 flex items-center">
-                <Award className="mr-2 text-green-500" size={24} />
-                Membership Status
-              </h2>
-              
-              <div className="mb-4">
-                <div className="text-sm text-gray-500">Current Status</div>
-                <div className="mt-1 font-medium">
-                  {user?.status === "accepted" ? (
-                    <span className="text-green-600 flex items-center">
-                      <CheckCircle className="mr-1" size={18} />
-                      Accepted Member
-                    </span>
-                  ) : user?.status === "contacted" ? (
-                    <span className="text-blue-600 flex items-center">
-                      <Clock className="mr-1" size={18} />
-                      Contacted / In review
-                    </span>
-                  ) : (
-                    <span className="text-gray-600 flex items-center">
-                      <Clock className="mr-1" size={18} />
-                      Pending Registration
-                    </span>
-                  )}
-                </div>
-              </div>
-
-              {user?.memberSince && (
-                <div className="mb-4">
-                  <div className="text-sm text-gray-500">Member since</div>
-                  <div className="flex items-center text-gray-700">
-                    <Calendar className="mr-2" size={16} />
-                    {formatDatePretty(user.memberSince)}
-                  </div>
-                </div>
-              )}
-
-              {user?.status === "accepted" && (
-                <div className="pt-4 border-t">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <div className="text-sm text-gray-500">Daily streak</div>
-                      <div className="text-2xl font-bold text-red-600">{user?.streakCount || 0} days</div>
-                      <div className="text-xs text-gray-500">
-                        Last check-in: {user?.lastCheckin ? formatDatePretty(user.lastCheckin) : "Never"}
-                      </div>
-                    </div>
-
-                    <button
-                      onClick={doCheckin}
-                      disabled={hasCheckedInToday() || checkinLoading}
-                      className={`px-4 py-2 rounded-lg flex items-center transition-all ${
-                        hasCheckedInToday()
-                          ? "bg-gray-300 text-gray-500 cursor-not-allowed" 
-                          : "bg-green-500 text-white hover:bg-green-600"
-                      }`}
-                    >
-                      <Clock className="mr-2" size={16} />
-                      {checkinLoading ? "Checking..." : hasCheckedInToday() ? "Checked In" : "Check In"}
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {user?.status === "accepted" && (
-  <div className="bg-white rounded-2xl shadow-lg p-6">
-    <h2 className="text-xl font-semibold mb-4 flex items-center">
-      <Download className="mr-2 text-blue-500" size={24} />
-      Digital Membership Card
-    </h2>
-
-    {/* Card preview */}
-    <div
-      ref={cardRef}
-      className="relative overflow-hidden"
-      style={{
-        width: "325px",     // ~ standard card preview size
-        height: "205px",    // ID-1 card ratio
-        aspectRatio: "1.586 / 1",
-        backgroundImage: "url('/assets/card_template.webp')", // 👈 Canva background image path
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        borderRadius: "50px",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        padding: "20px",
-        textAlign: "center",
-      }}
-    >
-      {/* Top: Council Name */}
-      <div style={{ marginTop: "8px" }}>
-        <div
-          style={{
-            fontFamily: "Montserrat, sans-serif",
-            fontSize: "32.8px",
-            fontWeight: 400,
-            color: "#c9966b",
-          }}
-        >
-          Pakistan Youth Council
-        </div>
-
-        {/* User Full Name */}
-        <div
-          style={{
-            fontFamily: "Poppins, sans-serif",
-            fontSize: "43.5px",
-            fontWeight: 700,
-            color: "#ffc99c",
-            marginTop: "4px",
-          }}
-        >
-          {user?.name}
-        </div>
-
-        {/* Verified Member */}
-        <div
-          style={{
-            fontFamily: "Sarabun, sans-serif",
-            fontSize: "28.8px",
-            fontWeight: 400,
-            color: "#c9966b",
-            marginTop: "2px",
-          }}
-        >
-          Verified Member
-        </div>
-      </div>
-
-      {/* Bottom Section */}
-      <div style={{ marginBottom: "10px" }}>
-        <div
-          style={{
-            fontFamily: "Sarabun, sans-serif",
-            fontSize: "18px",
-            fontWeight: 400,
-            color: "#a4a7a5",
-            marginBottom: "4px",
-          }}
-        >
-          Member Since: {formatDatePretty(user.memberSince)}
-        </div>
-        <div
-          style={{
-            fontFamily: "Alegreya Sans, sans-serif",
-            fontSize: "27.6px",
-            fontWeight: 400,
-            color: "#c9966b",
-          }}
-        >
-          User ID: {user.userId}
-        </div>
-      </div>
-    </div>
-
-    {/* Download buttons */}
-    <div className="grid grid-cols-2 gap-3 mt-4">
-      <button
-        onClick={downloadCardPNG}
-        className="px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-center"
-      >
-        <Download className="mr-2" size={16} />
-        PNG
-      </button>
-      <button
-        onClick={downloadCardPDF}
-        className="px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-center"
-      >
-        <Download className="mr-2" size={16} />
-        PDF
-      </button>
-    </div>
-  </div>
-)}
-
-          </div>
-        </div>
+        )}
       </div>
     </div>
   );
