@@ -284,50 +284,56 @@ export default function ProfilePage() {
 
   // --------- DOWNLOAD: High-Res Canvas Draw ---------
   async function renderCardCanvas(): Promise<HTMLCanvasElement> {
+    // Load background
     const bg = new Image();
-    bg.src = "/assets/card_template_webp.webp"; // 👈 High-res template (1300x820)
+    bg.src = "/assets/card_template_webp.webp";
     await new Promise((res) => (bg.onload = res));
-
+  
+    // ✅ Load fonts before using
+    await document.fonts.load("40px 'Montserrat'");
+    await document.fonts.load("54px 'Poppins'");
+    await document.fonts.load("36px 'Sarabun'");
+    await document.fonts.load("36px 'Alegreya Sans'");
+  
     const canvas = document.createElement("canvas");
     canvas.width = 1300;
     canvas.height = 820;
     const ctx = canvas.getContext("2d")!;
     ctx.drawImage(bg, 0, 0, 1300, 820);
-
-    // Text overlay (scaled to 1300x820)
+  
     ctx.textAlign = "center";
-
+  
     // Council Name
-    ctx.font = "40px Montserrat";
+    ctx.font = "40px 'Montserrat'";
     ctx.fillStyle = "#c9966b";
     ctx.fillText("Pakistan Youth Council", 650, 100);
-
+  
     // User Name
-    ctx.font = "54px Poppins";
+    ctx.font = "54px 'Poppins'";
     ctx.fillStyle = "#ffc99c";
     ctx.fillText(user?.name || "Member Name", 650, 180);
-
+  
     // Verified Member
-    ctx.font = "36px Sarabun";
+    ctx.font = "36px 'Sarabun'";
     ctx.fillStyle = "#c9966b";
     ctx.fillText("Verified Member", 650, 230);
-
+  
     // Bottom
-    ctx.font = "26px Sarabun";
+    ctx.font = "22px 'Sarabun'";
     ctx.fillStyle = "#a4a7a5";
     ctx.fillText(
       `Member Since: ${formatDatePretty(user?.memberSince)}`,
       650,
       700
     );
-
-    ctx.font = "36px Alegreya Sans";
+  
+    ctx.font = "36px 'Alegreya Sans'";
     ctx.fillStyle = "#c9966b";
     ctx.fillText(`ID: ${user?.userId}`, 650, 750);
-
+  
     return canvas;
   }
-
+  
   async function downloadCardPNG() {
     try {
       const canvas = await renderCardCanvas();
@@ -608,7 +614,7 @@ export default function ProfilePage() {
         fontFamily: "Sarabun, sans-serif",
         fontSize: "11px",
         color: "#c9966b",
-        marginTop: "1px",
+        marginTop: "2px",
       }}
     >
       Verified Member
