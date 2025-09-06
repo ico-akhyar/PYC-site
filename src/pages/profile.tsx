@@ -286,7 +286,7 @@ export default function ProfilePage() {
   async function renderCardCanvas(): Promise<HTMLCanvasElement> {
     // Load background
     const bg = new Image();
-    bg.src = "/assets/card_template_webp.webp";
+    bg.src = "/assets/basic_temp.jpeg";
     await new Promise((res) => (bg.onload = res));
   
     // ✅ Load fonts before using
@@ -575,7 +575,7 @@ export default function ProfilePage() {
   style={{
     width: "325px",
     height: "205px",
-    backgroundImage: "url('/assets/card_template_webp.webp')",
+    backgroundImage: "url('/assets/basic_temp.jpeg')",
     backgroundSize: "cover",
     backgroundPosition: "center",
     borderRadius: "20px",
