@@ -298,22 +298,22 @@ export default function ProfilePage() {
     ctx.textAlign = "center";
 
     // Council Name
-    ctx.font = "32.8px Montserrat";
+    ctx.font = "36px Montserrat";
     ctx.fillStyle = "#c9966b";
     ctx.fillText("Pakistan Youth Council", 650, 100);
 
     // User Name
-    ctx.font = "bold 43.5px Poppins";
+    ctx.font = "bold 48px Poppins";
     ctx.fillStyle = "#ffc99c";
     ctx.fillText(user?.name || "Member Name", 650, 180);
 
     // Verified Member
-    ctx.font = "28.8px Sarabun";
+    ctx.font = "32px Sarabun";
     ctx.fillStyle = "#c9966b";
     ctx.fillText("Verified Member", 650, 230);
 
     // Bottom
-    ctx.font = "18px Sarabun";
+    ctx.font = "22px Sarabun";
     ctx.fillStyle = "#a4a7a5";
     ctx.fillText(
       `Member Since: ${formatDatePretty(user?.memberSince)}`,
@@ -321,7 +321,7 @@ export default function ProfilePage() {
       700
     );
 
-    ctx.font = "27.6px Alegreya Sans";
+    ctx.font = "32px Alegreya Sans";
     ctx.fillStyle = "#c9966b";
     ctx.fillText(`User ID: ${user?.userId}`, 650, 750);
 
