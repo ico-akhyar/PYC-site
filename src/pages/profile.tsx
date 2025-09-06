@@ -285,7 +285,7 @@ export default function ProfilePage() {
   // --------- DOWNLOAD: High-Res Canvas Draw ---------
   async function renderCardCanvas(): Promise<HTMLCanvasElement> {
     const bg = new Image();
-    bg.src = "/assets/card_template.webp"; // 👈 High-res template (1300x820)
+    bg.src = "/assets/card_template_webp.webp"; // 👈 High-res template (1300x820)
     await new Promise((res) => (bg.onload = res));
 
     const canvas = document.createElement("canvas");
@@ -569,7 +569,7 @@ export default function ProfilePage() {
                   style={{
                     width: "325px",
                     height: "205px",
-                    backgroundImage: "url('/assets/card_template.webp')",
+                    backgroundImage: "url('/assets/card_template_webp.webp')",
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                     borderRadius: "20px",
