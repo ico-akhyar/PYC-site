@@ -546,7 +546,7 @@ export default function ProfilePage() {
                     className="mt-3 px-4 py-2 bg-gradient-to-r from-red-500 to-green-500 text-white rounded-lg"
                   >
                     {hasCheckedInToday()
-                      ? "Checked in today ✅"
+                      ? "Checked in today"
                       : checkinLoading
                       ? "Checking in..."
                       : "Check-in"}
