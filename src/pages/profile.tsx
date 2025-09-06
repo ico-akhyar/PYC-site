@@ -321,7 +321,7 @@ export default function ProfilePage() {
     try {
       const html2canvas = (await import("html2canvas")).default;
       const canvas = await html2canvas(cardRef.current, { 
-        scale: 8,                // higher scale → crisp output
+        scale: 4,                // higher scale → crisp output
         backgroundColor: null // fallback white background
       });
       const dataUrl = canvas.toDataURL("image/png");
@@ -341,7 +341,7 @@ export default function ProfilePage() {
       const html2canvas = (await import("html2canvas")).default;
       const { jsPDF } = await import("jspdf");
       const canvas = await html2canvas(cardRef.current, { 
-        scale: 8,
+        scale: 4,
         backgroundColor: null
       });
       const imgData = canvas.toDataURL("image/png");
