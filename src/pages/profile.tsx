@@ -62,6 +62,7 @@ export default function ProfilePage() {
     }
   }, [currentUser]);
 
+  // -------- Profile Load --------
   const loadUserProfile = async () => {
     setLoading(true);
     try {
@@ -104,27 +105,6 @@ export default function ProfilePage() {
         return;
       }
 
-      const emailRegistrationsQuery = query(
-        collection(db, "teamRegistrations"),
-        where("email", "==", currentUser.email)
-      );
-      const emailRegistrationsSnapshot = await getDocs(
-        emailRegistrationsQuery
-      );
-
-      if (!emailRegistrationsSnapshot.empty) {
-        const regDoc = emailRegistrationsSnapshot.docs[0];
-        const regData = regDoc.data();
-        setUserDocId(regDoc.id);
-        setUser({
-          id: regDoc.id,
-          ...regData,
-          social: typeof regData.social === "object" ? regData.social : {},
-        });
-        setLoading(false);
-        return;
-      }
-
       setUser({
         name: currentUser.displayName || "",
         email: currentUser.email || "",
@@ -141,6 +121,7 @@ export default function ProfilePage() {
     }
   };
 
+  // -------- Update Helpers --------
   function updateField<K extends keyof UserData>(field: K, value: UserData[K]) {
     setUser((prev) => (prev ? { ...prev, [field]: value } : prev));
   }
@@ -187,7 +168,9 @@ export default function ProfilePage() {
         setUser((prev) =>
           prev ? { ...prev, id: newDoc.id, status: "pending" } : prev
         );
-        setMessage("Profile saved successfully! Your registration is pending.");
+        setMessage(
+          "Profile saved successfully! Your registration is pending."
+        );
         setSaving(false);
         setTimeout(() => setMessage(null), 3000);
         return;
@@ -195,7 +178,7 @@ export default function ProfilePage() {
 
       const docSnap = await getDoc(docRef);
       if (!docSnap.exists()) {
-        throw new Error(`Document not found in ${collectionName} collection`);
+        throw new Error(`Document not found in ${collectionName}`);
       }
 
       await updateDoc(docRef, {
@@ -232,92 +215,158 @@ export default function ProfilePage() {
     }
   }
 
-  async function downloadCard(format: "png" | "pdf") {
-    if (!user) return;
+  function hasCheckedInToday() {
+    if (!user || !user.lastCheckin) return false;
     try {
-      const bg = new Image();
-      bg.src = "/assets/card_template.webp";
-      await new Promise((resolve) => {
-        bg.onload = resolve;
-      });
+      const lastCheckinDate = new Date(user.lastCheckin);
+      const today = new Date();
+      return lastCheckinDate.toDateString() === today.toDateString();
+    } catch {
+      return false;
+    }
+  }
 
-      const width = 1300;
-      const height = 820;
-      const canvas = document.createElement("canvas");
-      canvas.width = width;
-      canvas.height = height;
-      const ctx = canvas.getContext("2d")!;
-      ctx.drawImage(bg, 0, 0, width, height);
+  async function doCheckin() {
+    if (!user || !currentUser || user.status !== "accepted") return;
+    setCheckinLoading(true);
+    try {
+      const today = new Date();
+      let lastCheckinDate: Date | null = null;
 
-      // ratios
-      const rx = width / 1300;
-      const ry = height / 820;
-
-      // Council Name
-      ctx.font = `${32.8 * rx}px Montserrat`;
-      ctx.fillStyle = "#c9966b";
-      ctx.textAlign = "center";
-      ctx.fillText("Pakistan Youth Council", width / 2, 120 * ry);
-
-      // User Name
-      ctx.font = `${43.5 * rx}px Poppins`;
-      ctx.fillStyle = "#ffc99c";
-      ctx.fillText(user.name || "", width / 2, 200 * ry);
-
-      // Verified Member
-      ctx.font = `${28.8 * rx}px Sarabun`;
-      ctx.fillStyle = "#c9966b";
-      ctx.fillText("Verified Member", width / 2, 260 * ry);
-
-      // Member Since
-      ctx.font = `${18 * rx}px Sarabun`;
-      ctx.fillStyle = "#a4a7a5";
-      ctx.fillText(
-        `Member Since: ${formatDatePretty(user.memberSince)}`,
-        width / 2,
-        height - 80 * ry
-      );
-
-      // User ID
-      ctx.font = `${27.6 * rx}px Alegreya Sans`;
-      ctx.fillStyle = "#c9966b";
-      ctx.fillText(`User ID: ${user.userId}`, width / 2, height - 40 * ry);
-
-      if (format === "png") {
-        const dataUrl = canvas.toDataURL("image/png");
-        const a = document.createElement("a");
-        a.href = dataUrl;
-        a.download = `${(user.name || "member").replace(
-          /\s+/g,
-          "_"
-        )}-card.png`;
-        a.click();
-      } else {
-        const { jsPDF } = await import("jspdf");
-        const imgData = canvas.toDataURL("image/png");
-        const mmToPt = (mm: number) => (mm * 72) / 25.4;
-        const cardWidth = mmToPt(85.6);
-        const cardHeight = mmToPt(53.98);
-
-        const pdf = new jsPDF({
-          orientation: "landscape",
-          unit: "pt",
-          format: [cardWidth, cardHeight],
-        });
-
-        pdf.addImage(imgData, "PNG", 0, 0, cardWidth, cardHeight);
-        pdf.save(`${(user.name || "member").replace(/\s+/g, "_")}-card.pdf`);
+      if (user.lastCheckin) {
+        lastCheckinDate = new Date(user.lastCheckin);
       }
-    } catch (err) {
-      console.error(err);
-      setMessage("Could not generate card.");
+
+      let newStreak = user.streakCount || 0;
+      if (lastCheckinDate) {
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        if (lastCheckinDate.toDateString() === yesterday.toDateString()) {
+          newStreak += 1;
+        } else if (lastCheckinDate.toDateString() !== today.toDateString()) {
+          newStreak = 1;
+        }
+      } else {
+        newStreak = 1;
+      }
+
+      const membersQuery = query(
+        collection(db, "members"),
+        where("userId", "==", currentUser.uid)
+      );
+      const membersSnapshot = await getDocs(membersQuery);
+
+      if (!membersSnapshot.empty) {
+        const memberDoc = membersSnapshot.docs[0];
+        await updateDoc(doc(db, "members", memberDoc.id), {
+          lastCheckin: serverTimestamp(),
+          streakCount: newStreak,
+        });
+        setUser((prev) =>
+          prev
+            ? {
+                ...prev,
+                lastCheckin: new Date(),
+                streakCount: newStreak,
+              }
+            : prev
+        );
+        setMessage("Check-in recorded. Keep up the streak!");
+      }
+    } catch (error) {
+      console.error("Error recording check-in:", error);
+      setMessage("Failed to record check-in");
+    } finally {
+      setCheckinLoading(false);
       setTimeout(() => setMessage(null), 3000);
     }
   }
 
+  // --------- DOWNLOAD: High-Res Canvas Draw ---------
+  async function renderCardCanvas(): Promise<HTMLCanvasElement> {
+    const bg = new Image();
+    bg.src = "/assets/card_template.webp"; // 👈 High-res template (1300x820)
+    await new Promise((res) => (bg.onload = res));
+
+    const canvas = document.createElement("canvas");
+    canvas.width = 1300;
+    canvas.height = 820;
+    const ctx = canvas.getContext("2d")!;
+    ctx.drawImage(bg, 0, 0, 1300, 820);
+
+    // Text overlay (scaled to 1300x820)
+    ctx.textAlign = "center";
+
+    // Council Name
+    ctx.font = "32.8px Montserrat";
+    ctx.fillStyle = "#c9966b";
+    ctx.fillText("Pakistan Youth Council", 650, 100);
+
+    // User Name
+    ctx.font = "bold 43.5px Poppins";
+    ctx.fillStyle = "#ffc99c";
+    ctx.fillText(user?.name || "Member Name", 650, 180);
+
+    // Verified Member
+    ctx.font = "28.8px Sarabun";
+    ctx.fillStyle = "#c9966b";
+    ctx.fillText("Verified Member", 650, 230);
+
+    // Bottom
+    ctx.font = "18px Sarabun";
+    ctx.fillStyle = "#a4a7a5";
+    ctx.fillText(
+      `Member Since: ${formatDatePretty(user?.memberSince)}`,
+      650,
+      700
+    );
+
+    ctx.font = "27.6px Alegreya Sans";
+    ctx.fillStyle = "#c9966b";
+    ctx.fillText(`User ID: ${user?.userId}`, 650, 750);
+
+    return canvas;
+  }
+
+  async function downloadCardPNG() {
+    try {
+      const canvas = await renderCardCanvas();
+      const a = document.createElement("a");
+      a.href = canvas.toDataURL("image/png");
+      a.download = `${(user?.name || "member").replace(/\s+/g, "_")}-card.png`;
+      a.click();
+    } catch {
+      setMessage("Could not generate PNG");
+    }
+  }
+
+  async function downloadCardPDF() {
+    try {
+      const { jsPDF } = await import("jspdf");
+      const canvas = await renderCardCanvas();
+      const imgData = canvas.toDataURL("image/png");
+
+      const mmToPt = (mm: number) => (mm * 72) / 25.4;
+      const cardWidth = mmToPt(85.6);
+      const cardHeight = mmToPt(53.98);
+
+      const pdf = new jsPDF({
+        orientation: "landscape",
+        unit: "pt",
+        format: [cardWidth, cardHeight],
+      });
+
+      pdf.addImage(imgData, "PNG", 0, 0, cardWidth, cardHeight);
+      pdf.save(`${(user?.name || "member").replace(/\s+/g, "_")}-card.pdf`);
+    } catch {
+      setMessage("Could not generate PDF");
+    }
+  }
+
+  // ---------------- UI ----------------
   if (loading)
     return (
-      <div className="min-h-screen bg-gradient-to-br from-red-50 via-white to-green-50 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-500"></div>
       </div>
     );
@@ -325,7 +374,7 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-50 via-white to-green-50 py-12">
       <div className="max-w-6xl mx-auto px-4">
-        {/* Profile Header */}
+        {/* Header */}
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden mb-8 border-l-4 border-red-500">
           <div className="bg-gradient-to-r from-red-600 to-green-600 p-6 text-white">
             <h1 className="text-3xl font-bold">My Profile</h1>
@@ -335,119 +384,272 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        {/* Profile + Status */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Profile Form */}
+          {/* Left: Profile Form */}
           <div className="lg:col-span-2 bg-white rounded-2xl shadow-lg p-6">
-            {/* Personal info */}
-            {/* ... (same form fields code as before) */}
+            <h2 className="text-xl font-semibold mb-6 flex items-center">
+              <User className="mr-2 text-red-500" size={24} />
+              Personal Information
+            </h2>
+
+            {/* Fields */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              {/* Name */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Full Name
+                </label>
+                <input
+                  value={user?.name || ""}
+                  onChange={(e) => updateField("name", e.target.value)}
+                  className="w-full px-4 py-3 border rounded-lg"
+                  placeholder="Your full name"
+                />
+              </div>
+              {/* Email */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Email
+                </label>
+                <input
+                  value={user?.email || currentUser?.email || ""}
+                  readOnly
+                  className="w-full px-4 py-3 border rounded-lg bg-gray-50"
+                />
+              </div>
+              {/* Phone */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Phone
+                </label>
+                <input
+                  value={user?.phone || ""}
+                  onChange={(e) => updateField("phone", e.target.value)}
+                  className="w-full px-4 py-3 border rounded-lg"
+                  placeholder="+92 300 0000000"
+                />
+              </div>
+              {/* City */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  City
+                </label>
+                <input
+                  value={user?.city || ""}
+                  onChange={(e) => updateField("city", e.target.value)}
+                  className="w-full px-4 py-3 border rounded-lg"
+                  placeholder="Your city"
+                />
+              </div>
+            </div>
+
+            {/* Experience */}
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Previous Experience
+              </label>
+              <textarea
+                value={user?.previousExperience || ""}
+                onChange={(e) => updateField("previousExperience", e.target.value)}
+                rows={3}
+                className="w-full px-4 py-3 border rounded-lg"
+                placeholder="Any previous volunteer or political experience?"
+              />
+            </div>
+
+            {/* Social Links */}
+            <h3 className="text-lg font-medium mb-4 flex items-center">
+              <Award className="mr-2 text-red-500" size={20} />
+              Social Media Profiles
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+              <input
+                value={user?.social?.twitter || ""}
+                onChange={(e) => updateSocialField("twitter", e.target.value)}
+                placeholder="Twitter @username"
+                className="w-full px-4 py-2 border rounded-lg"
+              />
+              <input
+                value={user?.social?.instagram || ""}
+                onChange={(e) => updateSocialField("instagram", e.target.value)}
+                placeholder="Instagram @username"
+                className="w-full px-4 py-2 border rounded-lg"
+              />
+              <input
+                value={user?.social?.linkedin || ""}
+                onChange={(e) => updateSocialField("linkedin", e.target.value)}
+                placeholder="LinkedIn profile"
+                className="w-full px-4 py-2 border rounded-lg"
+              />
+            </div>
+
+            {/* Save Button */}
+            <div className="flex items-center gap-4">
+              <button
+                onClick={saveProfile}
+                disabled={saving}
+                className="bg-gradient-to-r from-red-500 to-red-600 text-white px-6 py-3 rounded-lg"
+              >
+                <Save size={18} className="mr-2 inline" />
+                {saving ? "Saving..." : "Save Profile"}
+              </button>
+              {message && (
+                <div
+                  className={`text-sm ${
+                    message.includes("Failed")
+                      ? "text-red-600"
+                      : "text-green-600"
+                  }`}
+                >
+                  {message}
+                </div>
+              )}
+            </div>
           </div>
 
-          {/* Membership Status */}
+          {/* Right: Status + Card */}
           <div className="space-y-6">
+            {/* Status */}
             <div className="bg-white rounded-2xl shadow-lg p-6">
               <h2 className="text-xl font-semibold mb-4 flex items-center">
                 <Award className="mr-2 text-green-500" size={24} />
                 Membership Status
               </h2>
-              {/* ... (status + streak code as before) */}
+              <div className="mb-4">
+                <div className="text-sm text-gray-500">Current Status</div>
+                <div className="mt-1 font-medium">
+                  {user?.status === "accepted" ? (
+                    <span className="text-green-600 flex items-center">
+                      <CheckCircle className="mr-1" size={18} /> Accepted Member
+                    </span>
+                  ) : user?.status === "contacted" ? (
+                    <span className="text-blue-600 flex items-center">
+                      <Clock className="mr-1" size={18} /> Contacted
+                    </span>
+                  ) : (
+                    <span className="text-yellow-600">Pending Review</span>
+                  )}
+                </div>
+              </div>
+
+              {/* Streak */}
+              {user?.status === "accepted" && (
+                <div className="mb-4">
+                  <div className="text-sm text-gray-500">Daily Streak</div>
+                  <div className="mt-1 flex items-center gap-2">
+                    <span className="font-semibold">{user.streakCount || 0}</span>{" "}
+                    days
+                  </div>
+                  <button
+                    onClick={doCheckin}
+                    disabled={hasCheckedInToday() || checkinLoading}
+                    className="mt-3 px-4 py-2 bg-gradient-to-r from-red-500 to-green-500 text-white rounded-lg"
+                  >
+                    {hasCheckedInToday()
+                      ? "Checked in today ✅"
+                      : checkinLoading
+                      ? "Checking in..."
+                      : "Check-in"}
+                  </button>
+                </div>
+              )}
             </div>
+
+            {/* Membership Card */}
+            {user?.status === "accepted" && (
+              <div className="bg-white rounded-2xl shadow-lg p-6">
+                <h2 className="text-xl font-semibold mb-4 flex items-center">
+                  <Download className="mr-2 text-blue-500" size={24} />
+                  Digital Membership Card
+                </h2>
+
+                {/* Small Preview */}
+                <div
+                  ref={cardRef}
+                  style={{
+                    width: "325px",
+                    height: "205px",
+                    backgroundImage: "url('/assets/card_template.webp')",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    borderRadius: "20px",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    textAlign: "center",
+                    margin: "0 auto",
+                  }}
+                >
+                  <div
+                    style={{
+                      fontFamily: "Montserrat, sans-serif",
+                      fontSize: "12px",
+                      color: "#c9966b",
+                    }}
+                  >
+                    Pakistan Youth Council
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: "Poppins, sans-serif",
+                      fontSize: "16px",
+                      fontWeight: 700,
+                      color: "#ffc99c",
+                    }}
+                  >
+                    {user?.name}
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: "Sarabun, sans-serif",
+                      fontSize: "11px",
+                      color: "#c9966b",
+                    }}
+                  >
+                    Verified Member
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: "Sarabun, sans-serif",
+                      fontSize: "8px",
+                      color: "#a4a7a5",
+                      marginTop: "8px",
+                    }}
+                  >
+                    Member Since: {formatDatePretty(user?.memberSince)}
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: "Alegreya Sans, sans-serif",
+                      fontSize: "10px",
+                      color: "#c9966b",
+                    }}
+                  >
+                    User ID: {user?.userId}
+                  </div>
+                </div>
+
+                {/* Download buttons */}
+                <div className="grid grid-cols-2 gap-3 mt-4">
+                  <button
+                    onClick={downloadCardPNG}
+                    className="px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-center"
+                  >
+                    <Download className="mr-2" size={16} />
+                    PNG
+                  </button>
+                  <button
+                    onClick={downloadCardPDF}
+                    className="px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-center"
+                  >
+                    <Download className="mr-2" size={16} />
+                    PDF
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
-
-        {/* Membership Card at bottom */}
-        {user?.status === "accepted" && (
-          <div className="bg-white rounded-2xl shadow-lg p-6 mt-10">
-            <h2 className="text-xl font-semibold mb-4 flex items-center">
-              <Download className="mr-2 text-blue-500" size={24} />
-              Digital Membership Card
-            </h2>
-
-            {/* Small preview */}
-            <div
-              ref={cardRef}
-              style={{
-                width: "325px",
-                height: "205px",
-                backgroundImage: "url('/assets/card_template.webp')",
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                borderRadius: "20px",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                textAlign: "center",
-                margin: "0 auto",
-              }}
-            >
-              <div
-                style={{
-                  fontFamily: "Montserrat, sans-serif",
-                  fontSize: "12px",
-                  color: "#c9966b",
-                }}
-              >
-                Pakistan Youth Council
-              </div>
-              <div
-                style={{
-                  fontFamily: "Poppins, sans-serif",
-                  fontSize: "16px",
-                  fontWeight: 700,
-                  color: "#ffc99c",
-                }}
-              >
-                {user?.name}
-              </div>
-              <div
-                style={{
-                  fontFamily: "Sarabun, sans-serif",
-                  fontSize: "11px",
-                  color: "#c9966b",
-                }}
-              >
-                Verified Member
-              </div>
-              <div
-                style={{
-                  fontFamily: "Sarabun, sans-serif",
-                  fontSize: "8px",
-                  color: "#a4a7a5",
-                  marginTop: "8px",
-                }}
-              >
-                Member Since: {formatDatePretty(user.memberSince)}
-              </div>
-              <div
-                style={{
-                  fontFamily: "Alegreya Sans, sans-serif",
-                  fontSize: "10px",
-                  color: "#c9966b",
-                }}
-              >
-                User ID: {user.userId}
-              </div>
-            </div>
-
-            {/* Download buttons */}
-            <div className="grid grid-cols-2 gap-3 mt-4">
-              <button
-                onClick={() => downloadCard("png")}
-                className="px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-center"
-              >
-                <Download className="mr-2" size={16} />
-                PNG
-              </button>
-              <button
-                onClick={() => downloadCard("pdf")}
-                className="px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-center"
-              >
-                <Download className="mr-2" size={16} />
-                PDF
-              </button>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
