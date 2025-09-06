@@ -290,7 +290,7 @@ export default function ProfilePage() {
     await new Promise((res) => (bg.onload = res));
   
     // ✅ Load fonts before using
-    await document.fonts.load("40px 'Montserrat'");
+    await document.fonts.load("42px 'Montserrat'");
     await document.fonts.load("54px 'Poppins'");
     await document.fonts.load("36px 'Sarabun'");
     await document.fonts.load("36px 'Alegreya Sans'");
@@ -304,7 +304,7 @@ export default function ProfilePage() {
     ctx.textAlign = "center";
   
     // Council Name
-    ctx.font = "40px 'Montserrat'";
+    ctx.font = "42px 'Montserrat'";
     ctx.fillStyle = "#c9966b";
     ctx.fillText("Pakistan Youth Council", 650, 100);
   
