@@ -323,7 +323,7 @@ export default function ProfilePage() {
 
     ctx.font = "32px Alegreya Sans";
     ctx.fillStyle = "#c9966b";
-    ctx.fillText(`User ID: ${user?.userId}`, 650, 750);
+    ctx.fillText(`ID: ${user?.userId}`, 650, 750);
 
     return canvas;
   }
@@ -564,70 +564,80 @@ export default function ProfilePage() {
                 </h2>
 
                 {/* Small Preview */}
-                <div
-                  ref={cardRef}
-                  style={{
-                    width: "325px",
-                    height: "205px",
-                    backgroundImage: "url('/assets/card_template_webp.webp')",
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                    borderRadius: "20px",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    textAlign: "center",
-                    margin: "0 auto",
-                  }}
-                >
-                  <div
-                    style={{
-                      fontFamily: "Montserrat, sans-serif",
-                      fontSize: "12px",
-                      color: "#c9966b",
-                    }}
-                  >
-                    Pakistan Youth Council
-                  </div>
-                  <div
-                    style={{
-                      fontFamily: "Poppins, sans-serif",
-                      fontSize: "16px",
-                      fontWeight: 700,
-                      color: "#ffc99c",
-                    }}
-                  >
-                    {user?.name}
-                  </div>
-                  <div
-                    style={{
-                      fontFamily: "Sarabun, sans-serif",
-                      fontSize: "11px",
-                      color: "#c9966b",
-                    }}
-                  >
-                    Verified Member
-                  </div>
-                  <div
-                    style={{
-                      fontFamily: "Sarabun, sans-serif",
-                      fontSize: "8px",
-                      color: "#a4a7a5",
-                      marginTop: "8px",
-                    }}
-                  >
-                    Member Since: {formatDatePretty(user?.memberSince)}
-                  </div>
-                  <div
-                    style={{
-                      fontFamily: "Alegreya Sans, sans-serif",
-                      fontSize: "10px",
-                      color: "#c9966b",
-                    }}
-                  >
-                    User ID: {user?.userId}
-                  </div>
-                </div>
+<div
+  ref={cardRef}
+  style={{
+    width: "325px",
+    height: "205px",
+    backgroundImage: "url('/assets/card_template_webp.webp')",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    borderRadius: "20px",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between", // 👈 center → space-between
+    padding: "12px 8px",             // 👈 thoda padding upar/niche
+    textAlign: "center",
+    margin: "0 auto",
+  }}
+>
+  {/* Top Section */}
+  <div>
+    <div
+      style={{
+        fontFamily: "Montserrat, sans-serif",
+        fontSize: "12px",
+        color: "#c9966b",
+      }}
+    >
+      Pakistan Youth Council
+    </div>
+    <div
+      style={{
+        fontFamily: "Poppins, sans-serif",
+        fontSize: "16px",
+        fontWeight: 700,
+        color: "#ffc99c",
+        marginTop: "2px",
+      }}
+    >
+      {user?.name}
+    </div>
+    <div
+      style={{
+        fontFamily: "Sarabun, sans-serif",
+        fontSize: "11px",
+        color: "#c9966b",
+        marginTop: "1px",
+      }}
+    >
+      Verified Member
+    </div>
+  </div>
+
+  {/* Bottom Section */}
+  <div style={{ marginBottom: "2px" }}>
+    <div
+      style={{
+        fontFamily: "Sarabun, sans-serif",
+        fontSize: "8px",
+        color: "#a4a7a5",
+        marginBottom: "2px",
+      }}
+    >
+      Member Since: {formatDatePretty(user?.memberSince)}
+    </div>
+    <div
+      style={{
+        fontFamily: "Alegreya Sans, sans-serif",
+        fontSize: "10px",
+        color: "#c9966b",
+      }}
+    >
+      ID: {user?.userId}
+    </div>
+  </div>
+</div>
 
                 {/* Download buttons */}
                 <div className="grid grid-cols-2 gap-3 mt-4">
