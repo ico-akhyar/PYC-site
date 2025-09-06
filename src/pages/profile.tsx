@@ -602,7 +602,7 @@ export default function ProfilePage() {
       style={{
         fontFamily: "Poppins, sans-serif",
         fontSize: "16px",
-        fontWeight: 700,
+        fontWeight: 400,
         color: "#ffc99c",
         marginTop: "2px",
       }}
