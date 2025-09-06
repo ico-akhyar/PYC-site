@@ -584,87 +584,86 @@ export default function ProfilePage() {
     {/* Card preview */}
     <div
       ref={cardRef}
-      className="relative rounded-lg shadow-md text-white overflow-hidden"
+      className="relative overflow-hidden"
       style={{
-        width: "325px",     // ~ standard card at 96 DPI
-        height: "205px",    // maintains 1.586 aspect ratio
+        width: "325px",     // ~ standard card preview size
+        height: "205px",    // ID-1 card ratio
         aspectRatio: "1.586 / 1",
-        background: "linear-gradient(135deg, #ef4444, #22c55e)", // red→green
-        padding: "16px",
+        backgroundImage: "url('/assets/card_bg.png')", // 👈 Canva background image path
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        borderRadius: "50px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        padding: "20px",
+        textAlign: "center",
       }}
     >
-      {/* Pattern Overlay */}
-      <div
-        className="absolute inset-0 opacity-25"
-        style={{
-          backgroundImage: `
-            repeating-linear-gradient(
-              45deg,
-              rgba(255,255,255,0.35) 0,
-              rgba(255,255,255,0.35) 4px,
-              transparent 4px,
-              transparent 8px
-            )
-          `,
-        }}
-      ></div>
-
-      {/* Watermark text */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <span
-          className="text-white font-bold select-none"
+      {/* Top: Council Name */}
+      <div style={{ marginTop: "8px" }}>
+        <div
           style={{
-            fontSize: "32px",
-            opacity: 0.08,
-            transform: "rotate(-25deg)",
-            whiteSpace: "nowrap",
+            fontFamily: "Montserrat, sans-serif",
+            fontSize: "32.8px",
+            fontWeight: 400,
+            color: "#c9966b",
           }}
         >
-          PYC MEMBERSHIP
-        </span>
-      </div>
-
-      {/* Content Layer */}
-      <div className="relative z-10 h-full flex flex-col justify-between">
-        {/* Logo + user info */}
-        <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center overflow-hidden">
-            <img
-              src="/assets/pyc_logo_webp.webp"
-              alt="Team Logo"
-              className="w-14 h-14 object-contain"
-            />
-          </div>
-          <div>
-            <div className="text-xs opacity-90">Pakistan Youth Council</div>
-            <div className="text-lg font-bold leading-tight">{user?.name}</div>
-            <div className="text-xs opacity-90 mt-1">
-              Member since: {formatDatePretty(user.memberSince)}
-            </div>
-          </div>
+          Pakistan Youth Council
         </div>
 
-        {/* User ID */}
-        <div className="text-center text-xs opacity-90 font-mono mb-2">
-          ID: {user.userId}
+        {/* User Full Name */}
+        <div
+          style={{
+            fontFamily: "Poppins, sans-serif",
+            fontSize: "43.5px",
+            fontWeight: 700,
+            color: "#ffc99c",
+            marginTop: "4px",
+          }}
+        >
+          {user?.name}
+        </div>
+
+        {/* Verified Member */}
+        <div
+          style={{
+            fontFamily: "Sarabun, sans-serif",
+            fontSize: "28.8px",
+            fontWeight: 400,
+            color: "#c9966b",
+            marginTop: "2px",
+          }}
+        >
+          Verified Member
         </div>
       </div>
 
-      {/* Bottom double ribbon strips */}
-      <div
-        className="absolute bottom-0 left-0 w-full h-8"
-        style={{
-          background: "linear-gradient(135deg, #dc2626, #16a34a)",
-          clipPath: "polygon(0 100%, 100% 0, 100% 100%)",
-        }}
-      ></div>
-      <div
-        className="absolute bottom-0 left-0 w-full h-6 opacity-80"
-        style={{
-          background: "linear-gradient(45deg, #dc2626, #16a34a)",
-          clipPath: "polygon(0 100%, 100% 0, 100% 100%)",
-        }}
-      ></div>
+      {/* Bottom Section */}
+      <div style={{ marginBottom: "10px" }}>
+        <div
+          style={{
+            fontFamily: "Sarabun, sans-serif",
+            fontSize: "18px",
+            fontWeight: 400,
+            color: "#a4a7a5",
+            marginBottom: "4px",
+          }}
+        >
+          Member Since: {formatDatePretty(user.memberSince)}
+        </div>
+        <div
+          style={{
+            fontFamily: "Alegreya Sans, sans-serif",
+            fontSize: "27.6px",
+            fontWeight: 400,
+            color: "#c9966b",
+          }}
+        >
+          User ID: {user.userId}
+        </div>
+      </div>
     </div>
 
     {/* Download buttons */}
@@ -686,6 +685,7 @@ export default function ProfilePage() {
     </div>
   </div>
 )}
+
           </div>
         </div>
       </div>
