@@ -589,7 +589,7 @@ export default function ProfilePage() {
         width: "325px",     // ~ standard card preview size
         height: "205px",    // ID-1 card ratio
         aspectRatio: "1.586 / 1",
-        backgroundImage: "url('/assets/card_bg.png')", // 👈 Canva background image path
+        backgroundImage: "url('/assets/card_template.webp')", // 👈 Canva background image path
         backgroundSize: "cover",
         backgroundPosition: "center",
         borderRadius: "50px",
